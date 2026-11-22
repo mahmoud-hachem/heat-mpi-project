@@ -1,0 +1,7 @@
+# Build outputs and local environments (keep the CSV measurements and plots)
+bin/
+*.o
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
