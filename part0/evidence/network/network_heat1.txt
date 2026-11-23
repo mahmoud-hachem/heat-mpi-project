@@ -1,0 +1,8 @@
+# SCREENSHOT TRANSCRIPTION, NOT THE ORIGINAL FILE ON UBUNTU.
+# Original saved on that VM: /home/mpi/part0_final_evidence/network_heat1.txt
+# Source: screenshot submitted in project chat, 2026-11-23.
+# Tailscale output shows direct LAN endpoint (no DERP relay) for both peers at this time.
+2026-11-23T08:49:02+00:00
+heat-1
+pong from heat-2 (100.98.24.109) via 192.168.44.117:41641 in 96ms
+pong from heat-3 (100.113.165.26) via 192.168.44.172:41641 in 88ms

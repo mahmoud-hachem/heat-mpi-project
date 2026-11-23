@@ -1,0 +1,23 @@
+# SCREENSHOT TRANSCRIPTION, NOT THE ORIGINAL FILE ON UBUNTU.
+# Original saved on that VM: /home/mpi/part0_final_evidence/hardware.txt
+# Source: screenshot submitted in project chat, 2026-11-23.
+=== DATE ===
+2026-11-23T08:44:47+00:00
+=== HOSTNAME ===
+heat-1
+=== UBUNTU ===
+Ubuntu 24.04.5 LTS
+=== VIRTUAL CPUS ===
+2
+=== MEMORY ===
+Mem: 3.8Gi total; 422Mi used; 3.3Gi free; 1.0Mi shared; 317Mi buff/cache; 3.4Gi available
+Swap: 3.8Gi total; 0B used; 3.8Gi free
+=== ARCHITECTURE ===
+x86_64
+=== OPEN MPI ===
+mpirun (Open MPI) 4.1.6
+=== PHYSICAL WINDOWS HOST CPU ===
+AMD Ryzen 7 6800H with Radeon Graphics
+=== VM ALLOCATION CONFIRMATION ===
+2 vCPUs and 4096 MB configured in VirtualBox, as confirmed by the team in chat on 2026-11-23.
+The guest-visible 3.8 GiB is not the same display as the VirtualBox allocated 4096 MB.

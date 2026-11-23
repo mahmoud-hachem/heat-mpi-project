@@ -1,0 +1,4 @@
+vm,physical_cpu_model,ubuntu,virtual_cpus,virtualbox_allocated_RAM_MiB_team_confirmed,guest_visible_RAM_GiB,architecture,open_mpi_version,evidence_date_UTC
+heat-1,AMD Ryzen 7 6800H with Radeon Graphics,24.04.5 LTS,2,4096,3.8,x86_64,4.1.6,2026-11-23T08:44:47+00:00
+heat-2,Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz,24.04.5 LTS,2,4096,3.8,x86_64,4.1.6,2026-11-23T08:44:50+00:00
+heat-3,Intel(R) Core(TM) i7-14700HX,24.04.5 LTS,2,4096,3.8,x86_64,4.1.6,2026-11-23T08:44:54+00:00
