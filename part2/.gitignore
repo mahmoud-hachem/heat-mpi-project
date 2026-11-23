@@ -1,0 +1,4 @@
+/heat_strips
+*.o
+*.bin
+__pycache__/
