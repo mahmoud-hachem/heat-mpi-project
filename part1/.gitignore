@@ -1,0 +1,7 @@
+# Local builds and generated fields
+/heat
+*.o
+*.bin
+__pycache__/
+/unstable_demo
+/unstable_demo.exe
