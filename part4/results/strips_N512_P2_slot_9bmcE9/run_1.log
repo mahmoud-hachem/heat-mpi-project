@@ -1,0 +1,2 @@
+[heat-2:02221] plm:rsh: Warning: setpgid(2225,2225) failed in parent with errno=Permission denied(13)
+decomp=strips P=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.003714256 t_comp=0.003280872 t_comm=0.000467675

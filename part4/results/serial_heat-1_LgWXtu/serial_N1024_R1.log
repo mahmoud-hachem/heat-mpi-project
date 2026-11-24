@@ -1,0 +1,1 @@
+decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.016101422 t_comp=0.016101422 t_comm=0

@@ -1,0 +1,6 @@
+N=512, slot placement:
+P=1 to P=5: Complete.
+P=6 strips: Run 1 confirmed.
+P=6 remaining runs: Pending verification or retry.
+Reason: Repeated network interruptions.
+Preserve all existing benchmark logs.

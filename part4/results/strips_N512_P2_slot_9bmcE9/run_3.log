@@ -1,0 +1,1 @@
+decomp=strips P=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.00453295 t_comp=0.003927042 t_comm=0.000846898

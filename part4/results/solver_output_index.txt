@@ -1,0 +1,119 @@
+results/serial_heat-2_XkMpoI/serial_N8192_R2.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.186925179 t_comp=2.186925179 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N512_R3.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.006289999 t_comp=0.006289999 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N512_R2.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.005500852 t_comp=0.005500852 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N512_R1.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.003536301 t_comp=0.003536301 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N2048_R2.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.11506564 t_comp=0.11506564 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N1024_R2.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.025024807 t_comp=0.025024807 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N1024_R1.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.032567524 t_comp=0.032567524 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N8192_R1.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.594299662 t_comp=1.594299662 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N2048_R1.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.1137206 t_comp=0.1137206 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N4096_R1.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.517067752 t_comp=0.517067752 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N8192_R3.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.022988059 t_comp=2.022988059 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N4096_R2.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.472746867 t_comp=0.472746867 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N2048_R3.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.123660806 t_comp=0.123660806 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N1024_R3.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.029404727 t_comp=0.029404727 t_comm=0
+results/serial_heat-2_XkMpoI/serial_N4096_R3.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.352279416 t_comp=0.352279416 t_comm=0
+results/strips_N512_P3_slot_YaS2sR/run_3.log:decomp=strips P=3 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=3.943010194 t_comp=0.006874422 t_comm=3.936127589
+results/strips_N512_P3_slot_YaS2sR/run_1.log:decomp=strips P=3 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.166081837 t_comp=0.0027037 t_comm=0.163905837
+results/strips_N512_P3_slot_YaS2sR/run_2.log:decomp=strips P=3 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.155702437 t_comp=0.004091156 t_comm=0.151606737
+results/blocks_N512_P4_slot_iFsHWO/run_3.log:decomp=blocks P=4 Py=2 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=1.11768007 t_comp=0.00519343 t_comm=1.114324418
+results/blocks_N512_P4_slot_iFsHWO/run_1.log:decomp=blocks P=4 Py=2 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=3.875977834 t_comp=0.002782605 t_comm=3.873473285
+results/blocks_N512_P4_slot_iFsHWO/run_2.log:decomp=blocks P=4 Py=2 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.242469594 t_comp=0.003895343 t_comm=0.239329723
+results/strips_N512_P5_slot_HGIoRL/run_3.log:decomp=strips P=5 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=3.958566629 t_comp=0.002903864 t_comm=3.955657035
+results/strips_N512_P5_slot_HGIoRL/run_1.log:decomp=strips P=5 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.35145509 t_comp=0.002230303 t_comm=0.349219004
+results/strips_N512_P5_slot_HGIoRL/run_2.log:decomp=strips P=5 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.775917878 t_comp=0.003928229 t_comm=0.774089362
+results/blocks_N724_P2_slot_eu64fj/run_3.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=724 r=0.24 steps=10 T=4.5786148164e-06 t_total=0.008710041 t_comp=0.008148446 t_comm=0.000822522
+results/blocks_N724_P2_slot_eu64fj/run_1.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=724 r=0.24 steps=10 T=4.5786148164e-06 t_total=0.008274376 t_comp=0.007100658 t_comm=0.001364117
+results/blocks_N724_P2_slot_eu64fj/run_2.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=724 r=0.24 steps=10 T=4.5786148164e-06 t_total=0.008803958 t_comp=0.007891398 t_comm=0.00132517
+results/strips_N512_P4_slot_d5HkEv/run_3.log:decomp=strips P=4 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=2.910899779 t_comp=0.003366698 t_comm=2.907528241
+results/strips_N512_P4_slot_d5HkEv/run_1.log:decomp=strips P=4 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.198549541 t_comp=0.005655944 t_comm=0.195029634
+results/strips_N512_P4_slot_d5HkEv/run_2.log:decomp=strips P=4 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=2.965642467 t_comp=0.001642634 t_comm=2.96401245
+results/strips_N8192_P2_slot_iTLXTd/run_3.log:decomp=strips P=2 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=7.124047293 t_comp=7.017570771 t_comm=0.30326954
+results/strips_N8192_P2_slot_iTLXTd/run_1.log:decomp=strips P=2 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.279224662 t_comp=1.269022594 t_comm=0.026246798
+results/strips_N8192_P2_slot_iTLXTd/run_2.log:decomp=strips P=2 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.417479601 t_comp=1.390090634 t_comm=0.098229004
+results/blocks_N2048_P1_slot_d5gjM4/run_3.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.104460714 t_comp=0.104443299 t_comm=1.2367e-05
+results/blocks_N2048_P1_slot_d5gjM4/run_1.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.08770401 t_comp=0.087678208 t_comm=7.25399999999e-06
+results/blocks_N2048_P1_slot_d5gjM4/run_2.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.085409749 t_comp=0.085395906 t_comm=9.41800000001e-06
+results/strips_N2048_P3_slot_JLuNDe/run_3.log:decomp=strips P=3 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=6.121263476 t_comp=0.04468957 t_comm=6.076566859
+results/strips_N2048_P3_slot_JLuNDe/run_1.log:decomp=strips P=3 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=3.142626698 t_comp=0.04429888 t_comm=3.098321846
+results/strips_N2048_P3_slot_JLuNDe/run_2.log:decomp=strips P=3 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.997507332 t_comp=0.036393213 t_comm=0.961107749
+results/blocks_N512_P1_slot_3MV4c2/run_3.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.006107659 t_comp=0.006101234 t_comm=4.459e-06
+results/blocks_N512_P1_slot_3MV4c2/run_1.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.004878366 t_comp=0.004874879 t_comm=2.228e-06
+results/blocks_N512_P1_slot_3MV4c2/run_2.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.005633556 t_comp=0.005628102 t_comm=3.635e-06
+results/serial_heat-3_WbE3My/serial_N8192_R2.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=0.708393536 t_comp=0.708393536 t_comm=0
+results/serial_heat-3_WbE3My/serial_N512_R3.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.002234072 t_comp=0.002234072 t_comm=0
+results/serial_heat-3_WbE3My/serial_N512_R2.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.002147161 t_comp=0.002147161 t_comm=0
+results/serial_heat-3_WbE3My/serial_N512_R1.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.002276614 t_comp=0.002276614 t_comm=0
+results/serial_heat-3_WbE3My/serial_N2048_R2.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.045708607 t_comp=0.045708607 t_comm=0
+results/serial_heat-3_WbE3My/serial_N1024_R2.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.00835953 t_comp=0.00835953 t_comm=0
+results/serial_heat-3_WbE3My/serial_N1024_R1.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.008189067 t_comp=0.008189067 t_comm=0
+results/serial_heat-3_WbE3My/serial_N8192_R1.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=0.718023464 t_comp=0.718023464 t_comm=0
+results/serial_heat-3_WbE3My/serial_N2048_R1.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.046413339 t_comp=0.046413339 t_comm=0
+results/serial_heat-3_WbE3My/serial_N4096_R1.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.184532198 t_comp=0.184532198 t_comm=0
+results/serial_heat-3_WbE3My/serial_N8192_R3.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=0.751797166 t_comp=0.751797166 t_comm=0
+results/serial_heat-3_WbE3My/serial_N4096_R2.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.194055483 t_comp=0.194055483 t_comm=0
+results/serial_heat-3_WbE3My/serial_N2048_R3.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.048134872 t_comp=0.048134872 t_comm=0
+results/serial_heat-3_WbE3My/serial_N1024_R3.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.00865461 t_comp=0.00865461 t_comm=0
+results/serial_heat-3_WbE3My/serial_N4096_R3.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.185019226 t_comp=0.185019226 t_comm=0
+results/amer_batch/strips_N886_P3_slot/run_3.log:decomp=strips P=3 case=2 N=886 r=0.24 steps=10 T=3.05734041957e-06 t_total=5.709210419 t_comp=0.028801477 t_comm=5.687518738
+results/amer_batch/strips_N886_P3_slot/run_1.log:decomp=strips P=3 case=2 N=886 r=0.24 steps=10 T=3.05734041957e-06 t_total=8.062077982 t_comp=1.009488656 t_comm=7.955044407
+results/amer_batch/strips_N886_P3_slot/run_2.log:decomp=strips P=3 case=2 N=886 r=0.24 steps=10 T=3.05734041957e-06 t_total=4.108104223 t_comp=0.015517689 t_comm=4.092577217
+results/strips_N512_P2_slot_9bmcE9/run_3.log:decomp=strips P=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.00453295 t_comp=0.003927042 t_comm=0.000846898
+results/strips_N512_P2_slot_9bmcE9/run_1.log:decomp=strips P=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.003714256 t_comp=0.003280872 t_comm=0.000467675
+results/strips_N512_P2_slot_9bmcE9/run_2.log:decomp=strips P=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.006977178 t_comp=0.00620675 t_comm=0.001023125
+results/blocks_N2048_P3_slot_RAA5kZ/run_3.log:decomp=blocks P=3 Py=3 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.628954092 t_comp=0.052041207 t_comm=0.579624866
+results/blocks_N2048_P3_slot_RAA5kZ/run_1.log:decomp=blocks P=3 Py=3 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=1.134628187 t_comp=0.044237101 t_comm=1.092542912
+results/blocks_N2048_P3_slot_RAA5kZ/run_2.log:decomp=blocks P=3 Py=3 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.771178646 t_comp=0.054592993 t_comm=0.735341874
+results/strips_N724_P2_slot_eJfDB9/run_3.log:decomp=strips P=2 case=2 N=724 r=0.24 steps=10 T=4.5786148164e-06 t_total=0.006968139 t_comp=0.006675332 t_comm=0.000546967
+results/strips_N724_P2_slot_eJfDB9/run_1.log:decomp=strips P=2 case=2 N=724 r=0.24 steps=10 T=4.5786148164e-06 t_total=0.00777728 t_comp=0.007430163 t_comm=0.000711075
+results/strips_N724_P2_slot_eJfDB9/run_2.log:decomp=strips P=2 case=2 N=724 r=0.24 steps=10 T=4.5786148164e-06 t_total=0.008094435 t_comp=0.007701876 t_comm=0.001000768
+results/strips_N512_P1_slot_zcrRLQ/run_3.log:decomp=strips P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.004324243 t_comp=0.004320604 t_comm=1.759e-06
+results/strips_N512_P1_slot_zcrRLQ/run_1.log:decomp=strips P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.006149141 t_comp=0.00614535 t_comm=2.464e-06
+results/strips_N512_P1_slot_zcrRLQ/run_2.log:decomp=strips P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.010100198 t_comp=0.01008854 t_comm=6.689e-06
+results/strips_N8192_P1_slot_dpTA2a/run_3.log:decomp=strips P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.630436436 t_comp=1.630422709 t_comm=8.95199999997e-06
+results/strips_N8192_P1_slot_dpTA2a/run_1.log:decomp=strips P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.537271233 t_comp=2.537254925 t_comm=9.03399999976e-06
+results/strips_N8192_P1_slot_dpTA2a/run_2.log:decomp=strips P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.946993576 t_comp=2.946978841 t_comm=9.37100000033e-06
+results/blocks_N8192_P1_slot_uq4Zed/run_3.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.866839926 t_comp=1.866818653 t_comm=1.51529999996e-05
+results/blocks_N8192_P1_slot_uq4Zed/run_1.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.463283917 t_comp=1.463268262 t_comm=9.71800000023e-06
+results/blocks_N8192_P1_slot_uq4Zed/run_2.log:decomp=blocks P=1 Py=1 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.761028445 t_comp=1.761011113 t_comm=1.00909999999e-05
+results/strips_N512_P4_slot_VuC7Lm/run_1.log:decomp=strips P=4 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=4.973138211 t_comp=0.003984628 t_comm=4.970854026
+results/blocks_N8192_P2_slot_EDp4AR/run_3.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.548849343 t_comp=1.524079081 t_comm=0.04791396
+results/blocks_N8192_P2_slot_EDp4AR/run_1.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.17260229 t_comp=1.170002931 t_comm=0.026133725
+results/blocks_N8192_P2_slot_EDp4AR/run_2.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.304911457 t_comp=1.302688051 t_comm=0.040045251
+results/blocks_N512_P3_slot_5lEUIz/run_3.log:decomp=blocks P=3 Py=3 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.193977996 t_comp=0.004451816 t_comm=0.189610099
+results/blocks_N512_P3_slot_5lEUIz/run_1.log:decomp=blocks P=3 Py=3 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.263336005 t_comp=0.006688535 t_comm=0.256641371
+results/blocks_N512_P3_slot_5lEUIz/run_2.log:decomp=blocks P=3 Py=3 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=1.362855707 t_comp=0.006010026 t_comm=1.358428437
+results/serial_heat-1_LgWXtu/serial_N8192_R2.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.0499541 t_comp=1.0499541 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N512_R3.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.003961522 t_comp=0.003961522 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N512_R2.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.003799178 t_comp=0.003799178 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N512_R1.log:decomp=serial P=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.005295666 t_comp=0.005295666 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N2048_R2.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.097029618 t_comp=0.097029618 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N1024_R2.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.015415231 t_comp=0.015415231 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N1024_R1.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.016101422 t_comp=0.016101422 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N8192_R1.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.165373055 t_comp=1.165373055 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N2048_R1.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.067331268 t_comp=0.067331268 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N4096_R1.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.352413533 t_comp=0.352413533 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N8192_R3.log:decomp=serial P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.018543818 t_comp=1.018543818 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N4096_R2.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.315046921 t_comp=0.315046921 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N2048_R3.log:decomp=serial P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.084602297 t_comp=0.084602297 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N1024_R3.log:decomp=serial P=1 case=2 N=1024 r=0.24 steps=10 T=2.28881835937e-06 t_total=0.019541403 t_comp=0.019541403 t_comm=0
+results/serial_heat-1_LgWXtu/serial_N4096_R3.log:decomp=serial P=1 case=2 N=4096 r=0.24 steps=10 T=1.43051147461e-07 t_total=0.30459927 t_comp=0.30459927 t_comm=0
+results/blocks_N512_P2_slot_llVWem/run_3.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.004292476 t_comp=0.003401086 t_comm=0.000974461
+results/blocks_N512_P2_slot_llVWem/run_1.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.006764332 t_comp=0.005409836 t_comm=0.001482422
+results/blocks_N512_P2_slot_llVWem/run_2.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.005770072 t_comp=0.005127798 t_comm=0.000943835
+results/blocks_N512_P5_slot_retry_ywL9dV/run_3.log:decomp=blocks P=5 Py=5 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.248021664 t_comp=0.003901519 t_comm=0.246286861
+results/blocks_N2048_P2_slot_DL21M4/run_3.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.071363093 t_comp=0.069691407 t_comm=0.001988377
+results/blocks_N2048_P2_slot_DL21M4/run_1.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.080203328 t_comp=0.079215055 t_comm=0.012455829
+results/blocks_N2048_P2_slot_DL21M4/run_2.log:decomp=blocks P=2 Py=2 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.072030293 t_comp=0.069512154 t_comm=0.002557228
+results/strips_N2048_P1_slot_kIqfnA/run_3.log:decomp=strips P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.100653896 t_comp=0.100642694 t_comm=6.88899999999e-06
+results/strips_N2048_P1_slot_kIqfnA/run_1.log:decomp=strips P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.097001251 t_comp=0.096989241 t_comm=7.91799999997e-06
+results/strips_N2048_P1_slot_kIqfnA/run_2.log:decomp=strips P=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.121538404 t_comp=0.121526189 t_comm=5.52299999999e-06
+results/blocks_N512_P5_slot_CHlIC2/run_1.log:decomp=blocks P=5 Py=5 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.615465294 t_comp=0.003108179 t_comm=0.61235327
+results/blocks_N512_P5_slot_CHlIC2/run_2.log:decomp=blocks P=5 Py=5 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=1.989417784 t_comp=0.006859486 t_comm=1.982552326
+results/strips_N2048_P2_slot_r0msGH/run_3.log:decomp=strips P=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.066086904 t_comp=0.064418768 t_comm=0.001920072
+results/strips_N2048_P2_slot_r0msGH/run_1.log:decomp=strips P=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.067718878 t_comp=0.06657274 t_comm=0.002574586
+results/strips_N2048_P2_slot_r0msGH/run_2.log:decomp=strips P=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.072843599 t_comp=0.07102756 t_comm=0.00345553
+results/strips_N8192_P1_slot_k7F1nW/run_3.log:decomp=strips P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.768131437 t_comp=1.768116498 t_comm=9.05599999987e-06
+results/strips_N8192_P1_slot_k7F1nW/run_1.log:decomp=strips P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.750057482 t_comp=1.750041569 t_comm=8.56199999987e-06
+results/strips_N8192_P1_slot_k7F1nW/run_2.log:decomp=strips P=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.348281306 t_comp=2.348253309 t_comm=2.02439999996e-05
+results/strips_N512_P6_slot_M3q5TW/run_1.log:decomp=strips P=6 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.993814839 t_comp=0.002457838 t_comm=0.992607926

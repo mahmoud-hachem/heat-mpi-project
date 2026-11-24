@@ -1,0 +1,1 @@
+decomp=blocks P=1 Py=1 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.004878366 t_comp=0.004874879 t_comm=2.228e-06
