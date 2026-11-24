@@ -1,0 +1,4 @@
+/heat_blocks
+*.o
+*.bin
+__pycache__/

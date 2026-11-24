@@ -1,0 +1,2 @@
+decomp=blocks P=4 Py=2 Px=2 case=V N=8 r=0.2 steps=1 T=0.003125 t_total=0.010328409 t_comp=2.75e-07 t_comm=0.010327644 err_inf=0.00107534466491 err_l2h=0.000537672332456
+PASS: Two-VM block decomposition matches serial

@@ -1,0 +1,2 @@
+decomp=blocks P=4 Py=2 Px=2 case=V N=8 r=0.2 steps=10 T=0.03125 t_total=0.087651598 t_comp=1.493e-06 t_comm=0.087648194 err_inf=0.00614056393672 err_l2h=0.00307028196836
+PASS: Two-VM Case V, 10 steps, bit-for-bit identical

@@ -1,0 +1,2 @@
+decomp=blocks P=4 Py=2 Px=2 case=2 N=16 r=0.2 steps=10 T=0.0078125 t_total=0.739352994 t_comp=6.55400000013e-06 t_comm=0.739341457
+PASS: Distributed blocks Case 2 matches serial

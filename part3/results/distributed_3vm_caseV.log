@@ -1,0 +1,2 @@
+decomp=blocks P=4 Py=2 Px=2 case=V N=8 r=0.2 steps=1 T=0.003125 t_total=0.022779695 t_comp=1.393e-06 t_comm=0.022774746 err_inf=0.00107534466491 err_l2h=0.000537672332456
+PASS: Three-VM 2D blocks match serial

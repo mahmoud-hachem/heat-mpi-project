@@ -1,0 +1,3 @@
+[heat-2:04845] plm:rsh: Warning: setpgid(4849,4849) failed in parent with errno=Permission denied(13)
+decomp=blocks P=4 Py=2 Px=2 case=V N=16 r=0.2 steps=10 T=0.0078125 t_total=2.055386065 t_comp=6.58200000011e-06 t_comm=2.055374214 err_inf=0.000598805793956 err_l2h=0.000299402896978
+PASS: Distributed blocks Case V matches serial
