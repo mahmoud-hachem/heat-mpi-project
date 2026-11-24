@@ -1,112 +1,430 @@
+
 # Part 2 — MPI 1D Strip Decomposition
 
-This folder contains the MPI strip-decomposed version of the 2D explicit heat solver. It builds on the serial reference in `../part1/`. The temperature grid is split into contiguous horizontal strips, and processes exchange ghost rows before each time step.
+## Overview
+
+This part implements the parallel version of the 2D explicit heat solver using MPI and 1D strip decomposition.
+
+The temperature grid is divided into horizontal strips. Each MPI process computes its assigned rows and exchanges ghost rows with neighboring processes before each time step.
+
+The serial solver from Part 1 is used as the reference for numerical correctness.
 
 ## Requirements
 
-- Ubuntu/Linux, C++17, Open MPI (`mpic++`, `mpirun`)
-- `python3` for the partition checker
-- The built Part 1 serial executable at `../part1/heat` for the comparison script
-- For distributed runs: reachable VMs, passwordless SSH, Tailscale and an MPI executable at the same path on each VM
+- Ubuntu/Linux
+- C++17
+- Open MPI
+- Python 3
+- Tailscale for distributed execution
+- Passwordless SSH between VMs
+- Part 1 serial executable at `../part1/heat`
 
-## Build
+## Project Structure
 
-From `part2/`:
+```text
+part2/
+├── src/
+│   └── strips.cpp
+├── tests/
+│   ├── check_decomposition.py
+│   └── check_correctness.sh
+├── results/
+│   ├── step5_correctness_log.txt
+│   └── distributed_caseV_verification.txt
+├── Makefile
+├── README.md
+└── .gitignore
+```
+
+## Implementation
+
+The MPI solver implements:
+
+- Balanced distribution of N-1 interior rows.
+- Extra rows assigned to the lowest ranks.
+- Two ghost rows per process.
+- Halo exchange using MPI_Sendrecv.
+- MPI_PROC_NULL for missing neighbors.
+- Explicit five-point heat stencil.
+- Two temperature arrays swapped after each step.
+- Full grid reconstruction using MPI_Gatherv.
+- Separate computation and communication timing.
+- Maximum timing across ranks using MPI_Reduce and MPI_MAX.
+- Case V verification against the exact mathematical solution.
+
+## Compilation
+
+From the part2 directory:
 
 ```bash
 make clean
 make
 ```
 
-The Makefile compiles `src/strips.cpp` to `./heat_strips` using `mpic++ -std=c++17 -O2 -ffp-contract=off`.
-
-## Run locally
+The Makefile uses:
 
 ```bash
+mpic++ -std=c++17 -O2 -ffp-contract=off src/strips.cpp -o heat_strips
+```
+
+## Local Execution
+
+Run Case V using three MPI processes on one machine:
+
+```bash
+mkdir -p results
+
 mpirun --oversubscribe -np 3 ./heat_strips \
-  --decomp strips --case V --N 16 --r 0.2 --T 0.05 \
+  --decomp strips \
+  --case V \
+  --N 16 \
+  --r 0.2 \
+  --T 0.05 \
   --out results/mpi_V_N16_P3.bin
 ```
 
-Options:
+## Command-Line Parameters
 
-- `--decomp strips`: select this MPI implementation.
-- `--case 1|2|V`: all four edges hot; top and bottom hot; or sine-mode verification.
-- `--N`: number of intervals along each spatial direction; the full grid is `(N+1) × (N+1)`.
-- `--r`: explicit heat-update parameter; requires `0 < r <= 0.25`.
-- `--steps count` **or** `--T time`: choose the step count or desired final simulated time, not both. With `--T`, the program chooses a safe number of steps and may decrease the effective `r` to reach the requested time.
-- `--out path`: optional full-grid binary output written by rank 0.
-- `--debug-halos`: print each rank's local array, including ghost rows, after its first halo exchange. Do not enable during performance measurements.
-- `--help`: display usage.
+| Parameter | Description |
+|---|---|
+| --decomp strips | Select strip decomposition |
+| --case 1 | All four boundaries hot |
+| --case 2 | Top and bottom boundaries hot |
+| --case V | Verification using an exact solution |
+| --N | Number of intervals per spatial direction |
+| --r | Numerical stability parameter |
+| --steps | Number of time steps |
+| --T | Requested final simulated time |
+| --out | Binary output file |
+| --debug-halos | Display local arrays and ghost rows |
+| --help | Display available options |
 
-There must be no more MPI processes than interior rows: `P <= N-1`.
+The stability condition is:
 
-The summary contains one `key=value` line from rank 0: `decomp`, `P`, `case`, `N`, `r`, `steps`, `T`, `t_total`, `t_comp`, `t_comm`, and, for Case V, `err_inf` and `err_l2h`. The three timing fields are in seconds. Each is independently reduced across ranks using `MPI_MAX` and refers to the time-stepping phase, not initialization, gathering or file output. The maxima need not add exactly.
+```text
+0 < r <= 0.25
+```
 
-Output `.bin` files contain `(N+1)^2` consecutive `double` values, with `x` index varying fastest and no header. The tested x86-64 machines store doubles in little-endian order. Binaries are ignored by Git and can be regenerated.
+The number of processes must satisfy:
 
-## Tests and verification
+```text
+1 <= P <= N-1
+```
 
-Check strip distribution:
+Use either `--steps` or `--T`, not both. When using `--T`, the solver may reduce the effective time-step parameter to reach the requested final time while respecting stability.
+
+## Output Format
+
+The program prints one machine-readable summary line from rank 0.
+
+Example:
+
+```text
+decomp=strips P=3 case=V N=16 r=0.2 steps=10 T=0.0078125 t_total=0.779550588 t_comp=8.19500000021e-06 t_comm=0.779543372 err_inf=0.000598805793956 err_l2h=0.000299402896978
+```
+
+- t_total: total time-stepping execution time.
+- t_comp: computation time.
+- t_comm: halo communication time.
+- err_inf: maximum absolute error.
+- err_l2h: discrete L2 error.
+
+All execution times are measured in seconds.
+
+Timing measurements exclude initialization, final gathering, binary output and error verification. Each timing field is independently reduced using MPI_MAX, so the maximum computation and communication times do not necessarily add up exactly to the maximum total time.
+
+The error values are printed only for Case V.
+
+Debug mode should not be used for performance measurements.
+
+## Binary Output
+
+The reconstructed temperature field is saved by rank 0.
+
+The binary file contains:
+
+- (N+1) x (N+1) temperature values.
+- Double-precision floating-point values.
+- Row-major ordering, with x varying fastest.
+- No file header.
+- Little-endian representation on the tested x86-64 VMs.
+
+The format matches the Part 1 serial solver.
+
+## Row Decomposition Tests
+
+Run:
 
 ```bash
 python3 tests/check_decomposition.py
 ```
 
-Debug the required small-grid halo cases:
+The script checks N=8 and N=10 with P=1,2,3,4.
+
+It verifies that every interior row belongs to exactly one process and that the row distribution is balanced.
+
+All decomposition tests passed.
+
+## Halo Exchange Debugging
+
+The required small-grid tests use Case 2, N=8 and one time step.
+
+### Two MPI processes
 
 ```bash
-mpirun -np 2 ./heat_strips --decomp strips --case 2 --N 8 --r 0.2 --steps 1 --debug-halos
-mpirun --oversubscribe -np 3 ./heat_strips --decomp strips --case 2 --N 8 --r 0.2 --steps 1 --debug-halos
+mpirun -np 2 ./heat_strips \
+  --decomp strips --case 2 \
+  --N 8 --r 0.2 --steps 1 \
+  --debug-halos
 ```
 
-Check numerical agreement with the serial solver:
+### Three MPI processes
+
+```bash
+mpirun --oversubscribe -np 3 ./heat_strips \
+  --decomp strips --case 2 \
+  --N 8 --r 0.2 --steps 1 \
+  --debug-halos
+```
+
+Both tests passed.
+
+The three-process test verifies uneven decomposition, with three rows assigned to rank 0 and two rows assigned to each remaining rank.
+
+Both resulting temperature fields were bit-for-bit identical to the serial reference.
+
+## Automated Correctness Tests
+
+Compile the Part 1 serial solver if necessary:
+
+```bash
+make -C ../part1
+```
+
+Run the correctness script from part2:
 
 ```bash
 bash tests/check_correctness.sh
 ```
 
-The script compares binary output files with `cmp` for Cases 1, 2 and V, `N=8,10,16`, and `P=1,2,3,4`, at `r=0.2` for 10 steps: **36 comparisons**. The measured run passed **36/36**; see `results/step5_correctness_log.txt`. This is evidence for the tested configurations, not a proof of every possible input.
+The script tests:
 
-## Distributed runs over Tailscale
+- Cases: 1, 2 and V.
+- Grid sizes: N=8, N=10 and N=16.
+- MPI processes: P=1, P=2, P=3 and P=4.
+- Stability parameter: r=0.2.
+- Time steps: 10.
 
-On the launch VM, create a hostfile listing accessible Tailscale IPs, for example:
+Each MPI binary output is compared against the corresponding serial output using cmp.
+
+Final result:
 
 ```text
-<heat-2-tailscale-IP> slots=1
-<heat-1-tailscale-IP> slots=1
-<heat-3-tailscale-IP> slots=1
+TOTAL: 36/36 tests passed
 ```
 
-Replace the placeholders with the VM addresses. For two VMs, use two lines and `-np 2`. Build `./heat_strips` on each VM in the same `~/part2` directory. Launch from `~/part2`:
+All tested MPI configurations produced bit-for-bit identical results to the serial solver.
+
+Evidence:
+
+```text
+results/step5_correctness_log.txt
+```
+
+## Distributed Execution over Tailscale
+
+The project uses three Ubuntu VMs:
+
+| VM | Tailscale IP |
+|---|---|
+| heat-1 | 100.100.125.10 |
+| heat-2 | 100.98.24.109 |
+| heat-3 | 100.113.165.26 |
+
+All participating VMs must be powered on, connected to Tailscale and have the MPI executable available at the same path.
+
+The solver is compiled on each VM in:
+
+```text
+/home/mpi/part2/
+```
+
+### Three-VM Hostfile
+
+Create a file named `hosts_3vm`:
+
+```text
+100.98.24.109 slots=1
+100.100.125.10 slots=1
+100.113.165.26 slots=1
+```
+
+### Verify Connectivity
 
 ```bash
 mpirun --hostfile hosts_3vm -np 3 \
   --mca oob_tcp_if_include tailscale0 \
   --mca btl_tcp_if_include tailscale0 \
   --mca btl tcp,self \
-  ./heat_strips --decomp strips --case 2 --N 8 --r 0.2 --steps 10 \
+  hostname
+```
+
+The output must contain all three VM hostnames.
+
+### Distributed Case 2
+
+```bash
+mpirun --hostfile hosts_3vm -np 3 \
+  --mca oob_tcp_if_include tailscale0 \
+  --mca btl_tcp_if_include tailscale0 \
+  --mca btl tcp,self \
+  ./heat_strips \
+  --decomp strips --case 2 \
+  --N 8 --r 0.2 --steps 10 \
   --out results/distributed_case2_N8_P3.bin
 ```
 
-Compare with an equivalent serial output using `cmp`. In our tests, Case 2 matched the serial output bit for bit on both two-VM and three-VM runs. An additional three-VM Case V run remains **unverified** because MPI lost connectivity to remote daemons; it should not be recorded as a successful test. Network connectivity and VM availability must be checked before attempting longer demonstrations.
+Generate the serial reference:
 
-## Implementation outline
+```bash
+../part1/heat --decomp serial \
+  --case 2 --N 8 --r 0.2 --steps 10 \
+  --out results/serial_case2_N8_steps10.bin
+```
 
-- Share the `N-1` interior rows in balanced contiguous strips; lower ranks receive any extra rows.
-- Store `(nlocal+2) × (N+1)` values per rank, with two ghost rows.
-- Use two `MPI_Sendrecv` calls per step, with `MPI_PROC_NULL` for missing neighbors.
-- Apply the same five-point stencil as the serial solver, then swap current/next buffers.
-- Use `MPI_Gatherv` to reconstruct the complete field on rank 0.
-- Compute Case V errors against the analytic sine-mode solution.
+Compare:
 
-## Files
+```bash
+cmp results/serial_case2_N8_steps10.bin \
+    results/distributed_case2_N8_P3.bin
+```
 
-- `src/strips.cpp`: MPI implementation.
-- `tests/check_decomposition.py`: checks balanced row assignment.
-- `tests/check_correctness.sh`: repeatable serial/MPI binary comparisons.
-- `results/step5_correctness_log.txt`: recorded 36/36 passing checks.
-- `Makefile`: build instructions.
-- `.gitignore`: excludes local compiled files and binary fields.
+Case 2 was successfully verified across both two and three VMs.
 
-The team report describes the algorithm, proof of bit-for-bit agreement for tested cases, halo debugging, observed communication overhead, and connection limitations. A separate numerical-solutions document covers the related course exercises.
+## Distributed Case V Verification
+
+On November 24, 2026, Case V was successfully executed across all three Ubuntu VMs.
+
+Parameters:
+
+- N=16
+- P=3
+- r=0.2
+- Steps=10
+- T=0.0078125
+
+### MPI Execution
+
+```bash
+timeout 60s mpirun --hostfile hosts_3vm -np 3 \
+  --mca oob_tcp_if_include tailscale0 \
+  --mca btl_tcp_if_include tailscale0 \
+  --mca btl tcp,self \
+  ./heat_strips \
+  --decomp strips --case V \
+  --N 16 --r 0.2 --steps 10 \
+  --out results/distributed_caseV_short.bin
+```
+
+### Serial Reference
+
+```bash
+../part1/heat --decomp serial \
+  --case V --N 16 --r 0.2 --steps 10 \
+  --out results/serial_caseV_short.bin
+```
+
+### Correctness Verification
+
+```bash
+cmp results/serial_caseV_short.bin \
+    results/distributed_caseV_short.bin
+```
+
+SHA-256 verification:
+
+```bash
+sha256sum results/serial_caseV_short.bin \
+          results/distributed_caseV_short.bin
+```
+
+Both binary files had identical SHA-256 hashes.
+
+Final result:
+
+```text
+PASS: Three-VM Case V, N=16, P=3, r=0.2, steps=10, bit-for-bit identical
+```
+
+### Case V Results
+
+| Measurement | Serial | MPI - 3 VMs |
+|---|---:|---:|
+| t_total (s) | 0.000008669 | 0.779550588 |
+| t_comp (s) | 0.000008669 | 0.000008195 | 
+| t_comm (s) | 0 | 0.779543372 |
+| err_inf | 0.000598805794 | 0.000598805794 |
+| err_l2h | 0.000299402897 | 0.000299402897 |
+
+Both implementations produced identical temperature fields and numerical errors.
+
+Evidence:
+
+```text
+results/distributed_caseV_verification.txt
+```
+
+## Performance Observations
+
+For small grids, MPI communication overhead is significantly larger than computation time.
+
+Distributed execution over Tailscale can therefore be slower than serial execution, particularly when network latency is high.
+
+The main objective of Part 2 is numerical correctness rather than speedup.
+
+## Network Limitations
+
+The original three-VM Case V experiment with 64 time steps was interrupted by intermittent network connectivity failures and MPI daemon disconnections.
+
+A shorter experiment with 10 time steps was subsequently completed successfully across all three VMs.
+
+The successful shorter experiment demonstrated bit-for-bit agreement with the serial solver. The original 64-step distributed experiment remains unverified.
+
+Network connectivity should be checked before distributed demonstrations.
+
+## Deadlock Prevention
+
+The solver uses MPI_Sendrecv to exchange neighboring rows safely.
+
+Separate blocking MPI_Send operations followed by MPI_Recv may cause deadlock when processes wait for matching receive operations.
+
+MPI_Sendrecv combines sending and receiving in one operation and avoids this communication-ordering problem.
+
+MPI_PROC_NULL is used for processes located at the physical boundaries of the plate.
+
+## Final Verification Status
+
+| Requirement | Status |
+|---|---|
+| Balanced strip decomposition | Passed |
+| Ghost-row allocation | Passed |
+| MPI_Sendrecv halo exchange | Passed |
+| MPI_PROC_NULL handling | Passed |
+| Halo debugging with P=2 | Passed |
+| Halo debugging with P=3 | Passed |
+| Cases 1, 2 and V | Passed locally |
+| 36 automated correctness tests | 36/36 passed |
+| Two-VM distributed Case 2 | Passed |
+| Three-VM distributed Case 2 | Passed |
+| Three-VM distributed Case V, 10 steps | Passed |
+| Bit-for-bit equality | Passed for tested configurations |
+| SHA-256 verification | Passed |
+| MPI timing measurements | Completed |
+
+## Conclusion
+
+Part 2 successfully implements MPI-based 1D strip decomposition.
+
+The tested parallel results are bit-for-bit identical to the serial reference. Correctness was verified with different grid sizes, process counts, boundary conditions and distributed executions across multiple Ubuntu VMs.
+
+This implementation provides the foundation for Part 3, which introduces 2D block decomposition.

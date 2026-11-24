@@ -1,0 +1,3 @@
+a562022b820644f9c1e64f7601173fbe0417b956e7f8e99b64651116ab7e86c1  results/serial_caseV_short.bin
+a562022b820644f9c1e64f7601173fbe0417b956e7f8e99b64651116ab7e86c1  results/distributed_caseV_short.bin
+PASS: Three-VM Case V, N=16, P=3, r=0.2, steps=10, bit-for-bit identical
