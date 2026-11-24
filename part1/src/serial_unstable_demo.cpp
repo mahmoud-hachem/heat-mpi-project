@@ -59,14 +59,15 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Validate parameters
+    // Allow the deliberate Task 6.7 run, which exceeds the stable limit by 5%.
+    constexpr double maxDemoR = 0.2625;
     if (N < 2 || steps < 0 ||
-        r <= 0.0 || r > 0.2625 ||
+        r <= 0.0 || r > maxDemoR ||
         !std::isfinite(r)) {
 
         std::cerr << "Invalid parameters. "
                   << "Use N >= 2, steps >= 0, "
-                  << "and 0 < r <= 0.25.\n";
+                  << "and 0 < r <= " << maxDemoR << ".\n";
         return 1;
     }
 
