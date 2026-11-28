@@ -1,0 +1,1 @@
+this is the link of the chat: https://chatgpt.com/share/6b0af7b3-c5d8-83eb-a8df-2bfb095de316

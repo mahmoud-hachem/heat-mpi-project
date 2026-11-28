@@ -23,4 +23,4 @@ Search the files for passwords, SSH private keys, Tailscale auth keys
 
 | File | Topic | Date | Redactions |
 | --- | --- | --- | --- |
-| | | | |
+| [`chatgpt_project_development.md`](chatgpt_project_development.md) | Project development (share link) | Nov 2026 | none |
