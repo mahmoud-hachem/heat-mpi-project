@@ -1,0 +1,28 @@
+ Data for JOB [10385,1] offset 0 Total slots allocated 4
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 2	Num procs: 2
+ 	Process OMPI jobid: [10385,1] App: 0 Process rank: 0 Bound: UNBOUND
+ 	Process OMPI jobid: [10385,1] App: 0 Process rank: 1 Bound: UNBOUND
+
+ Data for node: 100.113.165.26	Num slots: 2	Max slots: 2	Num procs: 2
+ 	Process OMPI jobid: [10385,1] App: 0 Process rank: 2 Bound: N/A
+ 	Process OMPI jobid: [10385,1] App: 0 Process rank: 3 Bound: N/A
+
+ =============================================================
+ Data for JOB [10385,1] offset 0 Total slots allocated 4
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [10385,1] App: 0 Process rank: 0 Bound: N/A
+ 	Process OMPI jobid: [10385,1] App: 0 Process rank: 1 Bound: N/A
+
+ Data for node: 100.113.165.26	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [10385,1] App: 0 Process rank: 2 Bound: UNBOUND
+ 	Process OMPI jobid: [10385,1] App: 0 Process rank: 3 Bound: UNBOUND
+
+ =============================================================
+decomp=blocks P=4 Py=2 Px=2 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.110882834 t_comp=0.624316939 t_comm=0.797952178
+wall_seconds=3

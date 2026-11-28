@@ -1,0 +1,116 @@
+
+===== 1. VM health and leftovers =====
+--- 100.98.24.109
+heat-2
+ 12:53:13 up  2:23,  3 users,  load average: 0.22, 1.69, 1.89
+2
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       452Mi       3.2Gi       1.1Mi       452Mi       3.4Gi
+leftover solver processes:
+none
+tailscaled:
+    607  1.2 41128 /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=41641
+--- 100.113.165.26
+ssh: connect to host 100.113.165.26 port 22: Connection timed out
+UNREACHABLE: 100.113.165.26 (SSH timed out)
+
+===== 2. Tailscale path between the VMs (direct or DERP relay) =====
+ping "100.113.165.26" timed out
+ping "100.113.165.26" timed out
+ping "100.113.165.26" timed out
+tailscale ping to 100.113.165.26 FAILED
+100.98.24.109   heat-2  hachemm03@       linux  -                                           
+100.100.125.10  heat-1  harkoushadi531@  linux  idle, tx 62124 rx 35820                     
+100.113.165.26  heat-3  amersoulak@      linux  active; relay "par", tx 3863580 rx 3732432  
+
+===== 3. Raw TCP throughput over Tailscale (2 MB, no MPI) =====
+100.113.165.26: transfer FAILED or took over 60 s
+
+===== Experiment A: P=2 map-by node  =====
+exit=255 wall=134s
+NO RESULT LINE
+* an inability to create a connection back to mpirun due to a
+  lack of common network interfaces and/or no route found between
+  them. Please check network connectivity (including firewalls
+  and network routing requirements).
+--------------------------------------------------------------------------
+top samples (CPU line, busiest processes) -> /home/mpi/part4/results/diagnostics_20261128_125313/top_A.txt
+%Cpu(s): 10.0 us, 40.0 sy,  0.0 ni, 35.0 id,  0.0 wa,  0.0 hi, 15.0 si,  0.0 st 
+[100.113.165.26 12:54:50] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni, 95.5 id,  0.0 wa,  0.0 hi,  4.5 si,  0.0 st 
+[100.113.165.26 12:54:58] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  3.7 sy,  0.0 ni, 92.6 id,  3.7 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:55:06] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni, 94.7 id,  0.0 wa,  0.0 hi,  5.3 si,  0.0 st 
+[100.113.165.26 12:55:13] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni, 97.4 id,  0.0 wa,  0.0 hi,  2.6 si,  0.0 st 
+[100.113.165.26 12:55:22] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  8.3 sy,  0.0 ni, 87.5 id,  0.0 wa,  0.0 hi,  4.2 si,  0.0 st 
+[100.113.165.26 12:55:29] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni, 95.8 id,  0.0 wa,  0.0 hi,  4.2 si,  0.0 st 
+[100.113.165.26 12:55:37] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni, 94.7 id,  0.0 wa,  0.0 hi,  5.3 si,  0.0 st 
+[100.113.165.26 12:55:45] top sample FAILED (VM not answering)
+
+===== Experiment B: P=4 map-by slot  =====
+exit=255 wall=139s
+NO RESULT LINE
+* an inability to create a connection back to mpirun due to a
+  lack of common network interfaces and/or no route found between
+  them. Please check network connectivity (including firewalls
+  and network routing requirements).
+--------------------------------------------------------------------------
+top samples (CPU line, busiest processes) -> /home/mpi/part4/results/diagnostics_20261128_125313/top_B.txt
+%Cpu(s): 11.1 us, 38.9 sy,  0.0 ni, 33.3 id,  0.0 wa,  0.0 hi, 16.7 si,  0.0 st 
+[100.113.165.26 12:57:09] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  1.0 sy,  0.0 ni, 99.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:57:18] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:57:26] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:57:34] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:57:42] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:57:49] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  7.1 sy,  0.0 ni, 89.3 id,  0.0 wa,  0.0 hi,  3.6 si,  0.0 st 
+[100.113.165.26 12:57:57] top sample FAILED (VM not answering)
+%Cpu(s):  4.5 us,  4.5 sy,  0.0 ni, 90.9 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:58:05] top sample FAILED (VM not answering)
+
+===== Experiment C: P=4 map-by slot --mca mpi_yield_when_idle 1 =====
+exit=255 wall=134s
+NO RESULT LINE
+* an inability to create a connection back to mpirun due to a
+  lack of common network interfaces and/or no route found between
+  them. Please check network connectivity (including firewalls
+  and network routing requirements).
+--------------------------------------------------------------------------
+top samples (CPU line, busiest processes) -> /home/mpi/part4/results/diagnostics_20261128_125313/top_C.txt
+%Cpu(s):  3.6 us, 10.7 sy,  0.0 ni, 85.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:59:34] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  5.0 sy,  0.0 ni, 95.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:59:41] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:59:49] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 12:59:57] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 13:00:06] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 13:00:14] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+[100.113.165.26 13:00:23] top sample FAILED (VM not answering)
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni, 98.4 id,  0.0 wa,  0.0 hi,  1.6 si,  0.0 st 
+[100.113.165.26 13:00:31] top sample FAILED (VM not answering)
+
+===== Done =====
+Everything saved in /home/mpi/part4/results/diagnostics_20261128_125313
+How to read it:
+ - Step 2 says 'via DERP'       -> traffic is relayed: network path problem.
+ - A fast, B slow or stalled,
+   tailscaled near 0% and st/us
+   at 100% during B             -> CPU starvation: 2 busy ranks on 2 vCPUs leave
+                                   no CPU for tailscaled to move the packets.
+ - C much faster than B         -> confirms it; yielding ranks free the CPU.
+ - top samples FAILED mid-run   -> the VM itself froze (VirtualBox/host issue).

@@ -1,109 +1,137 @@
-method,N,P,map,placement,t_total,t_comp,t_comm,status,reason,source,file
-blocks,2048,4,slot,heat-2x2+heat-3x2,3.329148298,0.051191806,3.292730046,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R1.log
-blocks,2048,4,slot,heat-2x2+heat-3x2,4.419376849,0.098640291,4.352078116,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R2.log
-blocks,2048,4,slot,heat-2x2+heat-3x2,4.72686783,0.10363756,4.632561711,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R3.log
-blocks,512,4,slot,heat-2x2+heat-3x2,2.039520941,0.010505545,2.03199039,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R1.log
-blocks,512,4,slot,heat-2x2+heat-3x2,1.28004162,0.008633452,1.271400757,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R2.log
-blocks,512,4,slot,heat-2x2+heat-3x2,5.872350665,0.003180787,5.86916326,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R3.log
-strips,2048,4,slot,heat-2x2+heat-3x2,6.964281072,0.108488414,6.917084673,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R1.log
-strips,2048,4,slot,heat-2x2+heat-3x2,8.132454258,0.075223738,8.0597748,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R2.log
-strips,2048,4,slot,heat-2x2+heat-3x2,3.847890072,0.11234907,3.770823158,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R3.log
-strips,512,4,slot,heat-2x2+heat-3x2,3.382013282,0.007584648,3.374418833,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R1.log
-strips,512,4,slot,heat-2x2+heat-3x2,4.531171741,0.005573694,4.525589545,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R2.log
-strips,512,4,slot,heat-2x2+heat-3x2,3.065748164,0.007011994,3.058727073,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R3.log
-blocks,512,4,slot,,96.105846665,0.028471236,96.082693572,excluded,pilot run (machine pair not recorded),part3/pilot,part3/results/benchmark_pilot_7nrEld/blocks_N512_P4_R1.log
-strips,512,4,slot,,7.086054596,0.028554768,7.059407388,excluded,pilot run (machine pair not recorded),part3/pilot,part3/results/benchmark_pilot_7nrEld/strips_N512_P4_R1.log
-blocks,512,4,slot,,0.852719831,0.00673511,0.847798806,excluded,pilot run (machine pair not recorded),part3/pilot,part3/results/benchmark_pilot_SspvMG/blocks_N512_P4_R1.log
-strips,512,4,slot,,2.551451479,0.005929062,2.545513999,excluded,pilot run (machine pair not recorded),part3/pilot,part3/results/benchmark_pilot_SspvMG/strips_N512_P4_R1.log
-blocks,16,4,,,1.444964324,2.0431e-05,1.444949796,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/demo_blocks_case1.log
-blocks,16,4,,,0.739352994,6.55400000013e-06,0.739341457,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/demo_blocks_case2.log
-blocks,16,4,,,2.055386065,6.58200000011e-06,2.055374214,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/demo_blocks_caseV.log
-blocks,8,4,,,0.022779695,1.393e-06,0.022774746,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/distributed_3vm_caseV.log
-blocks,8,4,,,0.010328409,2.75e-07,0.010327644,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/distributed_amer_caseV.log
-blocks,8,4,,,0.087651598,1.493e-06,0.087648194,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/distributed_amer_caseV_10steps.log
-blocks,2048,4,slot,heat-2x2+heat-3x2,3.329148298,0.051191806,3.292730046,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R1.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N2048_P4_R1.log
-blocks,2048,4,slot,heat-2x2+heat-3x2,4.419376849,0.098640291,4.352078116,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R2.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N2048_P4_R2.log
-blocks,2048,4,slot,heat-2x2+heat-3x2,4.72686783,0.10363756,4.632561711,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R3.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N2048_P4_R3.log
-blocks,512,4,slot,heat-2x2+heat-3x2,2.039520941,0.010505545,2.03199039,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R1.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N512_P4_R1.log
-blocks,512,4,slot,heat-2x2+heat-3x2,1.28004162,0.008633452,1.271400757,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R2.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N512_P4_R2.log
-blocks,512,4,slot,heat-2x2+heat-3x2,5.872350665,0.003180787,5.86916326,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R3.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N512_P4_R3.log
-strips,2048,4,slot,heat-2x2+heat-3x2,6.964281072,0.108488414,6.917084673,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R1.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N2048_P4_R1.log
-strips,2048,4,slot,heat-2x2+heat-3x2,8.132454258,0.075223738,8.0597748,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R2.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N2048_P4_R2.log
-strips,2048,4,slot,heat-2x2+heat-3x2,3.847890072,0.11234907,3.770823158,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R3.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N2048_P4_R3.log
-strips,512,4,slot,heat-2x2+heat-3x2,3.382013282,0.007584648,3.374418833,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R1.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N512_P4_R1.log
-strips,512,4,slot,heat-2x2+heat-3x2,4.531171741,0.005573694,4.525589545,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R2.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N512_P4_R2.log
-strips,512,4,slot,heat-2x2+heat-3x2,3.065748164,0.007011994,3.058727073,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R3.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N512_P4_R3.log
-strips,886,3,slot,heat-2x2+heat-3x1,8.062077982,1.009488656,7.955044407,ok,,part4/amer_batch,part4/results/amer_batch/strips_N886_P3_slot/run_1.log
-strips,886,3,slot,heat-2x2+heat-3x1,4.108104223,0.015517689,4.092577217,ok,,part4/amer_batch,part4/results/amer_batch/strips_N886_P3_slot/run_2.log
-strips,886,3,slot,heat-2x2+heat-3x1,5.709210419,0.028801477,5.687518738,ok,,part4/amer_batch,part4/results/amer_batch/strips_N886_P3_slot/run_3.log
-blocks,2048,1,slot,heat-2x1,0.08770401,0.087678208,7.25399999999e-06,ok,,part4/legacy,part4/results/blocks_N2048_P1_slot_d5gjM4/run_1.log
-blocks,2048,1,slot,heat-2x1,0.085409749,0.085395906,9.41800000001e-06,ok,,part4/legacy,part4/results/blocks_N2048_P1_slot_d5gjM4/run_2.log
-blocks,2048,1,slot,heat-2x1,0.104460714,0.104443299,1.2367e-05,ok,,part4/legacy,part4/results/blocks_N2048_P1_slot_d5gjM4/run_3.log
-blocks,2048,2,slot,heat-2x2,0.080203328,0.079215055,0.012455829,ok,,part4/legacy,part4/results/blocks_N2048_P2_slot_DL21M4/run_1.log
-blocks,2048,2,slot,heat-2x2,0.072030293,0.069512154,0.002557228,ok,,part4/legacy,part4/results/blocks_N2048_P2_slot_DL21M4/run_2.log
-blocks,2048,2,slot,heat-2x2,0.071363093,0.069691407,0.001988377,ok,,part4/legacy,part4/results/blocks_N2048_P2_slot_DL21M4/run_3.log
-blocks,2048,3,slot,heat-2x2+heat-1x1,1.134628187,0.044237101,1.092542912,ok,,part4/legacy,part4/results/blocks_N2048_P3_slot_RAA5kZ/run_1.log
-blocks,2048,3,slot,heat-2x2+heat-1x1,0.771178646,0.054592993,0.735341874,ok,,part4/legacy,part4/results/blocks_N2048_P3_slot_RAA5kZ/run_2.log
-blocks,2048,3,slot,heat-2x2+heat-1x1,0.628954092,0.052041207,0.579624866,ok,,part4/legacy,part4/results/blocks_N2048_P3_slot_RAA5kZ/run_3.log
-blocks,512,1,slot,heat-2x1,0.004878366,0.004874879,2.228e-06,ok,,part4/legacy,part4/results/blocks_N512_P1_slot_3MV4c2/run_1.log
-blocks,512,1,slot,heat-2x1,0.005633556,0.005628102,3.635e-06,ok,,part4/legacy,part4/results/blocks_N512_P1_slot_3MV4c2/run_2.log
-blocks,512,1,slot,heat-2x1,0.006107659,0.006101234,4.459e-06,ok,,part4/legacy,part4/results/blocks_N512_P1_slot_3MV4c2/run_3.log
-blocks,512,2,slot,heat-2x2,0.006764332,0.005409836,0.001482422,ok,,part4/legacy,part4/results/blocks_N512_P2_slot_llVWem/run_1.log
-blocks,512,2,slot,heat-2x2,0.005770072,0.005127798,0.000943835,ok,,part4/legacy,part4/results/blocks_N512_P2_slot_llVWem/run_2.log
-blocks,512,2,slot,heat-2x2,0.004292476,0.003401086,0.000974461,ok,,part4/legacy,part4/results/blocks_N512_P2_slot_llVWem/run_3.log
-blocks,512,3,slot,heat-2x2+heat-1x1,0.263336005,0.006688535,0.256641371,ok,,part4/legacy,part4/results/blocks_N512_P3_slot_5lEUIz/run_1.log
-blocks,512,3,slot,heat-2x2+heat-1x1,1.362855707,0.006010026,1.358428437,ok,,part4/legacy,part4/results/blocks_N512_P3_slot_5lEUIz/run_2.log
-blocks,512,3,slot,heat-2x2+heat-1x1,0.193977996,0.004451816,0.189610099,ok,,part4/legacy,part4/results/blocks_N512_P3_slot_5lEUIz/run_3.log
-blocks,512,4,slot,heat-2x2+heat-1x2,3.875977834,0.002782605,3.873473285,ok,,part4/legacy,part4/results/blocks_N512_P4_slot_iFsHWO/run_1.log
-blocks,512,4,slot,heat-2x2+heat-1x2,0.242469594,0.003895343,0.239329723,ok,,part4/legacy,part4/results/blocks_N512_P4_slot_iFsHWO/run_2.log
-blocks,512,4,slot,heat-2x2+heat-1x2,1.11768007,0.00519343,1.114324418,ok,,part4/legacy,part4/results/blocks_N512_P4_slot_iFsHWO/run_3.log
-blocks,512,5,slot,heat-2x2+heat-1x2+heat-3x1,0.615465294,0.003108179,0.61235327,ok,,part4/legacy,part4/results/blocks_N512_P5_slot_CHlIC2/run_1.log
-blocks,512,5,slot,heat-2x2+heat-1x2+heat-3x1,1.989417784,0.006859486,1.982552326,ok,,part4/legacy,part4/results/blocks_N512_P5_slot_CHlIC2/run_2.log
-blocks,512,5,slot,heat-2x2+heat-1x2+heat-3x1,0.248021664,0.003901519,0.246286861,ok,,part4/legacy,part4/results/blocks_N512_P5_slot_retry_ywL9dV/run_3.log
-blocks,724,2,slot,heat-2x2,0.008274376,0.007100658,0.001364117,ok,,part4/legacy,part4/results/blocks_N724_P2_slot_eu64fj/run_1.log
-blocks,724,2,slot,heat-2x2,0.008803958,0.007891398,0.00132517,ok,,part4/legacy,part4/results/blocks_N724_P2_slot_eu64fj/run_2.log
-blocks,724,2,slot,heat-2x2,0.008710041,0.008148446,0.000822522,ok,,part4/legacy,part4/results/blocks_N724_P2_slot_eu64fj/run_3.log
-blocks,8192,1,slot,heat-2x1,1.463283917,1.463268262,9.71800000023e-06,ok,,part4/legacy,part4/results/blocks_N8192_P1_slot_uq4Zed/run_1.log
-blocks,8192,1,slot,heat-2x1,1.761028445,1.761011113,1.00909999999e-05,ok,,part4/legacy,part4/results/blocks_N8192_P1_slot_uq4Zed/run_2.log
-blocks,8192,1,slot,heat-2x1,1.866839926,1.866818653,1.51529999996e-05,ok,,part4/legacy,part4/results/blocks_N8192_P1_slot_uq4Zed/run_3.log
-blocks,8192,2,slot,heat-2x2,1.17260229,1.170002931,0.026133725,ok,,part4/legacy,part4/results/blocks_N8192_P2_slot_EDp4AR/run_1.log
-blocks,8192,2,slot,heat-2x2,1.304911457,1.302688051,0.040045251,ok,,part4/legacy,part4/results/blocks_N8192_P2_slot_EDp4AR/run_2.log
-blocks,8192,2,slot,heat-2x2,1.548849343,1.524079081,0.04791396,ok,,part4/legacy,part4/results/blocks_N8192_P2_slot_EDp4AR/run_3.log
-strips,2048,1,slot,heat-2x1,0.097001251,0.096989241,7.91799999997e-06,ok,,part4/legacy,part4/results/strips_N2048_P1_slot_kIqfnA/run_1.log
-strips,2048,1,slot,heat-2x1,0.121538404,0.121526189,5.52299999999e-06,ok,,part4/legacy,part4/results/strips_N2048_P1_slot_kIqfnA/run_2.log
-strips,2048,1,slot,heat-2x1,0.100653896,0.100642694,6.88899999999e-06,ok,,part4/legacy,part4/results/strips_N2048_P1_slot_kIqfnA/run_3.log
-strips,2048,2,slot,heat-2x2,0.067718878,0.06657274,0.002574586,ok,,part4/legacy,part4/results/strips_N2048_P2_slot_r0msGH/run_1.log
-strips,2048,2,slot,heat-2x2,0.072843599,0.07102756,0.00345553,ok,,part4/legacy,part4/results/strips_N2048_P2_slot_r0msGH/run_2.log
-strips,2048,2,slot,heat-2x2,0.066086904,0.064418768,0.001920072,ok,,part4/legacy,part4/results/strips_N2048_P2_slot_r0msGH/run_3.log
-strips,2048,3,slot,heat-2x2+heat-1x1,3.142626698,0.04429888,3.098321846,ok,,part4/legacy,part4/results/strips_N2048_P3_slot_JLuNDe/run_1.log
-strips,2048,3,slot,heat-2x2+heat-1x1,0.997507332,0.036393213,0.961107749,ok,,part4/legacy,part4/results/strips_N2048_P3_slot_JLuNDe/run_2.log
-strips,2048,3,slot,heat-2x2+heat-1x1,6.121263476,0.04468957,6.076566859,ok,,part4/legacy,part4/results/strips_N2048_P3_slot_JLuNDe/run_3.log
-strips,512,1,slot,heat-2x1,0.006149141,0.00614535,2.464e-06,ok,,part4/legacy,part4/results/strips_N512_P1_slot_zcrRLQ/run_1.log
-strips,512,1,slot,heat-2x1,0.010100198,0.01008854,6.689e-06,ok,,part4/legacy,part4/results/strips_N512_P1_slot_zcrRLQ/run_2.log
-strips,512,1,slot,heat-2x1,0.004324243,0.004320604,1.759e-06,ok,,part4/legacy,part4/results/strips_N512_P1_slot_zcrRLQ/run_3.log
-strips,512,2,slot,heat-2x2,0.003714256,0.003280872,0.000467675,ok,,part4/legacy,part4/results/strips_N512_P2_slot_9bmcE9/run_1.log
-strips,512,2,slot,heat-2x2,0.006977178,0.00620675,0.001023125,ok,,part4/legacy,part4/results/strips_N512_P2_slot_9bmcE9/run_2.log
-strips,512,2,slot,heat-2x2,0.00453295,0.003927042,0.000846898,ok,,part4/legacy,part4/results/strips_N512_P2_slot_9bmcE9/run_3.log
-strips,512,3,slot,heat-2x2+heat-1x1,0.166081837,0.0027037,0.163905837,ok,,part4/legacy,part4/results/strips_N512_P3_slot_YaS2sR/run_1.log
-strips,512,3,slot,heat-2x2+heat-1x1,0.155702437,0.004091156,0.151606737,ok,,part4/legacy,part4/results/strips_N512_P3_slot_YaS2sR/run_2.log
-strips,512,3,slot,heat-2x2+heat-1x1,3.943010194,0.006874422,3.936127589,ok,,part4/legacy,part4/results/strips_N512_P3_slot_YaS2sR/run_3.log
-strips,512,4,slot,heat-2x2+heat-1x2,0.198549541,0.005655944,0.195029634,ok,,part4/legacy,part4/results/strips_N512_P4_slot_d5HkEv/run_1.log
-strips,512,4,slot,heat-2x2+heat-1x2,2.965642467,0.001642634,2.96401245,ok,,part4/legacy,part4/results/strips_N512_P4_slot_d5HkEv/run_2.log
-strips,512,4,slot,heat-2x2+heat-1x2,2.910899779,0.003366698,2.907528241,ok,,part4/legacy,part4/results/strips_N512_P4_slot_d5HkEv/run_3.log
-strips,512,4,slot,heat-2x2+heat-1x2,4.973138211,0.003984628,4.970854026,ok,,part4/legacy,part4/results/strips_N512_P4_slot_VuC7Lm/run_1.log
-strips,512,5,slot,heat-2x2+heat-1x2+heat-3x1,0.35145509,0.002230303,0.349219004,ok,,part4/legacy,part4/results/strips_N512_P5_slot_HGIoRL/run_1.log
-strips,512,5,slot,heat-2x2+heat-1x2+heat-3x1,0.775917878,0.003928229,0.774089362,ok,,part4/legacy,part4/results/strips_N512_P5_slot_HGIoRL/run_2.log
-strips,512,5,slot,heat-2x2+heat-1x2+heat-3x1,3.958566629,0.002903864,3.955657035,ok,,part4/legacy,part4/results/strips_N512_P5_slot_HGIoRL/run_3.log
-strips,512,6,slot,heat-2x2+heat-1x2+heat-3x2,0.993814839,0.002457838,0.992607926,ok,,part4/legacy,part4/results/strips_N512_P6_slot_M3q5TW/run_1.log
-strips,724,2,slot,heat-2x2,0.00777728,0.007430163,0.000711075,ok,,part4/legacy,part4/results/strips_N724_P2_slot_eJfDB9/run_1.log
-strips,724,2,slot,heat-2x2,0.008094435,0.007701876,0.001000768,ok,,part4/legacy,part4/results/strips_N724_P2_slot_eJfDB9/run_2.log
-strips,724,2,slot,heat-2x2,0.006968139,0.006675332,0.000546967,ok,,part4/legacy,part4/results/strips_N724_P2_slot_eJfDB9/run_3.log
-strips,8192,1,slot,heat-2x1,2.537271233,2.537254925,9.03399999976e-06,ok,,part4/legacy,part4/results/strips_N8192_P1_slot_dpTA2a/run_1.log
-strips,8192,1,slot,heat-2x1,2.946993576,2.946978841,9.37100000033e-06,ok,,part4/legacy,part4/results/strips_N8192_P1_slot_dpTA2a/run_2.log
-strips,8192,1,slot,heat-2x1,1.630436436,1.630422709,8.95199999997e-06,ok,,part4/legacy,part4/results/strips_N8192_P1_slot_dpTA2a/run_3.log
-strips,8192,1,slot,heat-2x1,1.750057482,1.750041569,8.56199999987e-06,excluded,accidental second P=1 batch; kept as variability evidence,part4/legacy,part4/results/strips_N8192_P1_slot_k7F1nW/run_1.log
-strips,8192,1,slot,heat-2x1,2.348281306,2.348253309,2.02439999996e-05,excluded,accidental second P=1 batch; kept as variability evidence,part4/legacy,part4/results/strips_N8192_P1_slot_k7F1nW/run_2.log
-strips,8192,1,slot,heat-2x1,1.768131437,1.768116498,9.05599999987e-06,excluded,accidental second P=1 batch; kept as variability evidence,part4/legacy,part4/results/strips_N8192_P1_slot_k7F1nW/run_3.log
-strips,8192,2,slot,heat-2x2,1.279224662,1.269022594,0.026246798,ok,,part4/legacy,part4/results/strips_N8192_P2_slot_iTLXTd/run_1.log
-strips,8192,2,slot,heat-2x2,1.417479601,1.390090634,0.098229004,ok,,part4/legacy,part4/results/strips_N8192_P2_slot_iTLXTd/run_2.log
-strips,8192,2,slot,heat-2x2,7.124047293,7.017570771,0.30326954,ok,,part4/legacy,part4/results/strips_N8192_P2_slot_iTLXTd/run_3.log
+method,N,P,map,placement,network,t_total,t_comp,t_comm,status,reason,source,file
+blocks,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,3.329148298,0.051191806,3.292730046,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R1.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,4.419376849,0.098640291,4.352078116,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R2.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,4.72686783,0.10363756,4.632561711,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R3.log
+blocks,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,2.039520941,0.010505545,2.03199039,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R1.log
+blocks,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,1.28004162,0.008633452,1.271400757,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R2.log
+blocks,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,5.872350665,0.003180787,5.86916326,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R3.log
+strips,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,6.964281072,0.108488414,6.917084673,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R1.log
+strips,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,8.132454258,0.075223738,8.0597748,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R2.log
+strips,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,3.847890072,0.11234907,3.770823158,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R3.log
+strips,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,3.382013282,0.007584648,3.374418833,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R1.log
+strips,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,4.531171741,0.005573694,4.525589545,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R2.log
+strips,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,3.065748164,0.007011994,3.058727073,ok,,part3/benchmark_full,part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R3.log
+blocks,512,4,slot,,home-wifi-nov,96.105846665,0.028471236,96.082693572,excluded,pilot run (machine pair not recorded),part3/pilot,part3/results/benchmark_pilot_7nrEld/blocks_N512_P4_R1.log
+strips,512,4,slot,,home-wifi-nov,7.086054596,0.028554768,7.059407388,excluded,pilot run (machine pair not recorded),part3/pilot,part3/results/benchmark_pilot_7nrEld/strips_N512_P4_R1.log
+blocks,512,4,slot,,home-wifi-nov,0.852719831,0.00673511,0.847798806,excluded,pilot run (machine pair not recorded),part3/pilot,part3/results/benchmark_pilot_SspvMG/blocks_N512_P4_R1.log
+strips,512,4,slot,,home-wifi-nov,2.551451479,0.005929062,2.545513999,excluded,pilot run (machine pair not recorded),part3/pilot,part3/results/benchmark_pilot_SspvMG/strips_N512_P4_R1.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,5.964391567,0.095917513,5.925594674,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/blocks_N2048_P4_slot/run_1.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,3.801369475,0.079077639,3.745780206,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/blocks_N2048_P4_slot/run_2.log
+blocks,512,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,4.513478026,0.005711435,4.507764068,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/blocks_N512_P4_slot/run_1.log
+blocks,512,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,1.651829527,0.013142669,1.643474432,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/blocks_N512_P4_slot/run_2.log
+blocks,8192,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,14.346977629,1.031794212,13.372527269,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/blocks_N8192_P4_slot/run_1.log
+strips,2048,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,7.688431267,0.08227104,7.607350973,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/strips_N2048_P4_slot/run_1.log
+strips,2048,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,7.616560876,0.069728511,7.546817469,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/strips_N2048_P4_slot/run_2.log
+strips,512,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,0.378766218,0.005393715,0.374986922,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/strips_N512_P4_slot/run_1.log
+strips,512,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,1.038282768,0.006264947,1.032009212,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/strips_N512_P4_slot/run_2.log
+strips,8192,4,slot,heat-2x2+heat-3x2,cafe-relay-28nov,25.519910891,1.815298976,24.229011492,ok,,part3/campaign_P4_amer,part3/results/campaign_P4_amer/strips_N8192_P4_slot/run_1.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.234575913,0.040766133,0.204662044,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N2048_P4_slot/run_1.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.229077815,0.044093165,0.199034184,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N2048_P4_slot/run_2.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.345454877,0.054168323,0.312942397,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N2048_P4_slot/run_3.log
+blocks,512,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.177247269,0.004316397,0.172926117,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N512_P4_slot/run_1.log
+blocks,512,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.174128237,0.003742875,0.171177353,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N512_P4_slot/run_2.log
+blocks,512,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.188899373,0.004384059,0.186119079,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N512_P4_slot/run_3.log
+blocks,8192,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.985183908,0.609870518,0.672171847,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N8192_P4_slot/run_1.log
+blocks,8192,4,slot,heat-2x2+heat-3x2,hotspot-28nov,1.110882834,0.624316939,0.797952178,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N8192_P4_slot/run_2.log
+blocks,8192,4,slot,heat-2x2+heat-3x2,hotspot-28nov,1.320127941,0.671597573,0.979592121,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/blocks_N8192_P4_slot/run_3.log
+strips,2048,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.244860044,0.02653086,0.218323964,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N2048_P4_slot/run_1.log
+strips,2048,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.309776377,0.039518354,0.27024899,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N2048_P4_slot/run_2.log
+strips,2048,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.265633995,0.042862848,0.225967436,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N2048_P4_slot/run_3.log
+strips,512,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.177627042,0.005902658,0.17171687,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N512_P4_slot/run_1.log
+strips,512,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.191440839,0.004941164,0.186100004,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N512_P4_slot/run_2.log
+strips,512,4,slot,heat-2x2+heat-3x2,hotspot-28nov,0.244751846,0.008788851,0.235949159,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N512_P4_slot/run_3.log
+strips,8192,4,slot,heat-2x2+heat-3x2,hotspot-28nov,1.042828606,0.546017206,0.798411418,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N8192_P4_slot/run_1.log
+strips,8192,4,slot,heat-2x2+heat-3x2,hotspot-28nov,3.548201247,0.612702955,3.249013988,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N8192_P4_slot/run_2.log
+strips,8192,4,slot,heat-2x2+heat-3x2,hotspot-28nov,1.642722383,0.992012828,1.370604642,ok,,part3/campaign_P4_hotspot,part3/results/campaign_P4_hotspot/strips_N8192_P4_slot/run_3.log
+blocks,16,4,,,home-wifi-nov,1.444964324,2.0431e-05,1.444949796,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/demo_blocks_case1.log
+blocks,16,4,,,home-wifi-nov,0.739352994,6.55400000013e-06,0.739341457,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/demo_blocks_case2.log
+blocks,16,4,,,home-wifi-nov,2.055386065,6.58200000011e-06,2.055374214,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/demo_blocks_caseV.log
+blocks,8,4,,,home-wifi-nov,0.022779695,1.393e-06,0.022774746,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/distributed_3vm_caseV.log
+blocks,8,4,,,home-wifi-nov,0.010328409,2.75e-07,0.010327644,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/distributed_amer_caseV.log
+blocks,8,4,,,home-wifi-nov,0.087651598,1.493e-06,0.087648194,excluded,"correctness or demo run, not a benchmark",part3/other,part3/results/distributed_amer_caseV_10steps.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,3.329148298,0.051191806,3.292730046,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R1.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N2048_P4_R1.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,4.419376849,0.098640291,4.352078116,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R2.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N2048_P4_R2.log
+blocks,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,4.72686783,0.10363756,4.632561711,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N2048_P4_R3.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N2048_P4_R3.log
+blocks,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,2.039520941,0.010505545,2.03199039,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R1.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N512_P4_R1.log
+blocks,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,1.28004162,0.008633452,1.271400757,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R2.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N512_P4_R2.log
+blocks,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,5.872350665,0.003180787,5.86916326,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/blocks_N512_P4_R3.log,part3/final_benchmarks,part3/results/final_benchmarks/blocks_N512_P4_R3.log
+strips,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,6.964281072,0.108488414,6.917084673,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R1.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N2048_P4_R1.log
+strips,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,8.132454258,0.075223738,8.0597748,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R2.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N2048_P4_R2.log
+strips,2048,4,slot,heat-2x2+heat-3x2,home-wifi-nov,3.847890072,0.11234907,3.770823158,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N2048_P4_R3.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N2048_P4_R3.log
+strips,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,3.382013282,0.007584648,3.374418833,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R1.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N512_P4_R1.log
+strips,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,4.531171741,0.005573694,4.525589545,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R2.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N512_P4_R2.log
+strips,512,4,slot,heat-2x2+heat-3x2,home-wifi-nov,3.065748164,0.007011994,3.058727073,excluded,duplicate of part3/results/benchmark_full_Y0Gv7U/strips_N512_P4_R3.log,part3/final_benchmarks,part3/results/final_benchmarks/strips_N512_P4_R3.log
+strips,886,3,slot,heat-2x2+heat-3x1,home-wifi-nov,8.062077982,1.009488656,7.955044407,ok,,part4/amer_batch,part4/results/amer_batch/strips_N886_P3_slot/run_1.log
+strips,886,3,slot,heat-2x2+heat-3x1,home-wifi-nov,4.108104223,0.015517689,4.092577217,ok,,part4/amer_batch,part4/results/amer_batch/strips_N886_P3_slot/run_2.log
+strips,886,3,slot,heat-2x2+heat-3x1,home-wifi-nov,5.709210419,0.028801477,5.687518738,ok,,part4/amer_batch,part4/results/amer_batch/strips_N886_P3_slot/run_3.log
+blocks,2048,1,slot,heat-2x1,home-wifi-nov,0.08770401,0.087678208,7.25399999999e-06,ok,,part4/legacy,part4/results/blocks_N2048_P1_slot_d5gjM4/run_1.log
+blocks,2048,1,slot,heat-2x1,home-wifi-nov,0.085409749,0.085395906,9.41800000001e-06,ok,,part4/legacy,part4/results/blocks_N2048_P1_slot_d5gjM4/run_2.log
+blocks,2048,1,slot,heat-2x1,home-wifi-nov,0.104460714,0.104443299,1.2367e-05,ok,,part4/legacy,part4/results/blocks_N2048_P1_slot_d5gjM4/run_3.log
+blocks,2048,2,slot,heat-2x2,home-wifi-nov,0.080203328,0.079215055,0.012455829,ok,,part4/legacy,part4/results/blocks_N2048_P2_slot_DL21M4/run_1.log
+blocks,2048,2,slot,heat-2x2,home-wifi-nov,0.072030293,0.069512154,0.002557228,ok,,part4/legacy,part4/results/blocks_N2048_P2_slot_DL21M4/run_2.log
+blocks,2048,2,slot,heat-2x2,home-wifi-nov,0.071363093,0.069691407,0.001988377,ok,,part4/legacy,part4/results/blocks_N2048_P2_slot_DL21M4/run_3.log
+blocks,2048,3,slot,heat-2x2+heat-1x1,home-wifi-nov,1.134628187,0.044237101,1.092542912,ok,,part4/legacy,part4/results/blocks_N2048_P3_slot_RAA5kZ/run_1.log
+blocks,2048,3,slot,heat-2x2+heat-1x1,home-wifi-nov,0.771178646,0.054592993,0.735341874,ok,,part4/legacy,part4/results/blocks_N2048_P3_slot_RAA5kZ/run_2.log
+blocks,2048,3,slot,heat-2x2+heat-1x1,home-wifi-nov,0.628954092,0.052041207,0.579624866,ok,,part4/legacy,part4/results/blocks_N2048_P3_slot_RAA5kZ/run_3.log
+blocks,512,1,slot,heat-2x1,home-wifi-nov,0.004878366,0.004874879,2.228e-06,ok,,part4/legacy,part4/results/blocks_N512_P1_slot_3MV4c2/run_1.log
+blocks,512,1,slot,heat-2x1,home-wifi-nov,0.005633556,0.005628102,3.635e-06,ok,,part4/legacy,part4/results/blocks_N512_P1_slot_3MV4c2/run_2.log
+blocks,512,1,slot,heat-2x1,home-wifi-nov,0.006107659,0.006101234,4.459e-06,ok,,part4/legacy,part4/results/blocks_N512_P1_slot_3MV4c2/run_3.log
+blocks,512,2,slot,heat-2x2,home-wifi-nov,0.006764332,0.005409836,0.001482422,ok,,part4/legacy,part4/results/blocks_N512_P2_slot_llVWem/run_1.log
+blocks,512,2,slot,heat-2x2,home-wifi-nov,0.005770072,0.005127798,0.000943835,ok,,part4/legacy,part4/results/blocks_N512_P2_slot_llVWem/run_2.log
+blocks,512,2,slot,heat-2x2,home-wifi-nov,0.004292476,0.003401086,0.000974461,ok,,part4/legacy,part4/results/blocks_N512_P2_slot_llVWem/run_3.log
+blocks,512,3,slot,heat-2x2+heat-1x1,home-wifi-nov,0.263336005,0.006688535,0.256641371,ok,,part4/legacy,part4/results/blocks_N512_P3_slot_5lEUIz/run_1.log
+blocks,512,3,slot,heat-2x2+heat-1x1,home-wifi-nov,1.362855707,0.006010026,1.358428437,ok,,part4/legacy,part4/results/blocks_N512_P3_slot_5lEUIz/run_2.log
+blocks,512,3,slot,heat-2x2+heat-1x1,home-wifi-nov,0.193977996,0.004451816,0.189610099,ok,,part4/legacy,part4/results/blocks_N512_P3_slot_5lEUIz/run_3.log
+blocks,512,4,slot,heat-2x2+heat-1x2,home-wifi-nov,3.875977834,0.002782605,3.873473285,ok,,part4/legacy,part4/results/blocks_N512_P4_slot_iFsHWO/run_1.log
+blocks,512,4,slot,heat-2x2+heat-1x2,home-wifi-nov,0.242469594,0.003895343,0.239329723,ok,,part4/legacy,part4/results/blocks_N512_P4_slot_iFsHWO/run_2.log
+blocks,512,4,slot,heat-2x2+heat-1x2,home-wifi-nov,1.11768007,0.00519343,1.114324418,ok,,part4/legacy,part4/results/blocks_N512_P4_slot_iFsHWO/run_3.log
+blocks,512,5,slot,heat-2x2+heat-1x2+heat-3x1,home-wifi-nov,0.615465294,0.003108179,0.61235327,ok,,part4/legacy,part4/results/blocks_N512_P5_slot_CHlIC2/run_1.log
+blocks,512,5,slot,heat-2x2+heat-1x2+heat-3x1,home-wifi-nov,1.989417784,0.006859486,1.982552326,ok,,part4/legacy,part4/results/blocks_N512_P5_slot_CHlIC2/run_2.log
+blocks,512,5,slot,heat-2x2+heat-1x2+heat-3x1,home-wifi-nov,0.248021664,0.003901519,0.246286861,ok,,part4/legacy,part4/results/blocks_N512_P5_slot_retry_ywL9dV/run_3.log
+blocks,724,2,slot,heat-2x2,home-wifi-nov,0.008274376,0.007100658,0.001364117,ok,,part4/legacy,part4/results/blocks_N724_P2_slot_eu64fj/run_1.log
+blocks,724,2,slot,heat-2x2,home-wifi-nov,0.008803958,0.007891398,0.00132517,ok,,part4/legacy,part4/results/blocks_N724_P2_slot_eu64fj/run_2.log
+blocks,724,2,slot,heat-2x2,home-wifi-nov,0.008710041,0.008148446,0.000822522,ok,,part4/legacy,part4/results/blocks_N724_P2_slot_eu64fj/run_3.log
+blocks,8192,1,slot,heat-2x1,home-wifi-nov,1.463283917,1.463268262,9.71800000023e-06,ok,,part4/legacy,part4/results/blocks_N8192_P1_slot_uq4Zed/run_1.log
+blocks,8192,1,slot,heat-2x1,home-wifi-nov,1.761028445,1.761011113,1.00909999999e-05,ok,,part4/legacy,part4/results/blocks_N8192_P1_slot_uq4Zed/run_2.log
+blocks,8192,1,slot,heat-2x1,home-wifi-nov,1.866839926,1.866818653,1.51529999996e-05,ok,,part4/legacy,part4/results/blocks_N8192_P1_slot_uq4Zed/run_3.log
+blocks,8192,2,slot,heat-2x2,home-wifi-nov,1.17260229,1.170002931,0.026133725,ok,,part4/legacy,part4/results/blocks_N8192_P2_slot_EDp4AR/run_1.log
+blocks,8192,2,slot,heat-2x2,home-wifi-nov,1.304911457,1.302688051,0.040045251,ok,,part4/legacy,part4/results/blocks_N8192_P2_slot_EDp4AR/run_2.log
+blocks,8192,2,slot,heat-2x2,home-wifi-nov,1.548849343,1.524079081,0.04791396,ok,,part4/legacy,part4/results/blocks_N8192_P2_slot_EDp4AR/run_3.log
+strips,2048,1,slot,heat-2x1,home-wifi-nov,0.097001251,0.096989241,7.91799999997e-06,ok,,part4/legacy,part4/results/strips_N2048_P1_slot_kIqfnA/run_1.log
+strips,2048,1,slot,heat-2x1,home-wifi-nov,0.121538404,0.121526189,5.52299999999e-06,ok,,part4/legacy,part4/results/strips_N2048_P1_slot_kIqfnA/run_2.log
+strips,2048,1,slot,heat-2x1,home-wifi-nov,0.100653896,0.100642694,6.88899999999e-06,ok,,part4/legacy,part4/results/strips_N2048_P1_slot_kIqfnA/run_3.log
+strips,2048,2,slot,heat-2x2,home-wifi-nov,0.067718878,0.06657274,0.002574586,ok,,part4/legacy,part4/results/strips_N2048_P2_slot_r0msGH/run_1.log
+strips,2048,2,slot,heat-2x2,home-wifi-nov,0.072843599,0.07102756,0.00345553,ok,,part4/legacy,part4/results/strips_N2048_P2_slot_r0msGH/run_2.log
+strips,2048,2,slot,heat-2x2,home-wifi-nov,0.066086904,0.064418768,0.001920072,ok,,part4/legacy,part4/results/strips_N2048_P2_slot_r0msGH/run_3.log
+strips,2048,3,slot,heat-2x2+heat-1x1,home-wifi-nov,3.142626698,0.04429888,3.098321846,ok,,part4/legacy,part4/results/strips_N2048_P3_slot_JLuNDe/run_1.log
+strips,2048,3,slot,heat-2x2+heat-1x1,home-wifi-nov,0.997507332,0.036393213,0.961107749,ok,,part4/legacy,part4/results/strips_N2048_P3_slot_JLuNDe/run_2.log
+strips,2048,3,slot,heat-2x2+heat-1x1,home-wifi-nov,6.121263476,0.04468957,6.076566859,ok,,part4/legacy,part4/results/strips_N2048_P3_slot_JLuNDe/run_3.log
+strips,512,1,slot,heat-2x1,home-wifi-nov,0.006149141,0.00614535,2.464e-06,ok,,part4/legacy,part4/results/strips_N512_P1_slot_zcrRLQ/run_1.log
+strips,512,1,slot,heat-2x1,home-wifi-nov,0.010100198,0.01008854,6.689e-06,ok,,part4/legacy,part4/results/strips_N512_P1_slot_zcrRLQ/run_2.log
+strips,512,1,slot,heat-2x1,home-wifi-nov,0.004324243,0.004320604,1.759e-06,ok,,part4/legacy,part4/results/strips_N512_P1_slot_zcrRLQ/run_3.log
+strips,512,2,slot,heat-2x2,home-wifi-nov,0.003714256,0.003280872,0.000467675,ok,,part4/legacy,part4/results/strips_N512_P2_slot_9bmcE9/run_1.log
+strips,512,2,slot,heat-2x2,home-wifi-nov,0.006977178,0.00620675,0.001023125,ok,,part4/legacy,part4/results/strips_N512_P2_slot_9bmcE9/run_2.log
+strips,512,2,slot,heat-2x2,home-wifi-nov,0.00453295,0.003927042,0.000846898,ok,,part4/legacy,part4/results/strips_N512_P2_slot_9bmcE9/run_3.log
+strips,512,3,slot,heat-2x2+heat-1x1,home-wifi-nov,0.166081837,0.0027037,0.163905837,ok,,part4/legacy,part4/results/strips_N512_P3_slot_YaS2sR/run_1.log
+strips,512,3,slot,heat-2x2+heat-1x1,home-wifi-nov,0.155702437,0.004091156,0.151606737,ok,,part4/legacy,part4/results/strips_N512_P3_slot_YaS2sR/run_2.log
+strips,512,3,slot,heat-2x2+heat-1x1,home-wifi-nov,3.943010194,0.006874422,3.936127589,ok,,part4/legacy,part4/results/strips_N512_P3_slot_YaS2sR/run_3.log
+strips,512,4,slot,heat-2x2+heat-1x2,home-wifi-nov,0.198549541,0.005655944,0.195029634,ok,,part4/legacy,part4/results/strips_N512_P4_slot_d5HkEv/run_1.log
+strips,512,4,slot,heat-2x2+heat-1x2,home-wifi-nov,2.965642467,0.001642634,2.96401245,ok,,part4/legacy,part4/results/strips_N512_P4_slot_d5HkEv/run_2.log
+strips,512,4,slot,heat-2x2+heat-1x2,home-wifi-nov,2.910899779,0.003366698,2.907528241,ok,,part4/legacy,part4/results/strips_N512_P4_slot_d5HkEv/run_3.log
+strips,512,4,slot,heat-2x2+heat-1x2,home-wifi-nov,4.973138211,0.003984628,4.970854026,ok,,part4/legacy,part4/results/strips_N512_P4_slot_VuC7Lm/run_1.log
+strips,512,5,slot,heat-2x2+heat-1x2+heat-3x1,home-wifi-nov,0.35145509,0.002230303,0.349219004,ok,,part4/legacy,part4/results/strips_N512_P5_slot_HGIoRL/run_1.log
+strips,512,5,slot,heat-2x2+heat-1x2+heat-3x1,home-wifi-nov,0.775917878,0.003928229,0.774089362,ok,,part4/legacy,part4/results/strips_N512_P5_slot_HGIoRL/run_2.log
+strips,512,5,slot,heat-2x2+heat-1x2+heat-3x1,home-wifi-nov,3.958566629,0.002903864,3.955657035,ok,,part4/legacy,part4/results/strips_N512_P5_slot_HGIoRL/run_3.log
+strips,512,6,slot,heat-2x2+heat-1x2+heat-3x2,home-wifi-nov,0.993814839,0.002457838,0.992607926,ok,,part4/legacy,part4/results/strips_N512_P6_slot_M3q5TW/run_1.log
+strips,724,2,slot,heat-2x2,home-wifi-nov,0.00777728,0.007430163,0.000711075,ok,,part4/legacy,part4/results/strips_N724_P2_slot_eJfDB9/run_1.log
+strips,724,2,slot,heat-2x2,home-wifi-nov,0.008094435,0.007701876,0.001000768,ok,,part4/legacy,part4/results/strips_N724_P2_slot_eJfDB9/run_2.log
+strips,724,2,slot,heat-2x2,home-wifi-nov,0.006968139,0.006675332,0.000546967,ok,,part4/legacy,part4/results/strips_N724_P2_slot_eJfDB9/run_3.log
+strips,8192,1,slot,heat-2x1,home-wifi-nov,2.537271233,2.537254925,9.03399999976e-06,ok,,part4/legacy,part4/results/strips_N8192_P1_slot_dpTA2a/run_1.log
+strips,8192,1,slot,heat-2x1,home-wifi-nov,2.946993576,2.946978841,9.37100000033e-06,ok,,part4/legacy,part4/results/strips_N8192_P1_slot_dpTA2a/run_2.log
+strips,8192,1,slot,heat-2x1,home-wifi-nov,1.630436436,1.630422709,8.95199999997e-06,ok,,part4/legacy,part4/results/strips_N8192_P1_slot_dpTA2a/run_3.log
+strips,8192,1,slot,heat-2x1,home-wifi-nov,1.750057482,1.750041569,8.56199999987e-06,excluded,accidental second P=1 batch; kept as variability evidence,part4/legacy,part4/results/strips_N8192_P1_slot_k7F1nW/run_1.log
+strips,8192,1,slot,heat-2x1,home-wifi-nov,2.348281306,2.348253309,2.02439999996e-05,excluded,accidental second P=1 batch; kept as variability evidence,part4/legacy,part4/results/strips_N8192_P1_slot_k7F1nW/run_2.log
+strips,8192,1,slot,heat-2x1,home-wifi-nov,1.768131437,1.768116498,9.05599999987e-06,excluded,accidental second P=1 batch; kept as variability evidence,part4/legacy,part4/results/strips_N8192_P1_slot_k7F1nW/run_3.log
+strips,8192,2,slot,heat-2x2,home-wifi-nov,1.279224662,1.269022594,0.026246798,ok,,part4/legacy,part4/results/strips_N8192_P2_slot_iTLXTd/run_1.log
+strips,8192,2,slot,heat-2x2,home-wifi-nov,1.417479601,1.390090634,0.098229004,ok,,part4/legacy,part4/results/strips_N8192_P2_slot_iTLXTd/run_2.log
+strips,8192,2,slot,heat-2x2,home-wifi-nov,7.124047293,7.017570771,0.30326954,ok,,part4/legacy,part4/results/strips_N8192_P2_slot_iTLXTd/run_3.log

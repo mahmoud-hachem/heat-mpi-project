@@ -1,0 +1,30 @@
+nohup: ignoring input
+[2026-11-28 12:34:53] Campaign start: queue=/home/mpi/part4/benchmarks/queues/part3_P4_ali.txt hostfile=/home/mpi/part4/hosts_amer outdir=results/campaign_P4_amer repeats=3 btl=tcp,self
+[2026-11-28 12:34:53] Preflight: checking SSH to 100.98.24.109 100.113.165.26
+[2026-11-28 12:34:59] Preflight: mpirun hostname on 4 slots
+[2026-11-28 12:35:01] Preflight OK
+[2026-11-28 12:35:01] RUN rep=1 strips N=512 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 12:35:05] OK   decomp=strips P=4 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.378766218 t_comp=0.005393715 t_comm=0.374986922  (wall 4s)
+[2026-11-28 12:35:05] RUN rep=1 blocks N=512 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 12:35:14] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=4.513478026 t_comp=0.005711435 t_comm=4.507764068  (wall 8s)
+[2026-11-28 12:35:14] RUN rep=1 strips N=2048 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 12:35:26] OK   decomp=strips P=4 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=7.688431267 t_comp=0.08227104 t_comm=7.607350973  (wall 12s)
+[2026-11-28 12:35:26] RUN rep=1 blocks N=2048 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 12:35:37] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=5.964391567 t_comp=0.095917513 t_comm=5.925594674  (wall 11s)
+[2026-11-28 12:35:37] RUN rep=1 strips N=8192 P=4 map=slot attempt=1 timeout=420s
+[2026-11-28 12:36:07] OK   decomp=strips P=4 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=25.519910891 t_comp=1.815298976 t_comm=24.229011492  (wall 30s)
+[2026-11-28 12:36:07] RUN rep=1 blocks N=8192 P=4 map=slot attempt=1 timeout=420s
+[2026-11-28 12:36:28] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=14.346977629 t_comp=1.031794212 t_comm=13.372527269  (wall 21s)
+[2026-11-28 12:36:28] RUN rep=2 strips N=512 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 12:36:32] OK   decomp=strips P=4 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=1.038282768 t_comp=0.006264947 t_comm=1.032009212  (wall 4s)
+[2026-11-28 12:36:32] RUN rep=2 blocks N=512 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 12:36:39] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=1.651829527 t_comp=0.013142669 t_comm=1.643474432  (wall 7s)
+[2026-11-28 12:36:39] RUN rep=2 strips N=2048 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 12:36:49] OK   decomp=strips P=4 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=7.616560876 t_comp=0.069728511 t_comm=7.546817469  (wall 10s)
+[2026-11-28 12:36:49] RUN rep=2 blocks N=2048 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 12:36:59] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=3.801369475 t_comp=0.079077639 t_comm=3.745780206  (wall 10s)
+[2026-11-28 12:36:59] RUN rep=2 strips N=8192 P=4 map=slot attempt=1 timeout=420s
+[2026-11-28 12:42:28] FAIL exit=205 after 328s -> results/campaign_P4_amer/strips_N8192_P4_slot/attempt_xZJKJI.failed.log
+[2026-11-28 12:42:34] RUN rep=2 strips N=8192 P=4 map=slot attempt=2 timeout=420s
+[2026-11-28 12:43:51] FAIL exit=143 after 77s -> results/campaign_P4_amer/strips_N8192_P4_slot/attempt_VY7QiA.failed.log
+[2026-11-28 12:43:56] RUN rep=2 blocks N=8192 P=4 map=slot attempt=1 timeout=420s

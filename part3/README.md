@@ -109,104 +109,124 @@ These demonstrations use N = 16, P = 4, r = 0.2 and 10 time steps.
 
 ## Prediction: strips or blocks? (Task 8.2)
 
-Computed by `analysis/predict_strips_vs_blocks.py` from the Part 0 network
-measurements (heat-2 ↔ heat-1: ts = 3.511 ms, 1.746 MB/s) and the Part 4
-per-VM compute cost. Output: `results/predictions_strips_vs_blocks.csv`.
+`analysis/predict_strips_vs_blocks.py` computes the prediction for the setup
+that was measured: heat-2 + heat-3 on a phone hotspot with a direct Tailscale
+path. The network figures come from a ping-pong run on that same network
+(`part0/results/raw/heat2_heat3_hotspot.csv`: ts = 6.825 ms, 5.81 MB/s); the
+compute cost per point comes from the Part 4 serial baseline. Output:
+`results/predictions_strips_vs_blocks.csv`.
 
 - **Simple model** (one interior process, every message on the cross-VM link):
   strips Tcomm = 2(ts + (N+1)tw), blocks Tcomm = 4(ts + (N/√P)tw).
 - **Refined model** (slot placement, real block sizes and physical edges,
   same-VM vs cross-VM links, per-VM compute speed; slowest rank per step).
-  P = 4 is heat-2 ×2 + heat-1 ×2; P = 8 is heat-2 ×4 + heat-1 ×4.
+  P = 4 is heat-2 ×2 + heat-3 ×2. P = 8 would be heat-2 ×4 + heat-3 ×4.
 
-| P | N | Simple: strips comm (ms) | Simple: blocks comm (ms) | Refined: strips step (ms) | Refined: blocks step (ms) | Refined predicts |
+| P | N | Simple: strips comm per step (ms) | Simple: blocks comm per step (ms) | Simple predicts | Refined: strips, 10 steps (s) | Refined: blocks, 10 steps (s) | Refined predicts |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 4 | 512 | 15.1 | 28.7 | strips | 0.152 | 0.145 | blocks |
+| 4 | 2048 | 19.3 | 32.9 | strips | 0.222 | 0.194 | blocks |
+| 4 | 8192 | 36.2 | 49.9 | strips | 0.868 | 0.755 | blocks |
+| 8 | 512 | 15.1 | 28.3 | strips | 0.151 | 0.144 | blocks |
+| 8 | 2048 | 19.3 | 31.3 | strips | 0.207 | 0.179 | blocks |
+| 8 | 8192 | 36.2 | 43.3 | strips | 0.615 | 0.502 | blocks |
+
+The two models disagree because of the network. With ts ≈ 7 ms, latency
+dominates. The simple model counts four messages per step for blocks against
+two for strips, so it favours strips at every size. The refined model accounts
+for placement. In the 2×2 grid only the up/down exchange crosses between the
+VMs, and it carries N/2 values; the left/right exchange stays inside a VM. With
+strips, the one cross-VM message carries a full row of N+1 values. So blocks
+send half as much data over the slow link, and the refined model favours blocks
+everywhere, by more as N grows.
+
+## Performance comparison (measured)
+
+Final measurements, 28 November 2026: heat-2 + heat-3 on a phone hotspot, direct
+Tailscale path (`tailscale ping` showed `via 172.20.10.x:41641`, 12–24 ms).
+Case 2, r = 0.24, 10 time steps, P = 4 with two ranks per VM (slot placement),
+TCP only (`btl tcp,self`), no oversubscription, 3 repetitions each, all
+18 runs successful. Raw logs: `results/campaign_P4_hotspot/`.
+
+| N | Strips median (s) | Blocks median (s) | Strips / blocks | Refined model: strips / blocks (s) | Measured / model | Measured faster |
 | --- | --- | --- | --- | --- | --- | --- |
-| 4 | 512 | 11.7 | 18.7 | 11.9 | 9.5 | blocks |
-| 4 | 2048 | 25.8 | 32.8 | 28.7 | 19.3 | blocks |
-| 4 | 8192 | 82.1 | 89.1 | 132.7 | 95.2 | blocks |
-| 8 | 512 | 11.7 | 17.4 | 11.8 | 9.5 | blocks |
-| 8 | 2048 | 25.8 | 27.3 | 27.2 | 17.9 | blocks |
-| 8 | 8192 | 82.1 | 67.1 | 107.4 | 69.9 | blocks |
+| 512 | 0.191 (0.178–0.245) | 0.177 (0.174–0.189) | 1.08 | 0.152 / 0.145 | 1.26 / 1.22 | blocks |
+| 2048 | 0.266 (0.245–0.310) | 0.235 (0.229–0.345) | 1.13 | 0.222 / 0.194 | 1.20 / 1.21 | blocks |
+| 8192 | 1.643 (1.043–3.548) | 1.111 (0.985–1.320) | 1.48 | 0.868 / 0.755 | 1.89 / 1.47 | blocks |
 
-The two models disagree, and the reason is the network. With ts ≈ 3.5 ms,
-latency dominates. The simple model counts four messages per step for blocks
-against two for strips, so it favours strips except at P = 8, N = 8192, where
-the shorter block edges finally win. The refined model accounts for placement.
-In the 2×2 grid only the up/down exchange crosses between the VMs, and it
-carries N/2 values. The left/right exchange stays inside a VM. With strips,
-the one cross-VM message carries a full row of N+1 values. Blocks send half as
-much data over the slow link, so the refined model favours blocks everywhere.
+![Part 3 result](../part4/plots/part3_strips_vs_blocks_P4.png)
 
-## Performance comparison
+- **Blocks were faster at every grid size, and the gap grows with N** (1.08×,
+  1.13×, 1.48×). That matches the refined model, not the simple one.
+- **The refined model is accurate on this network.** Measured medians are within
+  1.2–1.3× of the prediction for N = 512 and 2048, and within 1.5–1.9× at
+  N = 8192. There, one slow strips repetition (3.5 s) widens the spread.
+- Communication took 72–97 % of the time: about 97 % at N = 512 and 72–83 % at
+  N = 8192.
 
-The performance experiments compare the 1D strip and 2D block implementations.
+### Earlier measurements on other networks
 
-Experimental configuration:
+The same configurations were also run on two other networks. These results are
+kept, but never pooled with the hotspot data:
 
-- Two Ubuntu VMs connected through Tailscale: heat-2 and heat-3, two ranks each (slot placement).
-- Four MPI processes.
-- Case 2.
-- r = 0.24.
-- 10 time steps.
-- Three repetitions per method and grid size.
+| Network | Pair | N | Strips median (s) | Blocks median (s) | Runs |
+| --- | --- | --- | --- | --- | --- |
+| Home Wi-Fi, November (`results/final_benchmarks/`) | heat-2 + heat-3 | 512 | 3.382 | 2.040 | 3 + 3 |
+| Home Wi-Fi, November | heat-2 + heat-3 | 2048 | 6.964 | 4.419 | 3 + 3 |
+| Coffee shop, 28 Nov (`results/campaign_P4_amer/`) | heat-2 + heat-3 | 512 / 2048 / 8192 | 0.709 / 7.652 / 25.520 | 3.083 / 4.883 / 14.347 | 2 / 2 / 1 each |
 
-### Median execution times
+![P=4 on each network](../part4/plots/part3_networks_P4.png)
 
-| Grid size | Processes | 1D Strips (s) | 2D Blocks (s) | Strips/Blocks ratio |
-| --- | --- | --- | --- | --- |
-| 512 | 4 | 3.3820 | 2.0395 | 1.66 |
-| 2048 | 4 | 6.9643 | 4.4194 | 1.58 |
-| 8192 | 4 | Not completed | Not completed | N/A |
-
-The 2D block decomposition achieved lower median execution times for both completed grid sizes.
-
-Communication dominated the execution time because the processes communicated across the Tailscale network.
-
-The measured ordering (blocks faster) agrees with the refined model and not with
-the simple one. The measured medians are 16–32 times larger than the refined model predicts
-for this heat-2 + heat-3 placement (`part4/results/consolidated/model_vs_measured.csv`):
-the model assumes the Part 0 ping-pong figures hold for every message, while the
-runs saw Wi-Fi jitter, TCP retransmissions and synchronisation waits between
-ranks. Individual repetitions varied by up to a factor of 4.6.
+Blocks were also faster in both November configurations. However, the November
+times were 16–32× above the model, compared with 1.2–1.9× on the hotspot, so
+that network performed far below what its ping-pong measurement suggested. On the
+coffee shop network, `tailscale status` showed the heat-3 connection
+`relay "par"`. Traffic between the two VMs went through Tailscale's relay in
+Paris, because the café Wi-Fi used symmetric NAT (`tailscale netcheck`:
+`MappingVariesByDestIP: true`, nearest relay London at 71 ms). Measured
+throughput fell to 10–220 KB/s. Two N=8192 runs hung, and heat-3 then stopped
+answering SSH altogether. A diagnostic run (`part4/results/diagnostics_*`)
+confirmed the cause. On the hotspot, the same N=8192 run took 1.1–1.2 s
+whether the ranks used one or two vCPUs per VM. So CPU contention is not a
+factor; the network path is.
 
 ## Benchmark execution
 
-The remaining measurements use the resumable runner from Part 4. It skips
-finished repetitions, keeps failed attempts as `*.failed.log`, and re-checks the
-cluster after repeated failures:
+The measurements use the resumable runner from Part 4. It skips finished
+repetitions, keeps failed attempts as `*.failed.log`, and re-checks the cluster
+after repeated failures:
 
 ```bash
 cd ~/part3
-bash benchmarks/finish_part3.sh               # P=4 on heat-2 + heat-1, N = 512, 2048, 8192
-bash benchmarks/finish_part3.sh p8 HOSTFILE   # P=8, only with 8 real vCPUs
+bash ~/part4/benchmarks/run_campaign.sh ~/part4/benchmarks/queues/part3_P4.txt \
+  ~/part4/hosts_amer results/campaign_P4_hotspot 3        # what produced the table above
+bash benchmarks/finish_part3.sh p8 HOSTFILE              # P=8, only with 8 real vCPUs
 ```
 
-Results go to `results/campaign_P4_ali/` and `results/campaign_P8/`. The
-earlier scripts (`compare_2vm.sh`, `compare_large_ali.sh`) are kept because they
-produced the logs in `final_benchmarks/` and the failed N=8192 attempts.
-
-The Part 2 strip solver must also be compiled and available on the participating machines. The benchmark scripts assume the project directories are located under the MPI user's home directory.
-
-The raw logs of the 12 successful benchmark runs are available in `results/final_benchmarks/`.
+Check that the path is direct before benchmarking:
+`tailscale ping <peer>` must answer `via <local IP>:41641`, not `via DERP`.
+The earlier scripts (`compare_2vm.sh`, `compare_large_ali.sh`) are kept because
+they produced `final_benchmarks/` and the failed N=8192 attempts.
 
 ## Experimental limitations
 
-The first N = 8192 attempts (`results/benchmark_full_*`) all produced empty
-logs. The cause was found in the strips solver, not the network. `heat_strips`
-always gathered the full grid to rank 0, even without `--out`, and printed its
-summary only afterwards. At N = 8192, P = 4, the two remote ranks had to send
-about 268 MB over a link measured at about 1.75 MB/s. That takes about 150 s,
-longer than the 120 s timeout, so each run was killed after the time steps but
-before printing. The old script stopped at the first failure, so blocks
-N = 8192 was never started. `heat_strips` now gathers only for `--out` or
-Case V, as `heat_blocks` already did. The timed loop is unchanged, so earlier
-strips timings remain valid. The failed logs are kept as evidence.
-
-Experimental performance measurements with P = 8 were not performed because the three available VMs provided only six virtual CPUs in total.
-
-Oversubscription was avoided during performance experiments.
-
-The theoretical analysis includes the missing configurations, but no experimental results are claimed for them.
+- **Why the first N=8192 attempts failed** (`results/benchmark_full_*`, all
+  empty logs). `heat_strips` always gathered the full grid to rank 0, even
+  without `--out`, and printed its summary only afterwards. At N = 8192 the two
+  remote ranks had to send about 268 MB at about 1.75 MB/s. That takes about
+  150 s, longer than the 120 s timeout, so each run was killed after the time
+  steps but before printing. The old script then stopped, so blocks N = 8192 was
+  never started. `heat_strips` now gathers only for `--out` or Case V, as
+  `heat_blocks` already did. The timed loop is unchanged, so earlier strips
+  timings remain valid. After the change, 36/36 strips and 72/72 blocks
+  correctness tests still pass.
+- **P = 8 was predicted but not measured.** It needs 8 vCPUs; the VMs have
+  2 each (6 in total).
+- **Only 10 time steps** per run, to keep runs short on an unreliable network.
+  Per-run fixed costs therefore weigh more than they would with 500 steps.
+- **heat-3 is faster than heat-2** (Part 4 serial baseline: 0.72 s vs 2.02 s at
+  N = 8192). The slowest rank sets the pace, so heat-2 limits every distributed
+  run.
 
 ## Project structure
 
@@ -219,7 +239,9 @@ part3/
 ├── tests/
 ├── benchmarks/
 ├── results/
-│   ├── final_benchmarks/
+│   ├── campaign_P4_hotspot/      final P=4 measurements (hotspot)
+│   ├── campaign_P4_amer/         coffee shop runs (relayed path, incomplete)
+│   ├── final_benchmarks/         November runs
 │   ├── demo_blocks_case1.png
 │   ├── demo_blocks_case2.png
 │   ├── demo_blocks_caseV.png
@@ -233,6 +255,12 @@ part3/
 
 ## Conclusion
 
-The MPI 2D block implementation successfully reproduces the serial reference solution for the tested configurations.
-
-The completed performance experiments demonstrate the potential advantage of 2D block decomposition over 1D strips, while highlighting the impact of network latency and connectivity on distributed performance.
+The MPI 2D block implementation reproduces the serial result bit for bit
+(72/72 tests, plus distributed runs). On a direct network path, blocks beat
+strips at P = 4 for N = 512, 2048 and 8192, by 1.08×, 1.13× and 1.48×. The
+refined model predicts this; the simple interior-process model, which ignores
+placement, predicts the opposite. The model also predicts the absolute times
+within a factor of 1.2–1.9. The measurements on relayed and degraded networks
+show that the network path matters more than the decomposition: through the
+Paris relay, the same runs were 4–29× slower (13–29× for every configuration
+except strips at N = 512).

@@ -1,0 +1,5 @@
+nohup: ignoring input
+[2026-11-28 12:49:45] Campaign start: queue=/home/mpi/part4/benchmarks/queues/part3_P4_ali.txt hostfile=/home/mpi/part4/hosts_ali outdir=results/campaign_P4_ali repeats=3 btl=tcp,self
+[2026-11-28 12:49:45] Preflight: checking SSH to 100.98.24.109 100.100.125.10
+[2026-11-28 12:49:50] PREFLIGHT FAIL: SSH to 100.100.125.10
+[2026-11-28 12:49:50] STOP: cluster not ready

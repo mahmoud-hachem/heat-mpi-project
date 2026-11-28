@@ -1,7 +1,7 @@
-P,N,simple_strips_comm_ms,simple_blocks_comm_ms,refined_strips_step_ms,refined_blocks_step_ms,predicted_faster
-4,512,11.724,18.737,11.862,9.525,blocks
-4,2048,25.801,32.814,28.679,19.308,blocks
-4,8192,82.111,89.124,132.691,95.182,blocks
-8,512,11.724,17.362,11.793,9.455,blocks
-8,2048,25.801,27.317,27.24,17.866,blocks
-8,8192,82.111,67.133,107.401,69.881,blocks
+P,N,simple_strips_comm_ms,simple_blocks_comm_ms,refined_strips_10steps_s,refined_blocks_10steps_s,simple_predicts,refined_predicts,measured_strips_s,measured_blocks_s,measured_faster
+4,512,15.06,28.71,0.152,0.145,strips,blocks,0.191,0.177,blocks
+4,2048,19.29,32.94,0.222,0.194,strips,blocks,0.266,0.235,blocks
+4,8192,36.2,49.85,0.868,0.755,strips,blocks,1.643,1.111,blocks
+8,512,15.06,28.3,0.151,0.144,strips,blocks,,,
+8,2048,19.29,31.29,0.207,0.179,strips,blocks,,,
+8,8192,36.2,43.25,0.615,0.502,strips,blocks,,,

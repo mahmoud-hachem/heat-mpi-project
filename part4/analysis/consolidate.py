@@ -52,6 +52,13 @@ HOSTFILES = {
     "hosts_amer": [("heat-2", 2), ("heat-3", 2)],
     "hosts_local": [("heat-2", 2)],
 }
+# The network the runs were made on. Runs on different networks are never
+# pooled: the same machine pair behaves very differently on each.
+HOME = "home-wifi-nov"        # November runs, direct Tailscale paths
+CAFE = "cafe-relay-28nov"     # 28 Nov coffee shop: relayed via DERP, ended in hangs
+HOTSPOT = "hotspot-28nov"     # 28 Nov phone hotspot: direct paths
+CAMPAIGN_NETWORK = {"campaign_P4_amer": CAFE, "campaign_P4_hotspot": HOTSPOT}
+
 WEAK_N = {1: 512, 2: 724, 3: 886, 4: 1023, 5: 1144, 6: 1253}
 STRONG_N = (512, 2048, 8192)
 
@@ -194,6 +201,20 @@ def classify(path):
     return None
 
 
+def network_for(path):
+    """Network label of a log: meta.txt 'network=' if recorded, else known
+    campaign names, else the November home network."""
+    for p in path.relative_to(ROOT).parts:
+        if p.startswith("campaign_"):
+            meta = path.parent / "meta.txt"
+            if meta.exists():
+                for line in meta.read_text(errors="replace").splitlines():
+                    if line.startswith("network=") and line[8:].strip():
+                        return line[8:].strip()
+            return CAMPAIGN_NETWORK.get(p, "unknown")
+    return HOME
+
+
 def scan():
     runs, failures = [], []
     files = sorted(list(P3.rglob("*.log")) + list(P4.rglob("*.log"))
@@ -225,8 +246,8 @@ def scan():
             "steps": int(f.get("steps", -1)),
             "t_total": float(f["t_total"]), "t_comp": float(f["t_comp"]),
             "t_comm": float(f["t_comm"]),
-            "map": mapping or "", "placement": "", "status": status,
-            "reason": reason,
+            "map": mapping or "", "placement": "", "network": network_for(path),
+            "status": status, "reason": reason,
         }
         if hosts:
             ranks = place_ranks(hosts, run["P"], mapping or "slot")
@@ -258,14 +279,15 @@ def summarize(runs):
     groups = defaultdict(list)
     for r in runs:
         if r["status"] == "ok":
-            groups[(r["method"], r["N"], r["P"], r["map"], r["placement"])].append(r)
+            groups[(r["method"], r["N"], r["P"], r["map"], r["placement"],
+                    r["network"])].append(r)
     rows = []
-    for (method, N, P, mp, pl), rs in sorted(groups.items()):
+    for (method, N, P, mp, pl, nw), rs in sorted(groups.items()):
         tt = [r["t_total"] for r in rs]
         share = [100 * r["t_comm"] / r["t_total"] for r in rs if r["t_total"] > 0]
         rows.append({
             "method": method, "N": N, "P": P, "map": mp, "placement": pl,
-            "n_runs": len(rs),
+            "network": nw, "n_runs": len(rs),
             "median_t_total": statistics.median(tt),
             "min_t_total": min(tt), "max_t_total": max(tt),
             "median_t_comp": statistics.median(r["t_comp"] for r in rs),
@@ -276,10 +298,11 @@ def summarize(runs):
     return rows
 
 
-def lookup(summary, method, N, P, mp, placement=None):
+def lookup(summary, method, N, P, mp, placement=None, network=HOME):
     cands = [s for s in summary if s["method"] == method and s["N"] == N
              and s["P"] == P and s["map"] == mp
-             and (placement is None or s["placement"] == placement)]
+             and (placement is None or s["placement"] == placement)
+             and (network is None or s["network"] == network)]
     if not cands:
         return None
     return max(cands, key=lambda s: s["n_runs"])
@@ -305,6 +328,30 @@ def tc_for(tc, host, N):
     table = tc[host]
     nearest = min(table, key=lambda n: abs(math.log2(n) - math.log2(N)))
     return table[nearest]
+
+
+def fit_pingpong(csv_path):
+    """ts and tw from a ping-pong CSV, same method as part0/scripts/analyze_network.py:
+    ts = median one-way time of messages <= 1 KiB, tw = least squares on >= 1 MiB."""
+    with open(csv_path, newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    m = [int(r["bytes"]) for r in rows]
+    t = [float(r["oneway_ms"]) / 1000 for r in rows]
+    ts = statistics.median(ti for mi, ti in zip(m, t) if mi <= 1024)
+    big = [(mi, ti) for mi, ti in zip(m, t) if mi >= 1048576]
+    tw_byte = sum(mi * (ti - ts) for mi, ti in big) / sum(mi * mi for mi, _ in big)
+    return ts, 8 * tw_byte          # tw per double
+
+
+def load_nets():
+    """Network parameters per network label (None = never measured)."""
+    home = load_net()
+    hotspot = dict(home)
+    raw = ROOT / "part0" / "results" / "raw" / "heat2_heat3_hotspot.csv"
+    if raw.exists():
+        ts, tw = fit_pingpong(raw)
+        hotspot[("heat-2", "heat-3")] = hotspot[("heat-3", "heat-2")] = (ts, tw)
+    return {HOME: home, HOTSPOT: hotspot, CAFE: None}
 
 
 def load_net():
@@ -430,9 +477,10 @@ def main():
     runs, failures = scan()
     summary = summarize(runs)
     tc, net = load_tc(), load_net()
+    nets = load_nets()
 
     write_csv("all_runs.csv", runs, [
-        "method", "N", "P", "map", "placement", "t_total", "t_comp", "t_comm",
+        "method", "N", "P", "map", "placement", "network", "t_total", "t_comp", "t_comm",
         "status", "reason", "source", "file"])
     write_csv("failed_attempts.csv", failures)
     write_csv("summary.csv", summary)
@@ -451,10 +499,13 @@ def main():
                      (p.rsplit("x", 1) for p in s["placement"].split("+"))]
             # Rebuild round-robin order from the label's host order.
             ranks = place_ranks([(h, 2) for h, _ in hosts], s["P"], "node")
-        pt, pc, pm = predict(s["method"], s["N"], ranks, tc, net)
+        nw_params = nets.get(s["network"])
+        if nw_params is None:
+            continue  # no ping-pong measured on this network (relayed cafe path)
+        pt, pc, pm = predict(s["method"], s["N"], ranks, tc, nw_params)
         model_rows.append({
             "method": s["method"], "N": s["N"], "P": s["P"], "map": s["map"],
-            "placement": s["placement"], "n_runs": s["n_runs"],
+            "placement": s["placement"], "network": s["network"], "n_runs": s["n_runs"],
             "measured_median_s": s["median_t_total"], "predicted_s": pt,
             "predicted_comp_s": pc, "predicted_comm_s": pm,
             "measured_over_predicted": s["median_t_total"] / pt if pt else "",
@@ -612,7 +663,7 @@ def draw(summary, strong, weak, model_rows, cross):
 
     # 4. Communication share for every parallel configuration.
     rows = [s for s in summary if s["P"] > 1 and s["median_comm_share_pct"] != ""
-            and s["map"] == "slot"]
+            and s["map"] == "slot" and s["network"] in (HOME, HOTSPOT)]
     rows.sort(key=lambda s: (s["N"], s["P"], s["method"]))
     if rows:
         fig, ax = plt.subplots(figsize=(max(7, 0.38 * len(rows)), 4.2))
@@ -622,6 +673,7 @@ def draw(summary, strong, weak, model_rows, cross):
                linewidth=2)
         ax.set_xticks(list(x))
         ax.set_xticklabels([f"{s['method'][0].upper()} N{s['N']} P{s['P']}\n{s['placement']}"
+                            + (" hotspot" if s["network"] == HOTSPOT else "")
                             for s in rows], rotation=90, fontsize=6.5)
         ax.set_ylim(0, 100)
         style(ax, "Communication share t_comm / t_total (median)", "", "%")
@@ -630,31 +682,56 @@ def draw(summary, strong, weak, model_rows, cross):
                   frameon=False, loc="lower right")
         save(fig, "communication_share.png")
 
-    # 5. Part 3: strips vs blocks at P=4, per machine pair.
+    # 5a. Part 3 main result: hotspot, heat-2 + heat-3, P=4, with the model.
+    PL3 = "heat-2x2+heat-3x2"
+    Ns3 = (512, 2048, 8192)
+    fig, ax = plt.subplots(figsize=(7, 4.2))
+    for k, method in enumerate(("strips", "blocks")):
+        xs, med, lo, hi, pred = [], [], [], [], []
+        for i, N in enumerate(Ns3):
+            s = lookup(summary, method, N, 4, "slot", PL3, HOTSPOT)
+            mr = [r for r in model_rows if r["method"] == method and r["N"] == N
+                  and r["P"] == 4 and r["placement"] == PL3 and r["network"] == HOTSPOT]
+            if s:
+                xs.append(i + (k - 0.5) * 0.38)
+                med.append(s["median_t_total"])
+                lo.append(s["median_t_total"] - s["min_t_total"])
+                hi.append(s["max_t_total"] - s["median_t_total"])
+                pred.append(mr[0]["predicted_s"] if mr else float("nan"))
+        if xs:
+            ax.bar(xs, med, width=0.36, color=COLOR[method], label=f"{method} measured (median)",
+                   yerr=[lo, hi], capsize=3, edgecolor="white", linewidth=2,
+                   error_kw={"ecolor": INK2, "linewidth": 1})
+            ax.scatter(xs, pred, marker="_", s=420, linewidths=2.5, color=INK, zorder=4,
+                       label="model prediction" if k == 0 else None)
+    ax.set_xticks(range(len(Ns3)))
+    ax.set_xticklabels([f"N = {N}" for N in Ns3])
+    style(ax, "Part 3: P = 4 on heat-2 + heat-3, phone hotspot (direct path)",
+          "", "time for 10 steps, s")
+    ax.legend(frameon=False, fontsize=8, loc="upper left")
+    save(fig, "part3_strips_vs_blocks_P4.png")
+
+    # 5b. The same P=4 configurations on each network (log scale, lines).
     p4 = [s for s in summary if s["P"] == 4 and s["map"] == "slot"]
-    pairs = sorted({s["placement"] for s in p4})
-    if p4:
-        fig, axes = plt.subplots(1, len(pairs), figsize=(5.5 * len(pairs), 4),
-                                 squeeze=False)
-        for ax, pl in zip(axes[0], pairs):
-            Ns = sorted({s["N"] for s in p4 if s["placement"] == pl})
-            for k, method in enumerate(("strips", "blocks")):
-                xs, med, lo, hi = [], [], [], []
-                for i, N in enumerate(Ns):
-                    s = lookup(p4, method, N, 4, "slot", pl)
-                    if s:
-                        xs.append(i + (k - 0.5) * 0.36)
-                        med.append(s["median_t_total"])
-                        lo.append(s["median_t_total"] - s["min_t_total"])
-                        hi.append(s["max_t_total"] - s["median_t_total"])
-                ax.bar(xs, med, width=0.34, color=COLOR[method], label=method,
-                       yerr=[lo, hi], capsize=3, edgecolor="white", linewidth=2,
-                       error_kw={"ecolor": INK2, "linewidth": 1})
-            ax.set_xticks(range(len(Ns)))
-            ax.set_xticklabels([f"N={N}" for N in Ns])
-            style(ax, f"P = 4 on {pl}", "", "time for 10 steps, s")
-        axes[0][0].legend(frameon=False)
-        save(fig, "part3_strips_vs_blocks_P4.png")
+    series = sorted({(s["placement"], s["network"]) for s in p4},
+                    key=lambda k: (k[1] != HOTSPOT, k[1], k[0]))
+    dash = {HOTSPOT: "-", HOME: "--", CAFE: ":"}
+    marker = {"heat-2x2+heat-3x2": "o", "heat-2x2+heat-1x2": "s"}
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4), sharey=True)
+    for ax, method in zip(axes, ("strips", "blocks")):
+        for pl, nw in series:
+            pts = sorted((s["N"], s["median_t_total"]) for s in p4
+                         if s["method"] == method and s["placement"] == pl and s["network"] == nw)
+            if pts:
+                ax.plot(*zip(*pts), linestyle=dash.get(nw, "-."), marker=marker.get(pl, "^"),
+                        markersize=7, linewidth=2, color=COLOR[method],
+                        alpha=1.0 if nw == HOTSPOT else 0.6, label=f"{nw}, {pl}")
+        ax.set_xscale("log", base=2)
+        ax.set_yscale("log")
+        style(ax, f"{method}, P = 4: median time on each network", "grid size N",
+              "time for 10 steps, s (log)")
+        ax.legend(frameon=False, fontsize=7)
+    save(fig, "part3_networks_P4.png")
 
     # 6. Model vs measured.
     if model_rows:

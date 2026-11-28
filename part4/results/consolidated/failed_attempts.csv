@@ -8,6 +8,8 @@ part3/results/benchmark_full_Y0Gv7U/strips_N8192_P4_R1.log,part3/benchmark_full,
 part3/results/benchmark_full_YrXjPD/strips_N8192_P4_R1.log,part3/benchmark_full,22,FAILED: Exit code 130
 part3/results/benchmark_pilot_DPp7DP/strips_N512_P4_R1.log,part3/pilot,22,FAILED: Exit code 137
 part3/results/benchmark_pilot_n2LwIK/strips_N512_P4_R1.log,part3/pilot,0,(empty)
+part3/results/campaign_P4_amer/strips_N8192_P4_slot/attempt_VY7QiA.failed.log,part3/campaign_P4_amer,2501,FAILED: exit=143 wall_seconds=77
+part3/results/campaign_P4_amer/strips_N8192_P4_slot/attempt_xZJKJI.failed.log,part3/campaign_P4_amer,2496,FAILED: exit=205 wall_seconds=328
 part3/results/distributed_case2_P4.log,part3/other,0,(empty)
 part4/results/amer_batch/strips_N1023_P4_slot/attempt_cvqSc3,part4/amer_batch,1182, =============================================================
 part4/results/amer_batch/strips_N1023_P4_slot/attempt_cVUy2T,part4/amer_batch,1182, =============================================================
