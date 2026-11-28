@@ -1,0 +1,50 @@
+ Data for JOB [15529,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 2	Num procs: 2
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 0 Bound: UNBOUND
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 1 Bound: UNBOUND
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 2	Num procs: 2
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 2 Bound: N/A
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 3 Bound: N/A
+
+ Data for node: 100.113.165.26	Num slots: 2	Max slots: 2	Num procs: 1
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 4 Bound: N/A
+
+ =============================================================
+ Data for JOB [15529,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 0 Bound: N/A
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 1 Bound: N/A
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 2 Bound: N/A
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 3 Bound: N/A
+
+ Data for node: 100.113.165.26	Num slots: 2	Max slots: 0	Num procs: 1
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 4 Bound: UNBOUND
+
+ =============================================================
+ Data for JOB [15529,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 0 Bound: N/A
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 1 Bound: N/A
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 2 Bound: UNBOUND
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 3 Bound: UNBOUND
+
+ Data for node: 100.113.165.26	Num slots: 2	Max slots: 0	Num procs: 1
+ 	Process OMPI jobid: [15529,1] App: 0 Process rank: 4 Bound: N/A
+
+ =============================================================
+decomp=blocks P=5 Py=5 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.424070487 t_comp=0.542365881 t_comm=2.064906573
+wall_seconds=4

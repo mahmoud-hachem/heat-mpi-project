@@ -22,6 +22,7 @@
 #   STEPS=10 R=0.24 CASE=2 BTL=tcp,self IFACE=tailscale0
 #   MAX_ATTEMPTS=2 STOP_AFTER=4 TIMEOUT=<seconds, default depends on N>
 #   DRY_RUN=1  -> print what would run, run nothing.
+#   NETWORK=hotspot-28nov  -> network label stored in meta.txt for the analysis.
 
 set -uo pipefail
 
@@ -131,6 +132,7 @@ write_meta() {
         echo "steps=$STEPS"
         echo "btl=$BTL"
         echo "iface=$IFACE"
+        echo "network=${NETWORK:-}"
         echo "launch_host=$(hostname)"
         echo "created=$(date '+%F %T %Z')"
         echo "exe=$EXE"

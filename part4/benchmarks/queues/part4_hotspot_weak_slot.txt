@@ -1,0 +1,9 @@
+# Part 4 weak scaling on the hotspot, slot placement, hosts_all. N = 1 + round(511*sqrt(P)).
+strips 886 3 slot
+blocks 886 3 slot
+strips 1023 4 slot
+blocks 1023 4 slot
+strips 1144 5 slot
+blocks 1144 5 slot
+strips 1253 6 slot
+blocks 1253 6 slot

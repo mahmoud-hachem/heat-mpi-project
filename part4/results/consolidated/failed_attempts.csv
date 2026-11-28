@@ -16,6 +16,13 @@ part4/results/amer_batch/strips_N1023_P4_slot/attempt_cVUy2T,part4/amer_batch,11
 part4/results/blocks_N512_P5_slot_CHlIC2/run_3.log,part4/legacy,30,FAILED: Benchmark interrupted
 part4/results/blocks_N512_P6_slot_BXyKAt/run_1.log,part4/legacy,0,(empty)
 part4/results/blocks_N512_P6_slot_i9uYv2/run_1.log,part4/legacy,0,(empty)
+part4/results/campaign_strong_node_hotspot/strips_N2048_P6_node/attempt_ECfgNq,part4/campaign_strong_node_hotspot,2382, =============================================================
+part4/results/campaign_strong_node_hotspot/strips_N2048_P6_node/attempt_qyzoZp.failed.log,part4/campaign_strong_node_hotspot,2416,FAILED: exit=124 wall_seconds=120
+part4/results/campaign_strong_node_hotspot/strips_N2048_P6_node/attempt_YCC8Gu,part4/campaign_strong_node_hotspot,2382, =============================================================
+part4/results/campaign_strong_slot_hotspot/blocks_N8192_P6_slot/attempt_lwxQaG,part4/campaign_strong_slot_hotspot,4111,[heat-2:03365] 1 more process has sent help message help-mpi-btl-tcp.txt / peer hung up
+part4/results/campaign_strong_slot_hotspot/blocks_N8192_P6_slot/attempt_MDqUTV,part4/campaign_strong_slot_hotspot,2361, =============================================================
+part4/results/campaign_strong_slot_hotspot/blocks_N8192_P6_slot/attempt_wyZlMt,part4/campaign_strong_slot_hotspot,3668,--------------------------------------------------------------------------
+part4/results/campaign_strong_slot_hotspot/blocks_N8192_P6_slot/attempt_zkdUux,part4/campaign_strong_slot_hotspot,2382, =============================================================
 part4/results/lan_pilot/strips.log,part4/lan_pilot,0,(empty)
 part4/results/strips_N2048_P1_slot_HLltUD/run_1.log,part4/legacy,102,"[heat-2:03011] plm:rsh: Warning: setpgid(3015,3015) failed in parent with errno=Permission denied(13)"
 part4/results/strips_N2048_P1_slot_w44IZ0/run_1.log,part4/legacy,0,(empty)

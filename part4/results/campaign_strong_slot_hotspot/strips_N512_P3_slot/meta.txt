@@ -1,0 +1,19 @@
+method=strips
+N=512
+P=3
+map=slot
+case=2
+r=0.24
+steps=10
+btl=tcp,self
+iface=tailscale0
+network=hotspot-28nov
+launch_host=heat-2
+created=2026-11-28 14:11:57 UTC
+exe=/home/mpi/part2/heat_strips
+exe_md5=b37eea922f08236707f04c60e05ea637
+hostfile=hosts_all
+--- hostfile contents ---
+100.98.24.109 slots=2 max_slots=2
+100.100.125.10 slots=2 max_slots=2
+100.113.165.26 slots=2 max_slots=2

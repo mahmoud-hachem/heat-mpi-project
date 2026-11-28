@@ -1,0 +1,26 @@
+# Part 4 strong scaling on the 28 Nov hotspot, slot placement, hosts_all.
+# All distributed configurations (P=3..6); P=1,2 run on heat-2 alone and are network-independent.
+strips 512 3 slot
+blocks 512 3 slot
+strips 512 4 slot
+blocks 512 4 slot
+strips 512 5 slot
+blocks 512 5 slot
+strips 512 6 slot
+blocks 512 6 slot
+strips 2048 3 slot
+blocks 2048 3 slot
+strips 2048 4 slot
+blocks 2048 4 slot
+strips 2048 5 slot
+blocks 2048 5 slot
+strips 2048 6 slot
+blocks 2048 6 slot
+strips 8192 3 slot
+blocks 8192 3 slot
+strips 8192 4 slot
+blocks 8192 4 slot
+strips 8192 5 slot
+blocks 8192 5 slot
+strips 8192 6 slot
+blocks 8192 6 slot

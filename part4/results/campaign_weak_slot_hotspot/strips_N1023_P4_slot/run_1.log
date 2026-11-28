@@ -1,0 +1,41 @@
+ Data for JOB [14354,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 2	Num procs: 2
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 0 Bound: UNBOUND
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 1 Bound: UNBOUND
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 2	Num procs: 2
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 2 Bound: N/A
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 3 Bound: N/A
+
+ =============================================================
+ Data for JOB [14354,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 0 Bound: N/A
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 1 Bound: N/A
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 2 Bound: N/A
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 3 Bound: N/A
+
+ =============================================================
+ Data for JOB [14354,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 0 Bound: N/A
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 1 Bound: N/A
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 2 Bound: UNBOUND
+ 	Process OMPI jobid: [14354,1] App: 0 Process rank: 3 Bound: UNBOUND
+
+ =============================================================
+decomp=strips P=4 case=2 N=1023 r=0.24 steps=10 T=2.29329526463e-06 t_total=0.258368173 t_comp=0.016748391 t_comm=0.247562505
+wall_seconds=2

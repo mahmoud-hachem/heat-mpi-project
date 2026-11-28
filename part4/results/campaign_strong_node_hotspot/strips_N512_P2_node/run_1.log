@@ -1,0 +1,35 @@
+ Data for JOB [13581,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 2	Num procs: 1
+ 	Process OMPI jobid: [13581,1] App: 0 Process rank: 0 Bound: socket 0[core 0[hwt 0]]:[B/.]
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 2	Num procs: 1
+ 	Process OMPI jobid: [13581,1] App: 0 Process rank: 1 Bound: N/A
+
+ =============================================================
+ Data for JOB [13581,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 0	Num procs: 1
+ 	Process OMPI jobid: [13581,1] App: 0 Process rank: 0 Bound: N/A
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 0	Num procs: 1
+ 	Process OMPI jobid: [13581,1] App: 0 Process rank: 1 Bound: N/A
+
+ =============================================================
+ Data for JOB [13581,1] offset 0 Total slots allocated 6
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 0	Num procs: 1
+ 	Process OMPI jobid: [13581,1] App: 0 Process rank: 0 Bound: N/A
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 0	Num procs: 1
+ 	Process OMPI jobid: [13581,1] App: 0 Process rank: 1 Bound: socket 0[core 0[hwt 0]]:[B/.]
+
+ =============================================================
+decomp=strips P=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.151111316 t_comp=0.004630055 t_comm=0.146476536
+wall_seconds=2

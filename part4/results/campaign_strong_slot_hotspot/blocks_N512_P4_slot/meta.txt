@@ -1,0 +1,19 @@
+method=blocks
+N=512
+P=4
+map=slot
+case=2
+r=0.24
+steps=10
+btl=tcp,self
+iface=tailscale0
+network=hotspot-28nov
+launch_host=heat-2
+created=2026-11-28 14:12:38 UTC
+exe=/home/mpi/part3/heat_blocks
+exe_md5=5e3e49e8bfba6b82e698ae6579ad6a26
+hostfile=hosts_all
+--- hostfile contents ---
+100.98.24.109 slots=2 max_slots=2
+100.100.125.10 slots=2 max_slots=2
+100.113.165.26 slots=2 max_slots=2

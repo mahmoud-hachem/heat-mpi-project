@@ -1,0 +1,78 @@
+[2026-11-28 14:15:12] Campaign start: queue=benchmarks/queues/part4_strong_node.txt hostfile=hosts_all outdir=results/campaign_strong_node_hotspot repeats=3 btl=tcp,self
+[2026-11-28 14:15:12] Preflight: checking SSH to 100.98.24.109 100.100.125.10 100.113.165.26
+[2026-11-28 14:15:37] Campaign start: queue=benchmarks/queues/part4_strong_node.txt hostfile=hosts_all outdir=results/campaign_strong_node_hotspot repeats=3 btl=tcp,self
+[2026-11-28 14:15:37] Preflight: checking SSH to 100.98.24.109 100.100.125.10 100.113.165.26
+[2026-11-28 14:15:44] PREFLIGHT FAIL: SSH to 100.100.125.10
+[2026-11-28 14:15:45] STOP: cluster not ready
+[2026-11-28 14:18:11] Campaign start: queue=benchmarks/queues/part4_strong_node.txt hostfile=hosts_all outdir=results/campaign_strong_node_hotspot repeats=3 btl=tcp,self
+[2026-11-28 14:18:11] Preflight: checking SSH to 100.98.24.109 100.100.125.10 100.113.165.26
+[2026-11-28 14:36:20] Campaign start: queue=benchmarks/queues/part4_strong_node.txt hostfile=hosts_all outdir=results/campaign_strong_node_hotspot repeats=3 btl=tcp,self
+[2026-11-28 14:36:20] Preflight: checking SSH to 100.98.24.109 100.100.125.10 100.113.165.26
+[2026-11-28 14:36:25] Preflight: mpirun hostname on 6 slots
+heat-2
+heat-2
+heat-3
+heat-3
+heat-1
+heat-1
+[2026-11-28 14:36:26] Preflight OK
+[2026-11-28 14:36:26] RUN rep=1 strips N=512 P=2 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:28] OK   decomp=strips P=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.151111316 t_comp=0.004630055 t_comm=0.146476536  (wall 2s)
+[2026-11-28 14:36:28] RUN rep=1 blocks N=512 P=2 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:30] OK   decomp=blocks P=2 Py=2 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.143965324 t_comp=0.005094089 t_comm=0.14020725  (wall 2s)
+[2026-11-28 14:36:30] RUN rep=1 strips N=512 P=3 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:31] OK   decomp=strips P=3 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.232466746 t_comp=0.009461409 t_comm=0.230362297  (wall 1s)
+[2026-11-28 14:36:31] RUN rep=1 blocks N=512 P=3 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:33] OK   decomp=blocks P=3 Py=3 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.220388377 t_comp=0.003598914 t_comm=0.216786369  (wall 2s)
+[2026-11-28 14:36:33] RUN rep=1 strips N=512 P=4 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:35] OK   decomp=strips P=4 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.274152548 t_comp=0.007839825 t_comm=0.266305478  (wall 2s)
+[2026-11-28 14:36:35] RUN rep=1 blocks N=512 P=4 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:37] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.400329233 t_comp=0.012546311 t_comm=0.395380174  (wall 2s)
+[2026-11-28 14:36:38] RUN rep=1 strips N=512 P=5 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:39] OK   decomp=strips P=5 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.385030534 t_comp=0.005901253 t_comm=0.379123935  (wall 1s)
+[2026-11-28 14:36:39] RUN rep=1 blocks N=512 P=5 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:41] OK   decomp=blocks P=5 Py=5 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.370820856 t_comp=0.008707776 t_comm=0.365446921  (wall 2s)
+[2026-11-28 14:36:41] RUN rep=1 strips N=512 P=6 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:43] OK   decomp=strips P=6 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.432530666 t_comp=0.010765395 t_comm=0.427954362  (wall 2s)
+[2026-11-28 14:36:43] RUN rep=1 blocks N=512 P=6 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:45] OK   decomp=blocks P=6 Py=3 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.455847122 t_comp=0.012638443 t_comm=0.443201142  (wall 2s)
+[2026-11-28 14:36:45] RUN rep=1 strips N=2048 P=2 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:47] OK   decomp=strips P=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.322991323 t_comp=0.057484541 t_comm=0.266288001  (wall 2s)
+[2026-11-28 14:36:47] RUN rep=1 blocks N=2048 P=2 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:49] OK   decomp=blocks P=2 Py=2 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.291096429 t_comp=0.055157638 t_comm=0.237657872  (wall 2s)
+[2026-11-28 14:36:49] RUN rep=1 strips N=2048 P=3 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:51] OK   decomp=strips P=3 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.454897157 t_comp=0.044944455 t_comm=0.424724753  (wall 2s)
+[2026-11-28 14:36:51] RUN rep=1 blocks N=2048 P=3 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:53] OK   decomp=blocks P=3 Py=3 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.434299421 t_comp=0.044469113 t_comm=0.393920294  (wall 2s)
+[2026-11-28 14:36:53] RUN rep=1 strips N=2048 P=4 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:55] OK   decomp=strips P=4 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.509541663 t_comp=0.05776352 t_comm=0.458426262  (wall 2s)
+[2026-11-28 14:36:55] RUN rep=1 blocks N=2048 P=4 map=node attempt=1 timeout=120s
+[2026-11-28 14:36:57] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.508059588 t_comp=0.049425623 t_comm=0.491380813  (wall 2s)
+[2026-11-28 14:36:57] RUN rep=1 strips N=2048 P=5 map=node attempt=1 timeout=120s
+[2026-11-28 14:37:00] OK   decomp=strips P=5 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.743892662 t_comp=0.041569178 t_comm=0.706074794  (wall 3s)
+[2026-11-28 14:37:00] RUN rep=1 blocks N=2048 P=5 map=node attempt=1 timeout=120s
+[2026-11-28 14:37:02] OK   decomp=blocks P=5 Py=5 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.707999958 t_comp=0.035147447 t_comm=0.674856457  (wall 2s)
+[2026-11-28 14:37:02] RUN rep=1 strips N=2048 P=6 map=node attempt=1 timeout=120s
+[2026-11-28 14:39:02] FAIL exit=124 after 120s -> results/campaign_strong_node_hotspot/strips_N2048_P6_node/attempt_qyzoZp.failed.log
+[2026-11-28 14:39:19] Campaign start: queue=benchmarks/queues/part4_strong_node.txt hostfile=hosts_all outdir=results/campaign_strong_node_hotspot repeats=3 btl=tcp,self
+[2026-11-28 14:39:19] Preflight: checking SSH to 100.98.24.109 100.100.125.10 100.113.165.26
+[2026-11-28 14:39:25] Preflight: mpirun hostname on 6 slots
+heat-2
+heat-2
+heat-3
+heat-3
+heat-1
+heat-1
+[2026-11-28 14:39:26] Preflight OK
+[2026-11-28 14:39:26] RUN rep=1 strips N=2048 P=6 map=node attempt=1 timeout=120s
+[2026-11-28 14:41:40] Campaign start: queue=benchmarks/queues/part4_strong_node.txt hostfile=hosts_all outdir=results/campaign_strong_node_hotspot repeats=3 btl=tcp,self
+[2026-11-28 14:41:40] Preflight: checking SSH to 100.98.24.109 100.100.125.10 100.113.165.26
+[2026-11-28 14:41:47] Preflight: mpirun hostname on 6 slots
+heat-2
+heat-2
+heat-3
+heat-3
+heat-1
+heat-1
+[2026-11-28 14:41:48] Preflight OK
+[2026-11-28 14:41:48] RUN rep=1 strips N=2048 P=6 map=node attempt=1 timeout=120s

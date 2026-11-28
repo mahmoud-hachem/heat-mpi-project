@@ -211,7 +211,9 @@ def network_for(path):
                 for line in meta.read_text(errors="replace").splitlines():
                     if line.startswith("network=") and line[8:].strip():
                         return line[8:].strip()
-            return CAMPAIGN_NETWORK.get(p, "unknown")
+            if p in CAMPAIGN_NETWORK:
+                return CAMPAIGN_NETWORK[p]
+            return HOTSPOT if "hotspot" in p else "unknown"
     return HOME
 
 
@@ -308,6 +310,12 @@ def lookup(summary, method, N, P, mp, placement=None, network=HOME):
     return max(cands, key=lambda s: s["n_runs"])
 
 
+def scaling_network(P):
+    """P <= 2 runs inside heat-2 (no network, November runs are valid);
+    P >= 3 crosses VMs and uses the 28 Nov hotspot campaigns."""
+    return HOME if P <= 2 else HOTSPOT
+
+
 def all_placement(P, mp="slot"):
     return placement_label(place_ranks(HOSTFILES["hosts_all"], P, mp))
 
@@ -347,10 +355,11 @@ def load_nets():
     """Network parameters per network label (None = never measured)."""
     home = load_net()
     hotspot = dict(home)
-    raw = ROOT / "part0" / "results" / "raw" / "heat2_heat3_hotspot.csv"
-    if raw.exists():
+    # Every heatA_heatB_hotspot.csv ping-pong replaces that pair's home value.
+    for raw in sorted((ROOT / "part0" / "results" / "raw").glob("heat*_heat*_hotspot.csv")):
+        a, b = re.findall(r"heat(\d)", raw.stem)
         ts, tw = fit_pingpong(raw)
-        hotspot[("heat-2", "heat-3")] = hotspot[("heat-3", "heat-2")] = (ts, tw)
+        hotspot[(f"heat-{a}", f"heat-{b}")] = hotspot[(f"heat-{b}", f"heat-{a}")] = (ts, tw)
     return {HOME: home, HOTSPOT: hotspot, CAFE: None}
 
 
@@ -476,8 +485,9 @@ def save(fig, name):
 def main():
     runs, failures = scan()
     summary = summarize(runs)
-    tc, net = load_tc(), load_net()
+    tc = load_tc()
     nets = load_nets()
+    net = nets[HOTSPOT]  # heat-2<->heat-3 measured on the hotspot; heat-1 links from Part 0
 
     write_csv("all_runs.csv", runs, [
         "method", "N", "P", "map", "placement", "network", "t_total", "t_comp", "t_comm",
@@ -518,11 +528,13 @@ def main():
         for method in ("strips", "blocks"):
             base = lookup(summary, method, N, 1, "slot", all_placement(1))
             for P in range(1, 7):
-                s = lookup(summary, method, N, P, "slot", all_placement(P))
+                s = lookup(summary, method, N, P, "slot", all_placement(P),
+                           scaling_network(P))
                 ranks = place_ranks(HOSTFILES["hosts_all"], P, "slot")
                 pt = predict(method, N, ranks, tc, net)[0]
                 row = {"method": method, "N": N, "P": P,
-                       "placement": all_placement(P), "predicted_s": pt,
+                       "placement": all_placement(P), "network": scaling_network(P),
+                       "predicted_s": pt,
                        "n_runs": s["n_runs"] if s else 0,
                        "median_s": s["median_t_total"] if s else "",
                        "min_s": s["min_t_total"] if s else "",
@@ -544,29 +556,54 @@ def main():
     for method in ("strips", "blocks"):
         base = lookup(summary, method, 512, 1, "slot", all_placement(1))
         for P, N in WEAK_N.items():
-            s = lookup(summary, method, N, P, "slot", all_placement(P))
+            s = lookup(summary, method, N, P, "slot", all_placement(P),
+                       scaling_network(P))
             note = ""
             if s is None:
-                s = lookup(summary, method, N, P, "slot")
+                s = lookup(summary, method, N, P, "slot", network=scaling_network(P))
                 if s:
                     note = f"different machines ({s['placement']})"
             row = {"method": method, "P": P, "N": N,
                    "placement": s["placement"] if s else all_placement(P),
+                   "network": scaling_network(P),
                    "n_runs": s["n_runs"] if s else 0,
                    "median_s": s["median_t_total"] if s else "",
+                   "min_s": s["min_t_total"] if s else "",
+                   "max_s": s["max_t_total"] if s else "",
+                   "comm_share_pct": s["median_comm_share_pct"] if s else "",
+                   "predicted_s": predict(method, N, place_ranks(
+                       HOSTFILES["hosts_all"], P, "slot"), tc, net)[0],
                    "weak_efficiency_pct": "", "note": note}
             if s and base:
                 row["weak_efficiency_pct"] = 100 * base["median_t_total"] / s["median_t_total"]
             weak.append(row)
     write_csv("weak_scaling.csv", weak)
 
-    # Crossover: when does P=4 across heat-2 + heat-1 beat P=2 inside heat-2?
+    # Slot vs node placement (hosts_all; node runs on the hotspot).
+    place = []
+    for N in STRONG_N:
+        for method in ("strips", "blocks"):
+            for P in range(2, 7):
+                row = {"method": method, "N": N, "P": P}
+                for mp in ("slot", "node"):
+                    pl = all_placement(P, mp)
+                    nw = scaling_network(P) if mp == "slot" else HOTSPOT
+                    s = lookup(summary, method, N, P, mp, pl, nw)
+                    ranks = place_ranks(HOSTFILES["hosts_all"], P, mp)
+                    row[f"{mp}_placement"] = pl
+                    row[f"{mp}_n_runs"] = s["n_runs"] if s else 0
+                    row[f"{mp}_median_s"] = s["median_t_total"] if s else ""
+                    row[f"{mp}_predicted_s"] = predict(method, N, ranks, tc, net)[0]
+                place.append(row)
+    write_csv("slot_vs_node.csv", place)
+
+    # Crossover: when does P=4 across heat-2 + heat-3 (hotspot) beat P=2 inside heat-2?
     cross = []
     sizes = [2 ** k for k in range(8, 16)]
     for method in ("strips", "blocks"):
         for N in sizes:
             local = predict(method, N, ["heat-2", "heat-2"], tc, net)[0]
-            dist4 = predict(method, N, ["heat-2", "heat-2", "heat-1", "heat-1"], tc, net)[0]
+            dist4 = predict(method, N, ["heat-2", "heat-2", "heat-3", "heat-3"], tc, net)[0]
             dist6 = predict(method, N, place_ranks(HOSTFILES["hosts_all"], 6, "slot"), tc, net)[0]
             cross.append({"method": method, "N": N,
                           "pred_P2_local_s": local, "pred_P4_two_vms_s": dist4,
@@ -620,7 +657,7 @@ def draw(summary, strong, weak, model_rows, cross):
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, frameon=False, fontsize=9, ncol=5,
                loc="lower center")
-    fig.suptitle("Strong scaling, slot placement (heat-2, then heat-1, then heat-3)",
+    fig.suptitle("Strong scaling, slot placement (heat-2, heat-1, heat-3); P >= 3 on hotspot",
                  color=INK, fontsize=12, x=0.01, ha="left")
     fig.tight_layout(rect=(0, 0.07, 1, 1))
     fig._laid_out = True
@@ -657,13 +694,14 @@ def draw(summary, strong, weak, model_rows, cross):
     ax.axhline(100, color=INK2, linewidth=1, linestyle=":")
     ax.set_yscale("log")
     style(ax, "Weak scaling efficiency T1/TP (511² points per process)",
-          "processes P", "efficiency, % (log)")
+          "processes P", "efficiency, % (log); P >= 3 on hotspot")
     ax.legend(frameon=False)
     save(fig, "weak_scaling_efficiency.png")
 
     # 4. Communication share for every parallel configuration.
     rows = [s for s in summary if s["P"] > 1 and s["median_comm_share_pct"] != ""
-            and s["map"] == "slot" and s["network"] in (HOME, HOTSPOT)]
+            and s["map"] == "slot" and s["network"] == scaling_network(s["P"])
+            and s["placement"] == all_placement(s["P"])]
     rows.sort(key=lambda s: (s["N"], s["P"], s["method"]))
     if rows:
         fig, ax = plt.subplots(figsize=(max(7, 0.38 * len(rows)), 4.2))
@@ -673,7 +711,6 @@ def draw(summary, strong, weak, model_rows, cross):
                linewidth=2)
         ax.set_xticks(list(x))
         ax.set_xticklabels([f"{s['method'][0].upper()} N{s['N']} P{s['P']}\n{s['placement']}"
-                            + (" hotspot" if s["network"] == HOTSPOT else "")
                             for s in rows], rotation=90, fontsize=6.5)
         ax.set_ylim(0, 100)
         style(ax, "Communication share t_comm / t_total (median)", "", "%")
@@ -738,17 +775,20 @@ def draw(summary, strong, weak, model_rows, cross):
         fig, ax = plt.subplots(figsize=(5.5, 5))
         for method in ("strips", "blocks"):
             pts = [(r["predicted_s"], r["measured_median_s"]) for r in model_rows
-                   if r["method"] == method and r["P"] > 1]
+                   if r["method"] == method and r["P"] > 1
+                   and r["network"] == scaling_network(r["P"])]
             if pts:
                 ax.scatter(*zip(*pts), s=40, color=COLOR[method], label=method,
                            edgecolor="white", linewidth=1.5, zorder=3)
-        lo = min(min(r["predicted_s"], r["measured_median_s"]) for r in model_rows)
-        hi = max(max(r["predicted_s"], r["measured_median_s"]) for r in model_rows)
+        sel = [r for r in model_rows if r["P"] > 1 and r["network"] == scaling_network(r["P"])]
+        lo = min(min(r["predicted_s"], r["measured_median_s"]) for r in sel)
+        hi = max(max(r["predicted_s"], r["measured_median_s"]) for r in sel)
         ax.plot([lo, hi], [lo, hi], color=INK2, linestyle=":", linewidth=1,
                 label="measured = model")
         ax.set_xscale("log")
         ax.set_yscale("log")
-        style(ax, "Model vs measured (P > 1)", "predicted, s", "measured median, s")
+        style(ax, "Model vs measured (P = 2 local, P >= 3 hotspot)", "predicted, s",
+              "measured median, s")
         ax.legend(frameon=False, fontsize=8)
         save(fig, "model_vs_measured.png")
 
@@ -760,7 +800,7 @@ def draw(summary, strong, weak, model_rows, cross):
         ax.plot(Ns, [r["pred_P2_local_s"] for r in rows], marker="o", linewidth=2,
                 color=INK2, label="P=2, one VM")
         ax.plot(Ns, [r["pred_P4_two_vms_s"] for r in rows], marker="o", linewidth=2,
-                color=COLOR[method], label="P=4, two VMs")
+                color=COLOR[method], label="P=4, heat-2 + heat-3")
         ax.plot(Ns, [r["pred_P6_three_vms_s"] for r in rows], marker="s", linewidth=2,
                 linestyle="--", color=COLOR[method], label="P=6, three VMs")
         ax.set_xscale("log", base=2)
@@ -787,7 +827,7 @@ def report(runs, failures, summary, strong, weak, cross):
         print(f"  {method:<6} P1..P6: {' '.join(cells)}   (* = other machines)")
     for method in ("strips", "blocks"):
         hit = [r["N"] for r in cross if r["method"] == method and r["P4_beats_local"]]
-        print(f"\nModel crossover {method}: P=4 on two VMs beats P=2 local from N = "
+        print(f"\nModel crossover {method}: P=4 on heat-2 + heat-3 beats P=2 local from N = "
               f"{hit[0] if hit else 'none up to 32768'}")
     print(f"\nWrote CSV files to {OUT.relative_to(ROOT)} and graphs to "
           f"{PLOTS.relative_to(ROOT)}")
