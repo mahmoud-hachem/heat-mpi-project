@@ -1,0 +1,8 @@
+# Part 3: strips vs blocks at P=4, slot placement (hosts_ali or hosts_amer).
+# Small grids first so useful data exists even if N=8192 fails.
+strips 512 4 slot
+blocks 512 4 slot
+strips 2048 4 slot
+blocks 2048 4 slot
+strips 8192 4 slot
+blocks 8192 4 slot

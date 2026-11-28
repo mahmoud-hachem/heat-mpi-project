@@ -1,0 +1,7 @@
+# Part 3: P=8 (needs a hostfile with 8 slots = 8 real vCPUs, e.g. hosts_p8).
+strips 512 8 slot
+blocks 512 8 slot
+strips 2048 8 slot
+blocks 2048 8 slot
+strips 8192 8 slot
+blocks 8192 8 slot

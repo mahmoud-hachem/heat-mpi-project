@@ -1,0 +1,8 @@
+# Part 4 weak scaling, slot placement, hosts_all. N = 1 + round(511*sqrt(P)).
+blocks 886 3 slot
+strips 1023 4 slot
+blocks 1023 4 slot
+strips 1144 5 slot
+blocks 1144 5 slot
+strips 1253 6 slot
+blocks 1253 6 slot

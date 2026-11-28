@@ -1,0 +1,7 @@
+P,N,simple_strips_comm_ms,simple_blocks_comm_ms,refined_strips_step_ms,refined_blocks_step_ms,predicted_faster
+4,512,11.724,18.737,11.862,9.525,blocks
+4,2048,25.801,32.814,28.679,19.308,blocks
+4,8192,82.111,89.124,132.691,95.182,blocks
+8,512,11.724,17.362,11.793,9.455,blocks
+8,2048,25.801,27.317,27.24,17.866,blocks
+8,8192,82.111,67.133,107.401,69.881,blocks

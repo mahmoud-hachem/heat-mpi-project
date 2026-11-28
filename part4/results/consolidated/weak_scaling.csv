@@ -1,0 +1,13 @@
+method,P,N,placement,n_runs,median_s,weak_efficiency_pct,note
+strips,1,512,heat-2x1,3,0.006149141,100.0,
+strips,2,724,heat-2x2,3,0.00777728,79.06544447416063,
+strips,3,886,heat-2x2+heat-3x1,3,5.709210419,0.10770562912755731,different machines (heat-2x2+heat-3x1)
+strips,4,1023,heat-2x2+heat-1x2,0,,,
+strips,5,1144,heat-2x2+heat-1x2+heat-3x1,0,,,
+strips,6,1253,heat-2x2+heat-1x2+heat-3x2,0,,,
+blocks,1,512,heat-2x1,3,0.005633556,100.0,
+blocks,2,724,heat-2x2,3,0.008710041,64.67886890543913,
+blocks,3,886,heat-2x2+heat-1x1,0,,,
+blocks,4,1023,heat-2x2+heat-1x2,0,,,
+blocks,5,1144,heat-2x2+heat-1x2+heat-3x1,0,,,
+blocks,6,1253,heat-2x2+heat-1x2+heat-3x2,0,,,

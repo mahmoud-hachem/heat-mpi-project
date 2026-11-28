@@ -323,7 +323,13 @@ int main(int argc, char** argv) {
     // so the ordinary run prints exactly one machine-readable summary.
 
 
-    // Step 5: Gather all owned rows on Rank 0
+    // Step 5: Gather all owned rows on Rank 0, only when the full grid is
+    // needed (binary output or the Case V error check). Like the blocks
+    // solver, a plain benchmark run skips it: at N=8192 over Tailscale the
+    // gather moves hundreds of MB and outlasts the benchmark timeout. All
+    // ranks parse the same arguments, so they agree on this collective.
+    const bool need_full = !output.empty() || caseNumber == "V";
+
     std::vector<int> counts(P), displs(P);
 
     for (int p = 0; p < P; p++) {
@@ -336,8 +342,8 @@ int main(int argc, char** argv) {
 
     std::vector<double> full;
 
-    if (rank == 0) {
-        full.resize(width * width, 0.0);
+    if (rank == 0 && need_full) {
+        full.resize(static_cast<size_t>(width) * width, 0.0);
 
         // Restore physical bottom and top boundaries
         double edge = (caseNumber == "V") ? 0.0 : 1.0;
@@ -348,12 +354,14 @@ int main(int argc, char** argv) {
         }
     }
 
-    MPI_Gatherv(
-        &u[idx(0, 1)], nlocal * width, MPI_DOUBLE,
-        rank == 0 ? full.data() : nullptr,
-        counts.data(), displs.data(), MPI_DOUBLE,
-        0, MPI_COMM_WORLD
-    );
+    if (need_full) {
+        MPI_Gatherv(
+            &u[idx(0, 1)], nlocal * width, MPI_DOUBLE,
+            rank == 0 ? full.data() : nullptr,
+            counts.data(), displs.data(), MPI_DOUBLE,
+            0, MPI_COMM_WORLD
+        );
+    }
 
     // Gather completes on rank 0; keep stdout clean for automated parsing.
 

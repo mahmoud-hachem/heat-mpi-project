@@ -1,0 +1,5 @@
+# Example 8-slot hostfile for P=8. Use ONLY after the VMs really have these
+# vCPUs (VirtualBox: VM powered off -> Settings -> System -> Processor).
+# Option A: heat-2 and heat-1 at 4 vCPUs each.
+100.98.24.109 slots=4 max_slots=4
+100.100.125.10 slots=4 max_slots=4
