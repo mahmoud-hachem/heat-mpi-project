@@ -1,0 +1,55 @@
+mpi@heat-2:~/part0$ cd ~/part4
+NETWORK=hotspot-28nov bash benchmarks/run_campaign.sh benchmarks/queues/part4_hotspot_strong_slot.txt hosts_all results/campaign_strong_slot_hotspot 3
+NETWORK=hotspot-28nov bash benchmarks/run_campaign.sh benchmarks/queues/part4_hotspot_weak_slot.txt hosts_all results/campaign_weak_slot_hotspot 3
+NETWORK=hotspot-28nov bash benchmarks/run_campaign.sh benchmarks/queues/part4_strong_node.txt hosts_all results/campaign_strong_node_hotspot 3
+[2026-11-28 14:11:50] Campaign start: queue=benchmarks/queues/part4_hotspot_strong_slot.txt hostfile=hosts_all outdir=results/campaign_strong_slot_hotspot repeats=3 btl=tcp,self
+[2026-11-28 14:11:50] Preflight: checking SSH to 100.98.24.109 100.100.125.10 100.113.165.26
+[2026-11-28 14:11:56] Preflight: mpirun hostname on 6 slots
+[2026-11-28 14:11:57] Preflight OK
+[2026-11-28 14:11:57] RUN rep=1 strips N=512 P=3 map=slot attempt=1 timeout=120s
+[2026-11-28 14:11:59] OK   decomp=strips P=3 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.199994511 t_comp=0.008945885 t_comm=0.191040714  (wall 2s)
+[2026-11-28 14:11:59] RUN rep=1 blocks N=512 P=3 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:36] OK   decomp=blocks P=3 Py=3 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.241719152 t_comp=0.01056288 t_comm=0.231150194  (wall 37s)
+[2026-11-28 14:12:36] RUN rep=1 strips N=512 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:38] OK   decomp=strips P=4 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.27509422 t_comp=0.005454041 t_comm=0.269633165  (wall 2s)
+[2026-11-28 14:12:38] RUN rep=1 blocks N=512 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:39] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.25393267 t_comp=0.006176018 t_comm=0.249268126  (wall 1s)
+[2026-11-28 14:12:39] RUN rep=1 strips N=512 P=5 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:41] OK   decomp=strips P=5 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.327533077 t_comp=0.004062217 t_comm=0.324388099  (wall 2s)
+[2026-11-28 14:12:41] RUN rep=1 blocks N=512 P=5 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:44] OK   decomp=blocks P=5 Py=5 Px=1 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.334663139 t_comp=0.00327314 t_comm=0.333531822  (wall 3s)
+[2026-11-28 14:12:44] RUN rep=1 strips N=512 P=6 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:45] OK   decomp=strips P=6 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=0.30910243 t_comp=0.003909122 t_comm=0.308135794  (wall 1s)
+[2026-11-28 14:12:45] RUN rep=1 blocks N=512 P=6 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:48] OK   decomp=blocks P=6 Py=3 Px=2 case=2 N=512 r=0.24 steps=10 T=9.1552734375e-06 t_total=1.244673731 t_comp=0.003433052 t_comm=1.242612348  (wall 3s)
+[2026-11-28 14:12:48] RUN rep=1 strips N=2048 P=3 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:50] OK   decomp=strips P=3 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.34299211 t_comp=0.04089688 t_comm=0.302800151  (wall 2s)
+[2026-11-28 14:12:50] RUN rep=1 blocks N=2048 P=3 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:52] OK   decomp=blocks P=3 Py=3 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.311094319 t_comp=0.038066453 t_comm=0.273825942  (wall 2s)
+[2026-11-28 14:12:52] RUN rep=1 strips N=2048 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:54] OK   decomp=strips P=4 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.441953491 t_comp=0.038850647 t_comm=0.403091859  (wall 2s)
+[2026-11-28 14:12:54] RUN rep=1 blocks N=2048 P=4 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:56] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.454385524 t_comp=0.044525143 t_comm=0.410718336  (wall 2s)
+[2026-11-28 14:12:56] RUN rep=1 strips N=2048 P=5 map=slot attempt=1 timeout=120s
+[2026-11-28 14:12:58] OK   decomp=strips P=5 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.566005117 t_comp=0.031878797 t_comm=0.534944499  (wall 2s)
+[2026-11-28 14:12:58] RUN rep=1 blocks N=2048 P=5 map=slot attempt=1 timeout=120s
+[2026-11-28 14:13:00] OK   decomp=blocks P=5 Py=5 Px=1 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.621816825 t_comp=0.034648602 t_comm=0.595921232  (wall 2s)
+[2026-11-28 14:13:00] RUN rep=1 strips N=2048 P=6 map=slot attempt=1 timeout=120s
+[2026-11-28 14:13:02] OK   decomp=strips P=6 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.541370293 t_comp=0.030223313 t_comm=0.516258405  (wall 2s)
+[2026-11-28 14:13:02] RUN rep=1 blocks N=2048 P=6 map=slot attempt=1 timeout=120s
+[2026-11-28 14:13:04] OK   decomp=blocks P=6 Py=3 Px=2 case=2 N=2048 r=0.24 steps=10 T=5.72204589844e-07 t_total=0.667143319 t_comp=0.032740013 t_comm=0.635817776  (wall 2s)
+[2026-11-28 14:13:04] RUN rep=1 strips N=8192 P=3 map=slot attempt=1 timeout=420s
+[2026-11-28 14:13:10] OK   decomp=strips P=3 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.460333792 t_comp=0.928074144 t_comm=0.972699433  (wall 6s)
+[2026-11-28 14:13:10] RUN rep=1 blocks N=8192 P=3 map=slot attempt=1 timeout=420s
+[2026-11-28 14:13:16] OK   decomp=blocks P=3 Py=3 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.70266505 t_comp=1.002706198 t_comm=1.163156088  (wall 5s)
+[2026-11-28 14:13:16] RUN rep=1 strips N=8192 P=4 map=slot attempt=1 timeout=420s
+[2026-11-28 14:13:21] OK   decomp=strips P=4 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.392841027 t_comp=0.690684701 t_comm=1.948183411  (wall 5s)
+[2026-11-28 14:13:21] RUN rep=1 blocks N=8192 P=4 map=slot attempt=1 timeout=420s
+[2026-11-28 14:13:24] OK   decomp=blocks P=4 Py=2 Px=2 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.458822501 t_comp=0.628151623 t_comm=0.906206659  (wall 3s)
+[2026-11-28 14:13:24] RUN rep=1 strips N=8192 P=5 map=slot attempt=1 timeout=420s
+[2026-11-28 14:13:28] OK   decomp=strips P=5 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=1.851586913 t_comp=0.467562866 t_comm=1.537034107  (wall 4s)
+[2026-11-28 14:13:28] RUN rep=1 blocks N=8192 P=5 map=slot attempt=1 timeout=420s
+[2026-11-28 14:13:32] OK   decomp=blocks P=5 Py=5 Px=1 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.098744324 t_comp=0.558727404 t_comm=1.833675966  (wall 4s)
+[2026-11-28 14:13:32] RUN rep=1 strips N=8192 P=6 map=slot attempt=1 timeout=420s
+[2026-11-28 14:13:36] OK   decomp=strips P=6 case=2 N=8192 r=0.24 steps=10 T=3.57627868652e-08 t_total=2.147113116 t_comp=0.517144573 t_comm=1.869359527  (wall 4s)
+[2026-11-28 14:13:36] RUN rep=1 blocks N=8192 P=6 map=slot attempt=1 timeout=420s

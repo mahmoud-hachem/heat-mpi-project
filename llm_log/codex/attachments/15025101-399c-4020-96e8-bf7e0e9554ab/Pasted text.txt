@@ -1,0 +1,1445 @@
+Complete project context — Parallel 2D Heat Diffusion with MPI over Tailscale
+1. Project overview
+- University: USJ – ESIB.
+- Project: Parallel 2D Heat Diffusion with MPI over Tailscale.
+- Group members: Mahmoud Hachem, Ali Harkous and Amer Soulak.
+- Programming language: C++17.
+- Parallel computing library: MPI (Open MPI).
+- Virtualization: VirtualBox.
+- Operating system: Ubuntu Server 24.04 LTS.
+- Networking: Tailscale and OpenSSH.
+- Development environment: Windows laptops with Ubuntu virtual machines.
+- GitHub repository: mahmoud-hachem/heat-mpi-project.
+Original project documents
+The professor provided two reference PDFs:
+- heat_mpi_project-1.pdf
+- heat_numerics_background-2.pdf
+These PDFs are the main sources of project requirements. They should be reopened when checking exact requirements rather than relying exclusively on this summary.
+Working preferences
+The project is developed incrementally, part by part and step by step.
+
+For every practical step:
+- Explain the objective before giving commands.
+- Specify whether commands run on Windows PowerShell or Ubuntu.
+- Specify which VM executes the commands.
+- Explain the code and underlying concepts.
+- Verify the output before moving forward.
+- Preserve previously successful experiments.
+- Avoid unnecessary repetition.
+- Never invent experimental results.
+- Document incomplete experiments and their actual limitations.
+At the end of every major part, prepare a simple Word report section ready to copy into the original report, a GitHub README, and a detailed PDF explaining the code and concepts for studying and oral defense.
+
+2. Technical environment
+Virtual machines
+Property	heat-1	heat-2	heat-3
+Owner	Ali	Mahmoud	Amer
+CPU	Ryzen 7 6800H	Core i7-10510U	Core i7-14700HX
+Allocated vCPUs	2	2	2
+Allocated RAM	4 GB	4 GB	4 GB
+Linux username	mpi	mpi	mpi
+Tailscale IP	100.100.125.10	100.98.24.109	100.113.165.26
+Last known LAN IP	192.168.44.118	192.168.44.117	192.168.44.172
+
+All three VMs use Ubuntu Server 24.04 LTS and Open MPI 4.1.6.
+
+The cluster has six available virtual CPUs in total.
+
+The mpi account does not have administrator privileges. Mahmoud's administrator account is mahmoud, and Ali's administrator account is ali. Administrator passwords should not be included in AI prompts, reports or GitHub.
+Project directories
+On Ubuntu:
+/home/mpi/
+├── part1/
+├── part2/
+├── part3/
+├── part4/
+└── hosts
+
+
+On Windows:
+C:\Users\User\Desktop\heat-mpi-project
+
+
+Solver executables
+Implementation	Executable
+Serial	~/part1/heat
+MPI 1D strips	~/part2/heat_strips
+MPI 2D blocks	~/part3/heat_blocks
+
+All three executables were successfully installed on all three VMs.
+
+Compilation uses C++17, optimization level -O2 and -ffp-contract=off to maintain consistent floating-point calculations.
+MPI communication settings
+The standard configuration used throughout the project is:
+--mca oob_tcp_if_include tailscale0
+--mca btl_tcp_if_include tailscale0
+--mca btl tcp,self
+
+
+This forces MPI TCP communication, including for different processes running on the same VM.
+
+Performance benchmarks must avoid oversubscription. Local correctness tests may use oversubscription, but those timings must not be interpreted as valid performance benchmarks.
+
+3. Overall project progress
+Part 0 — Environment and network
+Completed
+
+Part 1 — Serial solver
+Completed
+
+Part 2 — MPI 1D strips
+Completed
+
+Part 3 — MPI 2D blocks
+Closed with experimental limitations
+
+Part 4 — Performance study
+Partial experiments; report completed; GitHub pending
+
+Part 5 — GPU computing
+Optional, not attempted
+
+Complete mathematical solutions
+Several tasks remain
+
+Final combined report and submission
+Pending
+
+
+
+4. Part 0 — Environment and network measurements
+Completed work
+We installed and configured all three virtual machines, Open MPI, Tailscale, passwordless SSH and MPI hostfiles.
+
+We successfully executed MPI Hello World across all three VMs using six processes.
+
+We implemented a ping-pong benchmark to measure network latency and bandwidth for six connections:
+- Three same-VM connections.
+- Three cross-VM connections.
+The benchmark used 22 message sizes ranging from 8 bytes to 16 MiB.
+Measured network parameters
+Connection	Latency (ms)	Bandwidth (MB/s)
+Within heat-1	0.0166985	3173.478
+Within heat-2	0.0087705	4147.241
+Within heat-3	0.0074465	4132.892
+heat-2 ↔ heat-1	3.5110815	1.745782
+heat-2 ↔ heat-3	5.7368480	4.297544
+heat-1 ↔ heat-3	4.1403845	1.474510
+
+These are empirical model estimates, not guaranteed network capacities.
+
+The message cost model is:
+\[
+T_{\text{message}}=t_s+mt_w
+\]
+
+Where:
+- \(t_s\) is the startup latency.
+- \(m\) is the number of transmitted elements.
+- \(t_w\) is the transfer cost per element.
+For double-precision numbers:
+\[
+t_w=\frac{8}{B}
+\]
+
+Where B is the measured bandwidth in bytes per second.
+Important findings
+The same-VM communication costs are substantially lower than cross-VM communication costs.
+
+Initially, VirtualBox used NAT networking, which often resulted in Tailscale relayed connections. Switching to Bridged Adapter mode allowed direct connections, although the network continued to experience intermittent failures.
+Deliverables
+Deliverable	Status
+Environment setup	Done
+Ping-pong code	Done
+Raw measurements	Done
+Network graphs	Done
+Word report	Done
+GitHub	Done
+Study guide	Done
+
+The main unresolved issue is the reliability of the network during long MPI experiments.
+
+5. Part 1 — Serial heat diffusion solver
+Mathematical problem
+We solve the two-dimensional heat equation:
+\[
+\frac{\partial u}{\partial t}
+=\alpha\left(
+\frac{\partial^2u}{\partial x^2}
++\frac{\partial^2u}{\partial y^2}
+\right)
+\]
+
+The domain is the unit square.
+
+The grid contains:
+\[
+(N+1)^2
+\]
+
+total points and:
+\[
+(N-1)^2
+\]
+
+interior points.
+
+The spatial step is:
+\[
+h=\frac{1}{N}
+\]
+
+With thermal diffusivity \(\alpha=1\):
+\[
+\Delta t=rh^2
+\]
+
+The explicit five-point stencil is:
+\[
+u_{i,j}^{n+1}=(1-4r)u_{i,j}^{n}
++r\left(
+u_{i-1,j}^{n}
++u_{i+1,j}^{n}
++u_{i,j-1}^{n}
++u_{i,j+1}^{n}
+\right)
+\]
+
+The stability condition is:
+\[
+\boxed{r\leq0.25}
+\]
+
+Implemented simulation cases
+Case 1
+Four hot boundaries
+
+Case 2
+Hot top and bottom, cold sides
+
+Case V
+Sinusoidal initial condition, cold boundaries
+
+
+Case 1 and Case 2 start with zero interior temperature. Case 2 uses hot corner values, consistent with the top and bottom boundary conditions.
+
+Case V has the initial condition:
+\[
+u(x,y,0)=\sin(\pi x)\sin(\pi y)
+\]
+
+Its analytical solution is:
+\[
+u(x,y,t)=
+\sin(\pi x)\sin(\pi y)e^{-2\pi^2t}
+\]
+
+Implementation details
+- Contiguous row-major double arrays.
+- Two buffers: current and next temperature.
+- Update interior points only.
+- Fixed physical boundary values.
+- Swap buffers after each time step.
+- Command-line parameters.
+- Optional binary output.
+- Maximum error and discrete L2 error.
+- Timing with separate computation and communication fields.
+Example:
+~/part1/heat --decomp serial --case V \
+    --N 64 --r 0.2 --T 0.05
+
+
+Convergence verification
+With Case V, r=0.2 and T=0.05:
+N	Maximum error
+16	0.00166337050329
+32	0.00041418242671
+64	0.000103442487814
+128	0.0000258541870065
+256	0.00000646314472103
+
+The observed convergence order was approximately two, confirming second-order convergence under the chosen time-step refinement.
+
+We also demonstrated instability using r=0.2625. Numerical errors grew dramatically, producing a checkerboard instability pattern.
+Deliverables
+- Serial C++ implementation.
+- Numerical correctness and convergence tests.
+- Instability demonstration.
+- Case 1 and Case 2 heat maps.
+- Word report.
+- Core numerical solutions document.
+- Detailed 49-page study guide.
+- GitHub source code and results.
+- Demo rehearsal.
+Part 1 is complete.
+
+6. Part 2 — MPI 1D strip decomposition
+Objective
+Parallelize the serial heat solver by dividing the interior grid into horizontal strips.
+Each rank owns a contiguous strip and exchanges boundary rows with its neighbors.
+Implemented concepts
+- Balanced domain decomposition.
+- Handling non-divisible grid sizes.
+- Ghost rows.
+- Neighbor identification.
+- MPI_PROC_NULL.
+- MPI_Sendrecv.
+- Prevention of communication deadlocks.
+- Double buffering.
+- MPI_Wtime.
+- MPI_Reduce with maximum timing.
+- MPI_Gatherv.
+- Global grid reconstruction.
+- Exact comparison with serial results.
+The source is:
+part2/src/strips.cpp
+
+
+The executable is:
+~/part2/heat_strips
+
+
+Correctness results
+We successfully completed 36 out of 36 automated correctness tests.
+
+These covered:
+- Cases 1, 2 and V.
+- N=8, 10 and 16.
+- P=1, 2, 3 and 4.
+- Uneven domain decompositions.
+We also tested ghost values manually and successfully executed distributed simulations across two and three VMs.
+
+The MPI binary outputs were identical to the serial reference for the tested cases.
+Distributed demonstration results
+N=16, P=3, r=0.2, 10 time steps:
+Case	MPI execution time
+Case 1	0.701280 s
+Case 2	0.566958 s
+Case V	0.779551 s
+
+For Case V:
+- Maximum error: 0.000598805793956.
+- L2 error: 0.000299402896978.
+The distributed and serial numerical outputs matched exactly.
+Implementation detail
+The strips implementation gathers the full grid even when no output filename is requested. The gathering stage is outside the measured time-stepping interval.
+
+This matters when comparing total wall-clock execution against the reported t_total.
+Deliverables
+- MPI strips source code.
+- Correctness tests and logs.
+- Distributed simulations.
+- Numerical solutions document.
+- Word report and appendices.
+- Detailed 34-page study guide PDF.
+- GitHub implementation.
+- Demo rehearsal.
+Part 2 is complete.
+
+7. Part 3 — MPI 2D block decomposition
+Objective
+Divide the interior grid into rectangular blocks using a two-dimensional Cartesian MPI topology.
+Blocks exchange horizontal and vertical halo data.
+Implemented MPI functions
+Function	Purpose
+MPI_Dims_create	Select process grid dimensions
+MPI_Cart_create	Create Cartesian topology
+MPI_Cart_coords	Find rank coordinates
+MPI_Cart_shift	Identify neighbors
+MPI_Type_vector	Describe non-contiguous columns
+MPI_Type_commit	Activate derived datatype
+MPI_Sendrecv	Exchange halo values
+MPI_Reduce	Collect timing and error statistics
+MPI_Gatherv	Gather variable-sized blocks
+MPI_Type_free	Release datatype resources
+MPI_Comm_free	Release Cartesian communicator
+
+Process grid dimensions
+P	Py × Px
+1	1×1
+2	2×1
+3	3×1
+4	2×2
+5	5×1
+6	3×2
+8	4×2
+
+Balanced decomposition
+For each dimension, the local number of points is calculated using:
+base = total / parts;
+rem = total % parts;
+
+count = base + (coord < rem);
+start = 1 + coord * base + min(coord, rem);
+
+
+Each local block contains:
+(nx + 2) × (ny + 2)
+
+
+elements, including its ghost layer.
+
+The memory index is:
+idx(y, x) = y * width + x;
+
+
+Halo exchange
+Four communication operations are used:
+Exchange	MPI tag
+Send top row, receive bottom ghost	100
+Send bottom row, receive top ghost	101
+Send right column, receive left ghost	102
+Send left column, receive right ghost	103
+
+Rows are contiguous in memory.
+
+Columns are described using:
+MPI_Type_vector(ny, 1, width,
+                MPI_DOUBLE, &column_type);
+
+
+Corner ghost values are not exchanged because the five-point stencil does not require diagonal neighbors. A nine-point stencil would require diagonal information.
+Implementation
+part3/src/blocks.cpp
+
+
+Approximately 555 lines of C++.
+
+The solver supports the same command-line parameters as the previous solvers.
+
+Unlike strips, the blocks solver only gathers the complete grid when an output file is requested.
+Correctness
+All 72/72 automated correctness tests passed.
+
+Configurations:
+- N=8, 9, 10 and 16.
+- P=1, 2, 3, 4, 6 and 8.
+- Cases 1, 2 and V.
+The following progressive test programs were implemented:
+test_topology.cpp
+test_neighbors.cpp
+test_distribution.cpp
+test_allocation.cpp
+test_initialization.cpp
+test_column_type.cpp
+test_halo_exchange.cpp
+test_time_stepping.cpp
+test_timing.cpp
+test_reconstruction.cpp
+check_correctness.sh
+
+
+Distributed execution was verified on two and three VMs. Serial, strips and blocks outputs were compared using cmp and found identical for the tested demo cases.
+Distributed demonstration
+N=16, P=4, r=0.2, 10 time steps, using three VMs:
+Case	Blocks execution time
+Case 1	1.444964 s
+Case 2	0.739353 s
+Case V	2.055386 s
+
+The three temperature heat maps were generated.
+Theoretical analysis
+For a typical interior strips process:
+\[
+T_{\text{comm,strips}}
+\approx2t_s+2Nt_w
+\]
+
+For an interior process in a square block decomposition:
+\[
+T_{\text{comm,blocks}}
+\approx4t_s+
+\frac{4N}{\sqrt P}t_w
+\]
+
+Blocks reduce halo data sizes but may require more messages. Therefore, latency, bandwidth, process placement and grid size determine which decomposition is faster.
+
+Theoretical predictions were prepared for:
+- N=512, 2048 and 8192.
+- P=4 and P=8.
+The model was also refined to account for actual rectangular process grids and physical boundaries.
+Part 3 experimental measurements
+The successful final comparison used Mahmoud's and Amer's VMs, P=4, Case 2, r=0.24, 10 time steps and three repetitions per method.
+N	Strips median	Blocks median	Strips/Blocks ratio
+512	3.382013 s	2.039521 s	1.66
+2048	6.964281 s	4.419377 s	1.58
+8192	Pending	Pending	—
+
+Raw execution times
+N	Method	Run 1	Run 2	Run 3
+512	Strips	3.382013282	4.531171741	3.065748164
+512	Blocks	2.039520941	1.280041620	5.872350665
+2048	Strips	6.964281072	8.132454258	3.847890072
+2048	Blocks	3.329148298	4.419376849	4.726867830
+
+These 12 raw logs were saved in:
+part3/results/final_benchmarks/
+
+
+They were verified on GitHub.
+Part 3 skipped requirements
+Configuration	Theory	Experimental verification
+N=512, P=4	Done	Done
+N=2048, P=4	Done	Done
+N=8192, P=4	Done	Pending
+N=512, P=8	Done	Pending
+N=2048, P=8	Done	Pending
+N=8192, P=8	Done	Pending
+
+Reasons:
+- N=8192 benchmarks repeatedly froze or timed out.
+- P=8 is unavailable without increasing VM CPU allocations, since the current cluster provides six vCPUs.
+- Oversubscription is not allowed for performance measurements.
+The optional communication/computation overlap extension was not implemented.
+Part 3 deliverables
+- Part3_Report_Simple_Copy_Paste.docx
+- Part3_Numerical_Solutions_Simple.docx
+- Part3_Full_MPI_Blocks_Code_and_Concepts_Study_Guide.pdf — 64 pages.
+- Source code, tests, graphs and benchmark logs uploaded to GitHub.
+A README Markdown formatting issue was identified and should be corrected before final submission.
+
+Part 3 is closed with documented experimental limitations.
+
+8. Part 4 — Performance study
+Unlike Parts 1–3, Part 4 does not require developing a new heat solver. It studies the computational and communication performance of the existing implementations.
+Benchmark parameters
+We selected the following common configuration:
+Parameter	Value
+Case	2
+r	0.24
+Time steps	10
+Repetitions	3
+Reported execution time	Median
+Variation	Minimum and maximum
+Maximum processes	6
+Oversubscription	No
+Standard network	Tailscale
+
+We deliberately chose 10 time steps rather than the professor's example of a longer simulation because of our recurring network problems.
+
+This choice must be documented because short simulations can produce noisy performance measurements.
+Complete 25-step roadmap
+Step	Task	Current status
+1	Understand Part 4 requirements	✅ Done
+2	Create folder structure	✅ Done
+3	Verify VM resources and solvers	✅ Done
+4	Define benchmark parameters	✅ Done
+5	Prepare benchmark scripts	✅ Done
+6	Serial benchmarks on Ali's VM	✅ Done
+7	Serial benchmarks on Mahmoud's VM	✅ Done
+8	Serial benchmarks on Amer's VM	✅ Done
+9	Calculate computation rates	✅ Done
+10	Generate serial graphs	✅ Done
+11	Understand strong scaling	✅ Done
+12	Slot placement experiments	🟠 Partial
+13	Node placement experiments	❌ Pending
+14	Calculate speedup and efficiency	🟠 Needs final consolidation
+15	Generate strong scaling graphs	🟠 Generated, needs consolidation
+16	Understand weak scaling	✅ Done
+17	Calculate weak scaling grid sizes	✅ Done
+18	Weak scaling experiments	🟠 Partial
+19	Weak scaling graphs	🟠 Generated for available results in report
+20	Calculate communication share	🟠 Generated, needs consolidation
+21	Theoretical performance model	✅ Done for available data
+22	Answer four required report questions	✅ Done
+23	Word report and appendices	✅ Done for available results
+24	GitHub and README	🟠 In progress
+25	Full Part 4 study guide PDF	❌ Pending
+
+
+9. Part 4 — Serial baseline results
+All 45 serial experiments completed successfully.
+
+We tested five grid sizes on each of the three VMs, with three repetitions per grid size.
+Median execution times
+N	Ali (s)	Mahmoud (s)	Amer (s)
+512	0.003961522	0.005500852	0.002234072
+1024	0.016101422	0.029404727	0.008359530
+2048	0.084602297	0.115065640	0.046413339
+4096	0.315046921	0.472746867	0.185019226
+8192	1.049954100	2.022988059	0.718023464
+
+
+AliMahmoudAmer
+
+0 s0.55 s1.1 s1.65 s2.2 s5121024204840968192
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Computation cost per point
+The computation model uses:
+\[
+t_c=\frac{T_{\text{median}}}
+{\text{steps}\times(N-1)^2}
+\]
+
+Results in nanoseconds:
+N	Ali	Mahmoud	Amer
+512	1.5171	2.1066	0.8556
+1024	1.5386	2.8097	0.7988
+2048	2.0190	2.7461	1.1077
+4096	1.8787	2.8192	1.1033
+8192	1.5649	3.0152	1.0702
+
+Computation throughput
+Millions of point updates per second:
+N	Ali	Mahmoud	Amer
+512	659.14	474.69	1168.81
+1024	649.96	355.91	1251.90
+2048	495.28	364.16	902.80
+4096	532.27	354.71	906.34
+8192	639.00	331.65	934.41
+
+Amer's VM consistently achieved the lowest median computation time. Mahmoud's VM was the slowest in these experiments.
+
+The cluster is heterogeneous despite every VM having two allocated vCPUs. This affects parallel performance because faster ranks may wait for slower ranks.
+Saved serial files
+part4/results/serial_heat-1_LgWXtu/
+part4/results/serial_heat-2_XkMpoI/
+part4/results/serial_heat-3_WbE3My/
+part4/results/serial_summary.csv
+
+part4/analysis/analyze_serial.py
+part4/analysis/plot_serial.py
+
+part4/plots/serial_execution_time.png
+part4/plots/serial_computation_cost.png
+part4/plots/serial_throughput.png
+
+
+The analysis script confirmed:
+Configurations analyzed: 15/15
+Runs analyzed: 45/45
+16 results/serial_summary.csv
+
+
+This phase is fully completed.
+
+10. Part 4 — Strong scaling
+Principle
+Strong scaling keeps the problem size fixed while increasing the number of processes.
+\[
+S(P)=\frac{T_1}{T_P}
+\]
+
+\[
+E(P)=\frac{S(P)}{P}\times100
+\]
+
+The single-process MPI execution time of each decomposition is used as its own baseline. Serial execution is compared separately.
+Process placement
+Slot placement
+heat-2Rank 0
+
+Rank 1
+
+
+
+heat-1Rank 2
+
+Rank 3
+
+
+
+heat-3Unused
+
+
+
+Node placement
+heat-2Rank 0
+
+Rank 3
+
+
+
+heat-1Rank 1
+
+
+
+heat-3Rank 2
+
+
+
+
+
+
+Slot placement fills one VM before moving to another.
+
+Node placement distributes processes across machines in rotation.
+
+Our standard three-VM hostfile orders the machines as heat-2, heat-1, heat-3.
+Measured strong scaling results — slot placement
+N=512
+P	Strips median (s)	Blocks median (s)
+1	0.006149141	0.005633556
+2	0.004532950	0.005770072
+3	0.166081837	0.263336005
+4	2.910899779	1.117680070
+5	0.775917878	0.615465294
+6	Incomplete	Incomplete
+
+One confirmed P=6 strips run produced:
+t_total=0.993814839
+t_comp=0.002457838
+t_comm=0.992607926
+
+
+N=2048
+P	Strips median (s)	Blocks median (s)
+1	0.100653896	0.087704010
+2	0.067718878	0.072030293
+3	3.142626698	0.771178646
+4	Pending with Ali	Pending with Ali
+5	Pending	Pending
+6	Pending	Pending
+
+We have additional P=4 results from Part 3 using Amer instead of Ali. These must remain identifiable as a different experimental configuration.
+N=8192
+P	Strips median (s)	Blocks median (s)
+1	2.537271233	1.761028445
+2	1.417479601	1.304911457
+3	Pending	Pending
+4	Pending	Pending
+5	Pending	Pending
+6	Pending	Pending
+
+The N=8192, P=1 strips experiment was accidentally executed twice.
+
+The second batch had a median of 1.768131437 seconds. We decided to use the first completed batch for the standard three-repetition comparison and preserve the second batch as additional evidence of variability.
+Local speedup results
+N	Method	P=2 speedup	Efficiency
+512	Strips	1.36×	67.8%
+512	Blocks	0.98×	48.8%
+2048	Strips	1.49×	74.3%
+2048	Blocks	1.22×	60.9%
+8192	Strips	1.79×	89.5%
+8192	Blocks	1.35×	67.5%
+
+The main finding is that local MPI execution becomes more beneficial as the computational workload increases. Distributed execution often becomes slower because of communication costs.
+Exact strong scaling progress
+N=512
+
+P1
+
+P2
+
+P3
+
+P4
+
+P5
+
+P6
+
+
+N=2048
+
+P1
+
+P2
+
+P3
+
+P4
+
+P5
+
+P6
+
+
+N=8192
+
+P1
+
+P2
+
+P3
+
+P4
+
+P5
+
+P6
+
+
+Green: complete · Orange: partial · Grey: pendingConfirmed slot measurements
+
+61/108
+
+
+
+
+All local strong scaling experiments are complete.
+Missing slot experiments
+N	P	Strips missing	Blocks missing
+512	6	2	3
+2048	4	3	3
+2048	5	3	3
+2048	6	3	3
+8192	3	3	3
+8192	4	3	3
+8192	5	3	3
+8192	6	3	3
+Total		23	24
+
+There are 47 remaining runs under the original slot placement plan, before accounting for any additional successes that might be present in the raw logs.
+Node placement
+No complete three-repetition node placement configuration has been confirmed.
+
+The experiments were attempted, but repeated connectivity problems prevented completion.
+
+All three N values and process counts P=2–6 remain outstanding under the original plan.
+
+P=1 can reuse the existing single-process baseline when the same VM is used.
+
+Approximately 90 additional runs would be needed for the full original node placement matrix.
+
+11. Part 4 — Weak scaling
+Principle
+Weak scaling increases the total problem size while keeping the average workload per process approximately constant.
+
+We selected N=512 as the reference grid with P=1.
+\[
+W=\frac{(N-1)^2}{P}
+\]
+
+\[
+W_1=511^2=261121
+\]
+
+Therefore:
+\[
+N=1+\operatorname{round}(511\sqrt P)
+\]
+
+Selected grid sizes
+P	N
+1	512
+2	724
+3	886
+4	1023
+5	1144
+6	1253
+
+Weak scaling efficiency is:
+\[
+E_{\text{weak}}(P)=
+\frac{T_1}{T_P}\times100
+\]
+
+Unlike strong scaling efficiency, we do not divide by P.
+Successful measurements
+P	N	Strips median (s)	Blocks median (s)
+1	512	0.006149141	0.005633556
+2	724	0.007777280	0.008710041
+3	886	Three runs completed with Amer; verify raw logs	Pending
+4	1023	Pending	Pending
+5	1144	Pending	Pending
+6	1253	Pending	Pending
+
+For P=2:
+- Strips weak scaling efficiency: approximately 79.07%.
+- Blocks weak scaling efficiency: approximately 64.68%.
+Three additional strips repetitions for N=886, P=3 were successfully saved by the automated script using Mahmoud and Amer.
+
+Some screenshot timings were partially clipped, so the complete values should be extracted from the actual raw logs rather than guessed.
+Remaining weak scaling experiments
+P	N	Strips missing	Blocks missing
+3	886	0	3
+4	1023	3	3
+5	1144	3	3
+6	1253	3	3
+
+We have 15 confirmed measurements out of 36, including reused P=1 results.
+
+Twenty-one runs remain, subject to verification of the saved logs.
+
+12. Part 4 — Communication share
+The communication metric is:
+\[
+C=\frac{t_{\text{comm}}}{t_{\text{total}}}
+\times100
+\]
+
+For example, strips with N=512 and P=4 spent approximately 99.88% of the measured execution time in communication and associated waiting.
+Results for N=512
+P	Strips communication	Blocks communication
+1	0.04%	0.06%
+2	14.66%	21.92%
+3	98.69%	97.75%
+4	99.88%	99.70%
+5	99.76%	99.49%
+
+
+StripsBlocks
+
+0%25%50%75%100%12345
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Communication increases dramatically once processes are distributed across multiple VMs.
+
+Important technical detail: the solver reports independent MPI maximum reductions for total, computation and communication times. These maxima may come from different ranks. Consequently, communication share is an overhead indicator, not necessarily an exact time breakdown of a particular process.
+
+13. Part 4 — Theoretical performance model
+We combined Part 0 network measurements with Part 4 computation rates.
+
+The general model is:
+\[
+T_{\text{step}}=
+T_{\text{comp}}+T_{\text{comm}}
+\]
+
+For homogeneous processors:
+\[
+T_{\text{comp}}\approx
+\frac{(N-1)^2}{P}t_c
+\]
+
+The refined model accounts for:
+- Different computation speeds for each VM.
+- Actual domain decomposition.
+- Physical boundaries.
+- Neighboring ranks.
+- Process placement.
+- Same-VM and cross-VM network costs.
+Predictions versus measurements
+N=512, slot placement, milliseconds per time step:
+P	Strips predicted	Strips measured	Blocks predicted	Blocks measured
+1	0.550	0.615	0.550	0.563
+2	0.285	0.453	0.285	0.577
+3	6.055	16.608	6.046	26.334
+4	6.009	291.090	4.831	111.768
+5	7.021	77.592	7.010	61.547
+6	7.008	Incomplete	10.297	Incomplete
+
+The model predicts the general degradation when moving from local to distributed MPI execution, but it considerably underestimates actual communication delays.
+
+Potential causes include unstable Wi-Fi, Tailscale relays, MPI synchronization, network contention, heterogeneous processors and memory effects.
+
+The model is an approximation, not an exact simulation of MPI runtime behavior.
+
+14. Part 4 — Four required report questions
+We already answered all four questions required by the professor.
+Question 1 — When does distributing across machines become beneficial?
+No completed distributed measurements demonstrate a speed improvement over local execution at N=512 or N=2048.
+
+Our theoretical model predicts that distributed execution may become beneficial at N=8192.
+
+This predicted crossover could not be verified experimentally because the distributed N=8192 experiments repeatedly failed.
+Question 2 — Why do theoretical and measured performance differ?
+The theoretical model assumes relatively stable computation and communication costs.
+
+The actual environment has variable network latency, heterogeneous processors, MPI waiting time, virtualization overhead and possible memory effects.
+
+Repeated Tailscale and TCP connectivity failures contributed to difficulties collecting reliable measurements.
+Question 3 — What would change with a real cluster having 1 µs latency?
+Reducing startup latency significantly improves theoretical performance, particularly for smaller grids.
+
+For larger grids, computation and bandwidth become more important.
+
+A latency-only hypothetical model was calculated while holding our measured bandwidth and computation costs constant.
+
+These results are theoretical predictions, not real high-performance cluster measurements.
+Question 4 — What recommendations would we give for using Tailscale?
+Use direct connections where possible, stable physical networks, appropriate process placement, similar machine capabilities and repeated benchmark measurements.
+
+Prefer local MPI execution for small workloads.
+
+Consider 2D blocks for sufficiently large problems, but measure their performance instead of assuming they will always be faster.
+
+Avoid oversubscription.
+
+15. Network problems and troubleshooting
+This was the biggest obstacle throughout Parts 3 and 4.
+
+On November 24, 2026, the group worked from approximately 8:30 AM until 5 PM. A substantial amount of time was spent attempting distributed benchmarks and diagnosing connectivity failures.
+Symptoms
+- Tailscale ping timeouts.
+- SSH connection timeouts.
+- Connections switching between direct and DERP relay paths.
+- MPI commands freezing.
+- MPI hostname tests succeeding while real simulations fail.
+- MPI process mapping succeeding, followed by a solver freeze.
+- Very large timing variations between repetitions.
+- Interrupted jobs potentially leaving processes behind.
+Troubleshooting performed
+Attempt	Result
+Restart Tailscale	Temporarily restored connections
+Switch VirtualBox to Bridged Adapter	Enabled direct connectivity
+Use two VMs instead of three	Sometimes improved reliability
+Use smaller grids	Sometimes successful
+Reduce simulations to 10 steps	Reduced workload but did not eliminate freezes
+Dedicated local hostfile	Local experiments succeeded
+Dedicated two-VM hostfiles	Some distributed experiments succeeded
+Automated resumable script	Successfully collected additional results
+Shorter MPI timeouts	Limited some prolonged freezes
+Direct LAN instead of Tailscale	Intermittent success
+Enable MPI shared-memory transport	Did not resolve the failures
+Passwordless LAN SSH	Successful
+LAN MPI hostname test	Successful
+Small LAN simulation	Successful
+Larger LAN simulation	TCP peer connection failure
+Direct TCP port 1025 test	Successful
+
+Exact MPI error discovered
+WARNING: Open MPI failed to TCP connect to a peer MPI process.
+
+Local host: heat-3
+connect() to 192.168.44.117:1025 failed
+
+Error: Operation now in progress (115)
+
+Exit code: 124
+
+
+This is important evidence that MPI data communication can fail even when SSH and MPI process launching work.
+Successful minimal LAN test
+Using heat-2 and heat-3:
+- N=8.
+- P=2.
+- One time step.
+- Direct LAN communication.
+- Case 2.
+- r=0.24.
+Result:
+t_total=0.060542703
+t_comp=0.000000446
+t_comm=0.060539818
+
+Exit code: 0
+
+
+The larger N=512, P=2, 10-step test subsequently failed.
+Port 1025 test
+We temporarily started a Python HTTP server on heat-2 using port 1025.
+
+Amer successfully accessed it from heat-3 using curl.
+
+This proved the port was reachable during that test. It did not establish that MPI connections were always reliable.
+
+The underlying cause of the intermittent failures remains unconfirmed. We should not claim that a firewall, Tailscale or the solver is definitively responsible.
+Recommended troubleshooting next time
+Prefer all three laptops connected to the same stable router, ideally using wired Ethernet, while retaining Tailscale for the required experiments.
+
+Check all six connection directions, packet loss, passwordless SSH, leftover MPI processes and a minimal MPI communication test before launching benchmarks.
+
+Direct LAN experiments are supplemental diagnostics and must remain distinguishable from the required Tailscale performance measurements.
+
+16. Part 4 — Benchmark automation
+The following scripts exist on heat-2 and have been transferred to Windows:
+part4/benchmarks/
+├── serial_benchmark.sh
+├── parallel_benchmark.sh
+└── resume_amer.sh
+
+
+Serial script
+bash benchmarks/serial_benchmark.sh
+
+
+Runs five grid sizes, with three repetitions each.
+Parallel script
+bash benchmarks/parallel_benchmark.sh \
+    METHOD N P MAP HOSTFILE
+
+
+Example:
+bash benchmarks/parallel_benchmark.sh \
+    strips 2048 2 slot hosts_local
+
+
+Supported methods:
+- strips
+- blocks
+Supported placements:
+- slot
+- node
+It runs three repetitions, creates a unique results directory and saves individual logs.
+Automated Amer script
+bash benchmarks/resume_amer.sh
+
+
+This script uses only heat-2 and heat-3.
+
+It:
+- Checks MPI connectivity.
+- Runs prioritized missing configurations.
+- Uses a 30-second timeout with a five-second forced termination interval.
+- Saves individual successful repetitions.
+- Skips previously completed runs inside its own results directory.
+- Preserves failure logs.
+- Checks for leftover processes following failures.
+- Stops if repeated failures occur.
+Its results are stored under:
+part4/results/amer_batch/
+
+
+The script successfully completed three strips weak scaling repetitions for N=886, P=3 before freezing during subsequent work.
+
+It was restarted but encountered further failures.
+
+Important limitation: its skip logic only recognizes results in its own batch directory. It does not comprehensively deduplicate every older benchmark directory.
+Hostfiles
+hosts_all
+hosts_local
+hosts_ali
+hosts_amer
+hosts_lan
+
+
+hosts_all:
+100.98.24.109 slots=2 max_slots=2
+100.100.125.10 slots=2 max_slots=2
+100.113.165.26 slots=2 max_slots=2
+
+
+hosts_local:
+100.98.24.109 slots=2 max_slots=2
+
+
+hosts_ali:
+100.98.24.109 slots=2 max_slots=2
+100.100.125.10 slots=2 max_slots=2
+
+
+hosts_amer:
+100.98.24.109 slots=2 max_slots=2
+100.113.165.26 slots=2 max_slots=2
+
+
+hosts_lan:
+192.168.44.117 slots=2 max_slots=2
+192.168.44.172 slots=2 max_slots=2
+
+
+Local IPs should be rechecked after changing networks.
+
+17. Part 4 — Generated documents and analysis files
+The following artifacts were generated during our conversation.
+File	Contents
+Part4_Strong_Scaling_Graphs.zip	Initial scaling graphs and CSV
+strong_scaling_time.png	Execution time graph
+strong_scaling_speedup.png	Speedup graph
+strong_scaling_efficiency.png	Efficiency graph
+communication_share.png	Communication overhead
+communication_share_runs.csv	Individual communication ratios
+communication_share_summary.csv	Communication statistics
+Part4_Performance_Model.zip	Model scripts, inputs, CSV and graphs
+performance_model.csv	Theoretical performance predictions
+model_vs_measured_N512.png	Model comparison
+model_vs_measured_P4_amer.png	Part 3 model comparison
+Part4_Report_Simple_Copy_Paste.docx	Final available-results report, 11 pages
+
+These filenames identify previously generated files. Their continued availability should be verified when needed.
+
+The initial analysis packages were produced before all subsequent local benchmarks had completed. The final consolidation must use the actual saved raw logs rather than relying only on the earlier packages.
+Part 4 Word report
+The Word document was generated successfully and contains:
+Page	Content
+1	Main report section and required answers
+2–3	Serial performance
+4–6	Strong scaling and communication
+7	Available weak scaling results
+8–10	Performance model
+11	Pending experiments and failure evidence
+
+The report explicitly documents missing measurements, long execution times, network interruptions and unsuccessful troubleshooting attempts.
+
+The instruction is to copy page 1 into the original main report and the other pages into its appendices.
+
+18. EXACTLY WHERE WE STOPPED — Part 4 GitHub
+This is the current task to resume.
+Step 24 status
+24.1 — Verify existing Part 4 files
+24.2 — Organize saved results
+24.3 — Transfer Part 4 to Windows
+24.4 — Consolidate graphs and analysis
+24.5 — Create complete README
+24.6 — Commit and push
+24.7 — Verify GitHub repository
+
+The archive was successfully created on Ubuntu:
+cd ~
+
+tar --exclude='*.bin' \
+    --exclude='__pycache__' \
+    -czf part4_export.tar.gz part4
+
+
+It was successfully transferred to Windows using SCP and extracted into the existing GitHub repository.
+
+The archive is approximately 287 KB.
+Exact Windows archive location
+C:\Users\User\Desktop\heat-mpi-project\part4_export.tar.gz
+
+
+Extracted Part 4 location
+C:\Users\User\Desktop\heat-mpi-project\part4
+
+
+The user provided a screenshot confirming that the archive was successfully extracted.
+Current folder structure
+part4/
+├── analysis/
+│   ├── analyze_serial.py
+│   └── plot_serial.py
+├── benchmarks/
+│   ├── serial_benchmark.sh
+│   ├── parallel_benchmark.sh
+│   └── resume_amer.sh
+├── plots/
+│   ├── serial_execution_time.png
+│   ├── serial_computation_cost.png
+│   └── serial_throughput.png
+├── results/
+│   ├── amer_batch/
+│   ├── lan_pilot/
+│   ├── serial_heat-1_LgWXtu/
+│   ├── serial_heat-2_XkMpoI/
+│   ├── serial_heat-3_WbE3My/
+│   ├── serial_summary.csv
+│   ├── benchmark_progress.txt
+│   ├── solver_output_index.txt
+│   └── multiple benchmark directories
+├── hosts_ali
+├── hosts_all
+├── hosts_amer
+├── hosts_lan
+├── hosts_local
+└── .gitignore
+
+
+The complete README is not yet created.
+Next exact action
+The user needs to upload part4_export.tar.gz into ChatGPT.
+
+This allows inspection of the actual logs and identification of:
+- All successful measurements.
+- Duplicate successful batches.
+- Retried repetitions.
+- Incomplete configurations.
+- Failed attempts.
+- The actual number of valid results.
+- Exact weak scaling measurements from Amer's automated batch.
+After analyzing the archive:
+1. Create the consolidated performance CSV.
+2. Generate updated strong scaling graphs.
+3. Generate available weak scaling graphs.
+4. Generate updated communication-share analysis.
+5. Consolidate theoretical model files.
+6. Prepare the full Part 4 README.
+7. Add the generated files to the Windows repository.
+8. Commit and push Part 4.
+9. Verify the remote GitHub repository.
+10. Generate the detailed Part 4 study guide PDF.
+There is no need to restart the VMs or run additional simulations to complete these documentation tasks.
+Future GitHub commands
+Once the files and README are ready, execute in Windows PowerShell:
+cd "$env:USERPROFILE\Desktop\heat-mpi-project"
+
+git add part4
+
+git diff --cached --stat
+
+git status --short
+
+git commit -m "Add Part 4 performance study and benchmark results"
+
+git push
+
+
+The exported archive itself should not be committed.
+
+These commands have not yet been executed for Part 4.
+
+19. All remaining performance experiments
+Experiment	Remaining runs
+Part 4 strong scaling — slot placement	47
+Part 4 strong scaling — node placement	90
+Part 4 weak scaling	21
+Original Part 4 plan remaining	158
+
+This count is provisional and must be reconciled with the actual archive.
+
+It represents our original experimental matrix with three repetitions per method and configuration, not necessarily the minimum number of experiments the professor would accept.
+
+Additionally, Part 3 is missing experimental verification for N=8192 with P=4 and all requested P=8 performance configurations.
+
+The decision was to continue documentation with missing measurements marked Pending, rather than spend another entire day repeating unsuccessful benchmarks.
+
+The missing experiments were not fabricated or considered successfully completed.
+
+20. Remaining mathematical solutions
+The professor requires solutions to all non-optional tasks in the numerical background PDF.
+
+We already prepared solutions covering the following tasks:
+Chapter	Tasks previously addressed
+Chapter 3	3.2, 3.4
+Chapter 5	5.2, 5.5
+Chapter 6	6.3, 6.7
+Chapter 7	7.1, 7.2
+Chapter 8	8.1, 8.2
+
+The existing solutions should be checked against the source PDF and consolidated.
+Remaining tasks identified
+Chapter	Remaining tasks
+Chapter 1	1.1, 1.2, 1.3
+Chapter 2	2.1
+Chapter 3	3.1, 3.3, 3.5
+Chapter 4	4.1
+Chapter 5	5.1, 5.3, 5.4
+Chapter 6	6.1, 6.2, 6.4, 6.6
+
+Approximately 15 additional tasks remain to be solved or consolidated.
+
+Task 6.5 was identified as optional.
+
+Before working on these tasks, reopen the actual heat_numerics_background-2.pdf to confirm the exact statements and requirements.
+
+The final mathematical solutions should be combined into a separate PDF.
+
+21. Final combined report
+The professor requires a main report limited to 10 pages, excluding appendices.
+
+We have prepared individual Word report sections for Parts 0, 1, 2, 3 and 4.
+
+The final report still needs assembly.
+Proposed contents
+Section	Content
+Introduction	Project objective and team
+Environment	Three-VM architecture
+Network measurements	Latency and bandwidth
+Numerical method	Heat equation, stencil and stability
+Serial solver	Implementation and convergence
+MPI strips	Decomposition and correctness
+MPI blocks	Cartesian topology and halo exchanges
+Performance study	Scaling, communication and model
+Discussion	Required questions and limitations
+Conclusion	Findings and team contributions
+
+Appendices should contain detailed tables, heat maps, benchmark graphs, correctness evidence and screenshots.
+
+The report must clearly explain which experiments remain pending and why.
+
+22. AI logs and AGENTS.md
+The professor requires evidence of AI usage during project development.
+
+We intentionally postponed preparing this requirement until the end.
+
+It remains pending.
+
+Required work includes:
+- Create llm_log/ in the GitHub repository.
+- Preserve the full relevant AI prompts and responses from all team members.
+- Include dates, models and tools used where available.
+- Prepare AGENTS.md or the required equivalent at the repository root.
+- Document human engineering decisions, code verification and AI assistance.
+- Ensure that passwords and other secrets are not published.
+A summary of this conversation does not replace the professor's requirement for complete AI interaction logs.
+
+23. Final live demonstration
+The project requires a 10-minute live demonstration.
+
+We have successfully rehearsed distributed simulations for all three solvers and all three cases.
+
+The final presentation should demonstrate:
+- The three-VM environment.
+- MPI process placement.
+- Cases 1 and 2.
+- Serial, strips and blocks implementations.
+- Heat maps or temperature visualization.
+- Identical numerical outputs for tested configurations.
+- Performance measurements and interpretation.
+The distributed demos were successfully executed across three VMs before the recurring network failures.
+
+However, the final demo still needs preparation and a connectivity verification shortly before presentation.
+
+24. Final submission checklist
+Project checklist
+
+10/27 checked
+
+
+[x] Part 0 — Cluster and network implementation
+[x] Part 1 — Serial solver
+[x] Part 2 — MPI strips solver
+[x] Part 3 — MPI blocks solver
+[x] Part 3 — Correctness tests and distributed demo
+[ ] Part 3 — Full experimental verification
+[x] Part 4 — Serial benchmark study
+[ ] Part 4 — Complete strong scaling study
+[ ] Part 4 — Complete weak scaling study
+[x] Part 4 — Theoretical performance model
+[x] Part 4 — Four report questions
+[x] Part 4 — Word report with pending experiments
+[x] Part 4 — Transfer files to Windows
+[ ] Part 4 — Consolidate benchmark archive
+[ ] Part 4 — README
+[ ] Part 4 — GitHub commit and push
+[ ] Part 4 — Verify GitHub
+[ ] Part 4 — Full study guide PDF
+[ ] Remaining mathematical exercises
+[ ] Complete mathematical solutions PDF
+[ ] Final root README
+[ ] Final combined report
+[ ] Team member contributions
+[ ] Complete LLM logs
+[ ] AGENTS.md
+[ ] Final live demo preparation
+[ ] Final submission verification
+ Copy checklist
+The checklist tracks deliverables and tasks, not the percentage of the professor's grading rubric.
+
+25. Instructions for continuing in another conversation
+I am continuing my university Parallel 2D Heat Diffusion with MPI over Tailscale project.
+
+My team consists of Mahmoud Hachem, Ali Harkous and Amer Soulak.
+
+My GitHub repository is:
+https://github.com/mahmoud-hachem/heat-mpi-project
+
+Parts 0, 1 and 2 are completed. Part 3 is closed with documented limitations. Part 4 has partial distributed experimental results, complete serial benchmarks, theoretical analysis and a completed Word report.
+
+We experienced repeated Tailscale disconnections, MPI freezes and TCP communication failures. Do not invent missing results or automatically repeat successful benchmarks.
+
+Our current task is Step 24.4 of Part 4: consolidate the benchmark results before uploading Part 4 to GitHub.
+
+I already transferred and extracted the Ubuntu Part 4 archive into my Windows repository.
+
+The archive is located at:
+C:\Users\User\Desktop\heat-mpi-project\part4_export.tar.gz
+
+I will provide the archive for inspection. Analyze the actual raw benchmark logs, identify successful runs and retries, avoid counting duplicates, generate updated graphs and CSV files, and prepare the complete Part 4 README. Explicitly document missing experiments and why they were not completed.
+
+After this, guide me through committing and pushing Part 4 to GitHub, verify the repository, and generate a detailed Part 4 PDF study guide covering the concepts, scripts, calculations, graphs, model, results and possible oral defense questions.
+
+Then help me complete the remaining mathematical exercises, final mathematical solutions PDF, combined report, root README, AI logs, AGENTS.md and final demonstration.
+
+Always work step by step. Specify exactly which terminal and VM I should use. Explain each task and its purpose. Preserve existing successful work. Do not start the project again.
+
+Use the original project specification and numerical background PDFs when verifying the professor's requirements.

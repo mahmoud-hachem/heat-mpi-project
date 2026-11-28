@@ -1,0 +1,133 @@
+Task: add a "Part 4: Performance Measurements and Model Comparison" section to
+C:\Users\User\Desktop\heat-mpi-REPORT.docx, plus appendices, and make one small fix in Part 3.
+
+Rules
+- First save a backup copy: heat-mpi-REPORT.before-part4.docx (same folder).
+- Do not change any other section's text, numbers, figures or numbering, except the one fix listed at the end.
+- Reuse the document's existing styles: heading levels, body text, table style, caption style, figure size.
+  Part 4 must look exactly like the Part 3 section.
+- Put the Part 4 main text right after the Part 3 main text, before the appendices.
+- Add appendices K, L and M after Appendix J. Number the tables K1, K2, ... and the figures K1, ...,
+  like Appendices H–J do.
+- Use only the numbers below. Do not round them differently, and do not invent values.
+- Figures are in C:\Users\User\Desktop\heat-mpi-project\part4\plots\
+- Keep the main text to about one page. Detail goes in the appendices.
+
+=== MAIN TEXT (Part 4) ===
+
+Heading: "Part 4: Performance Measurements and Model Comparison"
+
+Subheading "Setup"
+Three VMs (heat-2, heat-1, heat-3; 2 vCPU / 4 GB each), Open MPI 4.1.6, TCP only over tailscale0,
+no oversubscription. Network: 28 Nov 2026, phone hotspot, direct Tailscale paths. Case 2, r = 0.24,
+10 time steps, 3 repetitions, median reported. Slot placement fills heat-2, then heat-1, then heat-3.
+P = 1 and 2 run inside heat-2 with no network, so they reuse the November runs. Every P >= 3 run was
+measured on the hotspot; networks are never mixed. heat-2 is the slowest VM (3.0 ns per point update,
+against heat-1 1.6 ns and heat-3 1.1 ns). It holds ranks 0 and 1 in every run, so it sets the pace.
+
+Subheading "Performance model"
+For each rank and step: compute = owned points x tc of its VM; communication = sum over its real
+neighbours of (ts + m*tw), using the parameters of the actual link (same VM or cross-VM). A step costs
+the time of the slowest rank. heat-2 <-> heat-3 was measured on the hotspot (6.83 ms, 5.81 MB/s).
+The hotspot ping-pong for heat-1's links hung, so those links use the Part 0 values:
+heat-2 <-> heat-1 3.51 ms, 1.75 MB/s; heat-1 <-> heat-3 4.14 ms, 1.47 MB/s.
+
+Subheading "Results"
+Write three short paragraphs:
+1. Strong scaling. At N = 512 and 2048, any run that leaves heat-2 is slower than one process:
+   speed-up 0.02–0.03 (N = 512) and 0.13–0.29 (N = 2048), with communication at 88–100 % of the time.
+   At N = 8192, the speed-up over one process is 1.0–1.5 for P = 3, 4 and 6 (0.84–1.16 at P = 5),
+   with communication at 64–86 %. Every distributed time on the three-VM hostfile is still above
+   P = 2 on heat-2 alone (1.42 s strips, 1.30 s blocks).
+2. Weak scaling (511² points per process). Efficiency is 65–79 % at P = 2 inside one VM and falls to
+   1.1–2.7 % from P = 3, because one cross-VM message (4–7 ms) costs more than a whole step of
+   computation (about 1 ms). From P = 4 to 6 the time stays almost flat (0.28–0.49 s), which is the
+   right weak-scaling shape, but at 20–50 times the compute time.
+3. Model and crossover. Where both ends of each link were measured on the hotspot (heat-2 + heat-3,
+   Part 3), measured times are 1.2–1.9 times the model. For the 32 configurations that include heat-1,
+   the ratio is 0.96–3.2 (median 1.9), because heat-1's link values are older. The model puts the
+   crossover, where P = 4 on heat-2 + heat-3 beats P = 2 on one VM, at N = 8192 for both methods.
+   It is confirmed for blocks (1.11 s vs 1.30 s); strips is not yet faster (1.64 s vs 1.42 s, while
+   the model margin was only 14 %). With all three VMs (P = 6), the model crossover is N = 8192 for
+   blocks and N = 16384 for strips.
+
+End with one sentence: "Node (round-robin) placement was slower than slot placement in 17 of 18
+comparable configurations (Appendix M), and intermittent stalls occurred only at P = 6, the only setup
+that uses both links to heat-1 at once."
+
+Insert Figure: strong_scaling_speedup.png
+Caption: "Strong-scaling speed-up, slot placement; P >= 3 on the phone hotspot. Dashed: model."
+
+=== APPENDIX K: Strong scaling ===
+
+Table K1 caption: "Median time for 10 steps (s), slot placement, communication share in brackets.
+P = 1–2: inside heat-2; P >= 3: hotspot."
+Columns: N | Method | P = 1 | P = 2 | P = 3 | P = 4 | P = 5 | P = 6
+512  | strips | 0.006 | 0.005 (15 %) | 0.200 (96 %) | 0.275 (98 %) | 0.297 (99 %) | 0.308 (100 %)
+512  | blocks | 0.006 | 0.006 (22 %) | 0.184 (96 %) | 0.249 (98 %) | 0.335 (100 %) | 0.359 (99 %)
+2048 | strips | 0.101 | 0.068 (4 %) | 0.343 (88 %) | 0.442 (94 %) | 0.566 (95 %) | 0.541 (96 %)
+2048 | blocks | 0.088 | 0.072 (4 %) | 0.332 (88 %) | 0.421 (90 %) | 0.622 (96 %) | 0.657 (95 %)
+8192 | strips | 2.537 | 1.417 (4 %) | 1.674 (70 %) | 1.896 (75 %) | 2.192 (86 %) | 1.792 (85 %)
+8192 | blocks | 1.761 | 1.305 (3 %) | 1.429 (64 %) | 1.483 (64 %) | 2.099 (86 %) | 1.704* (79 %)
+Note under the table: "* one successful run out of five attempts; all other cells have 3 runs."
+
+Figure K1: strong_scaling_time.png
+Caption: "Measured time per configuration: median, bars show min to max."
+Figure K2: communication_share.png
+Caption: "Communication share t_comm / t_total (median)."
+
+=== APPENDIX L: Weak scaling and model ===
+
+Table L1 caption: "Weak scaling, 511² interior points per process, N = 1 + round(511·√P)."
+Columns: P | N | Strips median (s) | Strips efficiency | Blocks median (s) | Blocks efficiency | Comm share
+1 | 512  | 0.006 | 100 % | 0.006 | 100 % | 0 %
+2 | 724  | 0.008 | 79 %  | 0.009 | 65 %  | 9–15 %
+3 | 886  | 0.228 | 2.7 % | 0.232 | 2.4 % | 94–96 %
+4 | 1023 | 0.403 | 1.5 % | 0.279 | 2.0 % | 96–97 %
+5 | 1144 | 0.414 | 1.5 % | 0.411 | 1.4 % | 98 %
+6 | 1253 | 0.448 | 1.4 % | 0.490 | 1.1 % | 97–98 %
+
+Figure L1: weak_scaling_efficiency.png
+Caption: "Weak-scaling efficiency T1/TP; P >= 3 on the hotspot."
+Figure L2: model_vs_measured.png
+Caption: "Measured median against model prediction (P = 2 inside heat-2, P >= 3 on the hotspot)."
+Figure L3: model_crossover.png
+Caption: "Model: P = 2 on one VM against P = 4 on heat-2 + heat-3 and P = 6 on three VMs."
+
+Table L2 caption: "Model crossover: the grid size from which the distributed run beats P = 2 on heat-2."
+Columns: Method | P = 4 (heat-2 + heat-3) | P = 6 (three VMs) | Measured at N = 8192, P = 4 heat-2 + heat-3
+strips | N = 8192 (0.87 s vs 1.01 s) | N = 16384 | 1.64 s vs 1.42 s: not yet
+blocks | N = 8192 (0.76 s vs 1.01 s) | N = 8192 (0.78 s vs 1.01 s) | 1.11 s vs 1.30 s: confirmed
+
+Short paragraph after Table L2: "With the cross-VM latency set to 1 µs in the model (bandwidth
+unchanged), blocks at P = 6 and N = 512 would drop from 0.112 s to 0.029 s. That is still about ten
+times slower than P = 2 on one VM (0.003 s), so the 1.5–5.8 MB/s bandwidth alone keeps small grids
+from scaling. At N = 8192 the change is small (0.78 s to 0.71 s)."
+
+=== APPENDIX M: Placement and limitations ===
+
+Table M1 caption: "Slot vs node placement, median time (s), slot / node. Node runs are single
+repetitions; '–' = not completed."
+Columns: N | Method | P = 2 | P = 3 | P = 4 | P = 5 | P = 6
+512  | strips | 0.005 / 0.151 | 0.200 / 0.232 | 0.275 / 0.274 | 0.297 / 0.385 | 0.308 / 0.433
+512  | blocks | 0.006 / 0.144 | 0.184 / 0.220 | 0.249 / 0.400 | 0.335 / 0.371 | 0.359 / 0.456
+2048 | strips | 0.068 / 0.323 | 0.343 / 0.455 | 0.442 / 0.510 | 0.566 / 0.744 | 0.541 / –
+2048 | blocks | 0.072 / 0.291 | 0.332 / 0.434 | 0.421 / 0.508 | 0.622 / 0.708 | 0.657 / –
+
+Limitations, as a bullet list:
+- Intermittent stalls with all three VMs: blocks at N = 8192, P = 6 (slot) succeeded once in five
+  attempts, and strips at N = 2048, P = 6 (node) stalled in all three. Both use both links to heat-1
+  at once. The same configurations completed in other attempts and the logs show no solver error, so
+  these are network stalls. All attempts are kept in the repository.
+- Node placement is incomplete: one repetition, N = 512 and 2048 only.
+- heat-1's links were not re-measured on the hotspot (the ping-pong hung); the model uses the Part 0
+  values for them.
+- Only 10 time steps per run, so fixed per-run costs weigh more than with 500 steps.
+- P = 1 and 2 come from the November runs; they use no network, so the network change does not affect them.
+
+=== FIX IN PART 3 ===
+Search the whole document for "16384". If any sentence says the model crossover for strips is
+N = 16384 for P = 4 on two VMs, change it to: "N = 8192 for P = 4 on heat-2 + heat-3 (hotspot link
+parameters); N = 16384 for strips with all three VMs." Change nothing else in Part 3.
+
+When done, list every heading, table and figure you added, and quote any sentence you changed outside Part 4.

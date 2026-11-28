@@ -1,0 +1,140 @@
+# Task: Finalize Part 2 — Checkpoint C2
+
+Work on my existing repository:
+`C:\Users\User\Desktop\heat-mpi-project`
+
+GitHub repository:
+https://github.com/mahmoud-hachem/heat-mpi-project
+
+## Context
+
+The Part 2 MPI 1D strips solver is already implemented and passed all 36 local byte-for-byte correctness tests. Previous distributed tests with P=2 and P=3 also passed.
+
+The remaining distributed P=4 correctness tests were successfully completed on November 28, 2026, using heat-2 and heat-1 across Tailscale.
+
+**Do not modify the solver implementation. No additional simulations are needed.**
+
+## New verified results
+
+Both tests used Case 2, r=0.2, 10 time steps and four MPI processes distributed across two physical laptops hosting Ubuntu VMs.
+
+Rank placement:
+- heat-2 (100.98.24.109): ranks 0 and 1.
+- heat-1 (100.100.125.10): ranks 2 and 3.
+
+Open MPI used slot placement, no oversubscription, TCP over Tailscale between VMs and the vader shared-memory transport enabled for intra-VM communication.
+
+| Parameter | Test 1 | Test 2 |
+|---|---:|---:|
+| N | 8 | 10 |
+| P | 4 | 4 |
+| Serial time (s) | 0.000001766 | 0.000002542 |
+| MPI total time (s) | 1.230770150 | 0.773958649 |
+| MPI computation time (s) | 0.000005149 | 0.000004584 |
+| MPI communication time (s) | 1.230758227 | 0.773950409 |
+| Exit code | 0 | 0 |
+| Binary comparison using cmp | PASS | PASS |
+
+Both MPI output files were byte-for-byte identical to their corresponding serial reference files.
+
+N=8 distributes the seven interior rows as 2, 2, 2, 1. N=10 distributes the nine interior rows as 3, 2, 2, 2. Both tests therefore verify uneven strip decomposition across multiple VMs.
+
+## Existing evidence
+
+The evidence was already transferred from Ubuntu and extracted into the repository.
+
+Successful tests:
+`part2/results/checkpoint_c2_ali/`
+
+This directory contains:
+- rank_placement.log
+- serial_N8.bin
+- serial_N8.log
+- strips_N8_P4.bin
+- strips_N8_P4.log
+- compare_N8_P4.log
+- serial_N10.bin
+- serial_N10.log
+- strips_N10_P4.bin
+- strips_N10_P4.log
+- compare_N10_P4.log
+
+Previous unsuccessful attempts with Amer:
+`part2/results/checkpoint_c2/`
+
+Hostfiles:
+- `part2/hosts_c2`
+- `part2/hosts_c2_ali`
+
+Original transferred archive:
+`part2_c2_evidence.tar.gz`
+
+## Required tasks
+
+1. Inspect the existing Part 2 repository structure, README, reports, Git status and new evidence files.
+
+2. Verify both binary comparisons independently using a suitable Windows-compatible byte-for-byte comparison. Check the execution logs and rank placement. Do not assume a test passed without inspecting the evidence.
+
+3. Update `part2/README.md`:
+   - Replace outdated statements saying that distributed P=4 verification is pending.
+   - Add the two successful distributed correctness tests.
+   - Include the configuration, rank placement, measured results and comparison outcomes.
+   - Explain how the tests verify uneven strip decomposition.
+   - Include reproducible MPI execution and comparison commands.
+   - Reference the saved evidence files using relative Markdown links.
+   - Mark the planned Checkpoint C2 technical verification as completed.
+   - Preserve unrelated existing content.
+
+4. Update the existing Part 2 Word report if it is available locally:
+   - Preserve its existing structure, formatting and layout.
+   - Replace the pending P=4 verification statement.
+   - Add the successful test results and relevant evidence.
+   - Keep the main report section concise because the combined project report must not exceed 10 pages, excluding appendices.
+   - If the Word document cannot be located, report this explicitly and create a concise copy-and-paste report update instead.
+
+5. Preserve and document the unsuccessful attempts using heat-3. MPI execution previously froze, and heat-3 reported Linux kernel RCU CPU stall warnings. The underlying cause was not conclusively established. Switching to heat-1 allowed both correctness tests to succeed.
+
+6. Do not mark unrelated unsuccessful distributed tests as successful without evidence.
+
+7. Review `.gitignore` and ensure the relevant new verification logs and binary comparison outputs are included in Git. Do not globally remove ignore rules or commit unrelated generated binaries.
+
+8. Review all changes before committing:
+   - Verify Markdown formatting.
+   - Verify relative file links.
+   - Confirm both binary comparisons pass.
+   - Confirm that no solver source files have changed.
+   - Confirm that Parts 0, 1, 3 and 4 remain untouched.
+   - Preserve any unrelated uncommitted changes.
+
+9. Stage only the intended Part 2 changes. Do not commit the transferred tar.gz archive, credentials, temporary files or unrelated work.
+
+10. Commit with the message:
+`Complete Part 2 distributed P4 correctness verification`
+
+11. Push to the existing GitHub branch and verify that the commit exists on the remote repository. Do not force-push.
+
+## Constraints
+
+- No solver changes.
+- No additional MPI simulations.
+- No fabricated results.
+- No changes to unrelated project parts.
+- Do not treat these small correctness tests as Part 4 performance benchmarks.
+- Do not claim formal professor approval of Checkpoint C2.
+- Use simple, professional English in the documentation.
+- Preserve previous successful results and failed-attempt evidence.
+
+## Final response
+
+Provide a summary containing:
+- Files inspected.
+- Files modified.
+- Binary comparison results.
+- README updates.
+- Word report updates or any blocker.
+- Confirmation that solver source code remained unchanged.
+- Git commit hash.
+- Push and remote verification status.
+- Any remaining tasks or limitations.
+
+Execute the tasks directly rather than only explaining what I should do.
