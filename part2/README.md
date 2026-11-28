@@ -47,7 +47,7 @@ The MPI solver implements:
 - MPI_PROC_NULL for missing neighbors.
 - Explicit five-point heat stencil.
 - Two temperature arrays swapped after each step.
-- Full grid reconstruction using MPI_Gatherv.
+- Full grid reconstruction using MPI_Gatherv, only when `--out` is given or for the Case V error check (since 28 Nov 2026; benchmark runs skip it, see Part 3 "Experimental limitations").
 - Separate computation and communication timing.
 - Maximum timing across ranks using MPI_Reduce and MPI_MAX.
 - Case V verification against the exact mathematical solution.
