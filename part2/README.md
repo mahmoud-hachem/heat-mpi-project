@@ -374,6 +374,61 @@ Evidence:
 results/distributed_caseV_verification.txt
 ```
 
+## Checkpoint C2 completed
+
+On November 28, 2026, Case 2 passed distributed P=4 checks at N=8 and N=10 over heat-2 and heat-1. Both runs used r=0.2 and 10 steps. Independent byte-for-byte comparisons confirmed the recorded cmp results.
+
+The [hostfile](hosts_c2_ali) assigns two slots to each VM. Slot placement puts ranks 0 and 1 on heat-2 (100.98.24.109) and ranks 2 and 3 on heat-1 (100.100.125.10). The [rank map](results/checkpoint_c2_ali/rank_placement.log) and both solver logs confirm that allocation. The team recorded TCP over Tailscale between VMs with vader shared-memory transport enabled within each VM.
+
+| N | Interior rows per rank | Serial (s) | MPI total (s) | MPI compute (s) | MPI communication (s) | Comparison |
+|---|---|---:|---:|---:|---:|---|
+| 8 | 2, 2, 2, 1 | 0.000001766 | 1.230770150 | 0.000005149 | 1.230758227 | PASS |
+| 10 | 3, 2, 2, 2 | 0.000002542 | 0.773958649 | 0.000004584 | 0.773950409 | PASS |
+
+Both decompositions are uneven because N-1 is not divisible by four. The team recorded exit code 0 for both runs. The saved summaries and matching output fields confirm successful completion. These timings describe individual correctness runs.
+
+### Saved evidence
+
+- N=8 [serial summary](results/checkpoint_c2_ali/serial_N8.log), [MPI summary and map](results/checkpoint_c2_ali/strips_N8_P4.log), and [cmp result](results/checkpoint_c2_ali/compare_N8_P4.log).
+- N=10 [serial summary](results/checkpoint_c2_ali/serial_N10.log), [MPI summary and map](results/checkpoint_c2_ali/strips_N10_P4.log), and [cmp result](results/checkpoint_c2_ali/compare_N10_P4.log).
+- N=8 retained [serial field](results/checkpoint_c2_ali/serial_N8.bin) and [MPI field](results/checkpoint_c2_ali/strips_N8_P4.bin), each 648 bytes. SHA-256 is 6db3254208dd3322257f29ac684c2df596df50a9bc1869f867937e7132f2cba9.
+- N=10 retained [serial field](results/checkpoint_c2_ali/serial_N10.bin) and [MPI field](results/checkpoint_c2_ali/strips_N10_P4.bin), each 968 bytes. SHA-256 is 6f5187f409defda578b0e41e5c76d1ed3ba31efd6fe768fedcd0da5fc0f21214.
+
+### Reproduce the distributed P=4 comparisons
+
+On Ubuntu heat-2, run from ~/part2 after compiling heat_strips at the same path on both VMs. Build the serial reference in ../part1. This creates a new output directory.
+
+~~~bash
+make -C ../part1
+make
+run_dir=$(mktemp -d "$PWD/results/c2_repeat_XXXXXX")
+for n in 8 10; do
+    serial="$run_dir/serial_N$n.bin"
+    field="$run_dir/strips_N$n.bin"
+    ../part1/heat --decomp serial --case 2 --N "$n" --r 0.2 --steps 10 \
+        --out "$serial" > "$run_dir/serial_N$n.log"
+    if timeout --kill-after=5s 60s mpirun --hostfile hosts_c2_ali -np 4 \
+        --map-by slot --nooversubscribe --display-map \
+        --mca oob_tcp_if_include tailscale0 \
+        --mca btl_tcp_if_include tailscale0 --mca btl vader,tcp,self \
+        ./heat_strips --decomp strips --case 2 --N "$n" --r 0.2 --steps 10 \
+        --out "$field" > "$run_dir/strips_N$n.log" 2>&1
+    then
+        cmp "$serial" "$field" && echo "PASS: N=$n P=4 fields match" || break
+    else
+        echo "MPI run failed. Inspect $run_dir/strips_N$n.log"
+        break
+    fi
+done
+~~~
+
+The 36 local comparisons, previous two- and three-VM checks, and these distributed P=4 checks complete the planned C2 technical verification. Professor checkpoint approval is recorded separately by the course.
+
+### Earlier heat-3 attempts
+
+The [heat-2 / heat-3 hostfile](hosts_c2) and [attempt evidence](results/checkpoint_c2/) are retained. The [rank map](results/checkpoint_c2/rank_placement.log) confirms process launching. The empty [MPI output](results/checkpoint_c2/strips_N8_P4.log) and [post-restart map](results/checkpoint_c2/rank_placement_after_restart.log) provide no completed solver result. The team reported frozen MPI execution and Linux kernel RCU CPU stall warnings on heat-3. Those warnings were not captured in these files. The cause remains unconfirmed. The later heat-1 runs completed successfully.
+
+
 ## Performance Observations
 
 For small grids, MPI communication overhead is significantly larger than computation time.
@@ -417,6 +472,8 @@ MPI_PROC_NULL is used for processes located at the physical boundaries of the pl
 | Two-VM distributed Case 2 | Passed |
 | Three-VM distributed Case 2 | Passed |
 | Three-VM distributed Case V, 10 steps | Passed |
+| Distributed P=4, N=8 and N=10 | Passed across heat-2 and heat-1 |
+| Planned C2 technical verification | Completed |
 | Bit-for-bit equality | Passed for tested configurations |
 | SHA-256 verification | Passed |
 | MPI timing measurements | Completed |

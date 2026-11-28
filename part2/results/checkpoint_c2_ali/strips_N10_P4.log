@@ -1,0 +1,27 @@
+ Data for JOB [10781,1] offset 0 Total slots allocated 4
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 2	Num procs: 2
+ 	Process OMPI jobid: [10781,1] App: 0 Process rank: 0 Bound: UNBOUND
+ 	Process OMPI jobid: [10781,1] App: 0 Process rank: 1 Bound: UNBOUND
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 2	Num procs: 2
+ 	Process OMPI jobid: [10781,1] App: 0 Process rank: 2 Bound: N/A
+ 	Process OMPI jobid: [10781,1] App: 0 Process rank: 3 Bound: N/A
+
+ =============================================================
+ Data for JOB [10781,1] offset 0 Total slots allocated 4
+
+ ========================   JOB MAP   ========================
+
+ Data for node: heat-2	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [10781,1] App: 0 Process rank: 0 Bound: N/A
+ 	Process OMPI jobid: [10781,1] App: 0 Process rank: 1 Bound: N/A
+
+ Data for node: 100.100.125.10	Num slots: 2	Max slots: 0	Num procs: 2
+ 	Process OMPI jobid: [10781,1] App: 0 Process rank: 2 Bound: UNBOUND
+ 	Process OMPI jobid: [10781,1] App: 0 Process rank: 3 Bound: UNBOUND
+
+ =============================================================
+decomp=strips P=4 case=2 N=10 r=0.2 steps=10 T=0.02 t_total=0.773958649 t_comp=4.58399999981e-06 t_comm=0.773950409
