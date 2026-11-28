@@ -1,0 +1,4 @@
+host,cpu_model,vcpus,mem_total_MB,gpu,copy_1t_GBs,triad_1t_GBs,copy_2t_GBs,triad_2t_GBs
+heat-2,Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz,2,3915,00:02.0 VGA compatible controller: VMware SVGA II Adapter,9.430,10.692,10.620,11.963
+heat-1,AMD Ryzen 7 6800H with Radeon Graphics,2,3915,00:02.0 VGA compatible controller: VMware SVGA II Adapter,17.186,21.323,26.663,29.301
+heat-3,Intel(R) Core(TM) i7-14700HX,2,3915,00:02.0 VGA compatible controller: VMware SVGA II Adapter,19.305,22.899,22.904,26.289

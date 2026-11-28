@@ -103,6 +103,24 @@ The two files in `results/raw/prebridge_incomplete/` are interrupted early
 network measurements. They are retained as historical evidence but **are not
 used** to fit the reported model and must not be mistaken for completed runs.
 
+## Hardware and memory bandwidth
+
+Measured on 28 November 2026 from heat-2 with
+`bash scripts/hardware_info.sh ~/part4/hosts_all`. It records `lscpu`, `free`,
+`lspci` and runs the STREAM-style benchmark `src/stream.cpp` (three 160 MB
+arrays, best of ten repetitions) on every VM. Raw output: `results/hardware/`.
+
+| VM | Host laptop CPU | vCPUs / memory | GPU | Triad, 1 thread (GB/s) | Triad, 2 threads (GB/s) |
+| --- | --- | --- | --- | --- | --- |
+| heat-1 | AMD Ryzen 7 6800H | 2 / 3.8 GiB | none (virtual VMware SVGA II) | 21.3 | 29.3 |
+| heat-2 | Intel Core i7-10510U, 1.80 GHz | 2 / 3.8 GiB | none (virtual VMware SVGA II) | 10.7 | 12.0 |
+| heat-3 | Intel Core i7-14700HX | 2 / 3.8 GiB | none (virtual VMware SVGA II) | 22.9 | 26.3 |
+
+The stencil update is memory-bound: at about 24 bytes per point update, these
+bandwidths predict tc ≈ 1.1, 2.2 and 1.05 ns for heat-1, heat-2 and heat-3,
+against the measured 1.6, 3.0 and 1.1 ns (Part 4 serial baseline). heat-2's
+lower memory bandwidth is why it is the slowest VM.
+
 ## Submission status
 
 This folder includes the technical Part 0 source and recorded measurements.
